@@ -109,7 +109,9 @@ sub format(@disks) {
    sleep 5;
    my $user = $*KERNEL.hostname;
    put "chown for user: " ~ $user;
-   qqx/sudo chown  $user.$user  -R  \/sdb \/sdc \/sdd \/sde \/sdf \/sdg \/sdh \/sdi \/sdj \/sdk \/sdl \/sdm/;
+   for @disks ->$d {
+      qqx/sudo chown  $user.$user  -R  \/$d;
+   }
    put "done";
 }
 
