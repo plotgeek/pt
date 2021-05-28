@@ -54,6 +54,11 @@ sub MAIN($dirs, $op = 'create') {
        exit(0);
     }
 
+    if ($op ~~ 'format') {
+       for @disks ->$d {
+       	   qqx/rakudo .\/plot.raku $d format/
+       }
+    }
 
     for @disks -> $d {
        put "dir: $d";
