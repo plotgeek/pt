@@ -62,7 +62,8 @@ sub install()
 {
   #put "args: "	 ~ $args;
   qqx/sed -i'' -e '\$ d'  \/etc\/proxychains4.conf  \/etc\/proxychains4.conf/;
-  put qqx/echo socks5 192.168.3.50 1880 >> \/etc\/proxychains4.conf/;
+  put qqx/echo [ProxyList] >> \/etc\/proxychains4.conf/;
+  put qqx/echo socks5 192.168.1.6 1880 >> \/etc\/proxychains4.conf/;
 }
 
 
@@ -109,8 +110,9 @@ sub format(@disks) {
    sleep 5;
    my $user = $*KERNEL.hostname;
    put "chown for user: " ~ $user;
+   #qqx/sudo chown  $user.$user  -R  \/sdb \/sdc \/sdd \/sde \/sdf \/sdg \/sdh \/sdi \/sdj \/sdk \/sdl/;
    for @disks ->$d {
-      qqx/sudo chown  $user.$user  -R  \/$d;
+      qqx/sudo chown  $user.$user  -R  \/$d/;
    }
    put "done";
 }
