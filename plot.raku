@@ -1,6 +1,7 @@
 #!/usr/bin/env rakudo
 
-sub ploter($t1, $t2, $f_dir, $d) {
+sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
+{
     my $d2 =  $d;
     
     if $d ~~ /\// {
@@ -9,8 +10,8 @@ sub ploter($t1, $t2, $f_dir, $d) {
     if $d2 ~~ /\s/ {
        $d2 = $d.subst: /\s/, '', :g;
     }
-
-    my $proc = Proc::Async.new: 'chia', 'plots', 'create', '-k', 32, '-r', 2, '-u','128', '-b', 4520, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
+    
+    my $proc = Proc::Async.new: 'chia', 'plots', 'create', '--override-k', '-k', 25, '-r', 2, '-u','128', '-b', 4520, '-f', $f, '-p', $pub, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
     my $promise = $proc.start;
     my $task = $d => $promise;
     return $task;
@@ -120,7 +121,11 @@ sub format(@disks) {
 
 
 
-sub MAIN($dirs, $op = 'create') {
+sub MAIN($dirs, 
+         $op,
+         $f='b8184ebe49924b2065f77e13069862f1b663eb4be1b9fa0a2ed1266554511db84c19e4f31d604792a60be96076d75b88', 
+         $pub='85af06071c2131ca44e64d9a53392c88981e05e80fce246267abc2b3eb7ae5e16e0961d0a413b29728776c55ebcab568')
+{
     my @tasks;
     my @disks = $dirs.chomp.split(',');
     
@@ -146,48 +151,51 @@ sub MAIN($dirs, $op = 'create') {
        exit(0);
     }
 
-    for @disks -> $d {
-       put "dir: $d" ;
+    if ($op ~~ 'create')  
+    {  
+       for @disks -> $d {
+       	 put "dir: $d" ;
        
-       my $t1     = '/' ~ $d ~ '/' ~ 't1';
-       my $t2     = '/' ~ $d ~ '/' ~ 't2';
-       my $f_dir = '/' ~ $d ~ '/' ~ 'plots';
-       if $d ~~ /sda/ {
-       	  put "home dir: " ~ $*HOME;
-	  $t1 = $*HOME ~ '/' ~ 't1';
-	  $t2 = $*HOME ~ '/' ~ 't2';
-	  $f_dir = $*HOME ~ '/' ~ 'plots';
+         my $t1     = '/' ~ $d ~ '/' ~ 't1';
+         my $t2     = '/' ~ $d ~ '/' ~ 't2';
+         my $f_dir = '/' ~ $d ~ '/' ~ 'plots';
+         if $d ~~ /sda/ {
+       	   put "home dir: " ~ $*HOME;
+	   $t1 = $*HOME ~ '/' ~ 't1';
+	   $t2 = $*HOME ~ '/' ~ 't2';
+	   $f_dir = $*HOME ~ '/' ~ 'plots';
+         }
+         my $p = ploter($t1, $t2, $f_dir, $d, $f, $pub);
+         @tasks.push: $p;
        }
-       my $p = ploter($t1, $t2, $f_dir, $d);
-       @tasks.push: $p;
-    }
     
-    loop {
-    	my $n_t = @tasks.elems;
-	my $i = 0;
-	while ($i < $n_t) {
-	   my $t  = @tasks[$i];
-    	   put "{$n_t}, {$t.key}  = > {$t.value}";
+       loop {
+    	 my $n_t = @tasks.elems;
+	 my $i = 0;
+	 while ($i < $n_t) {
+	    my $t  = @tasks[$i];
+    	    put "{$n_t}, {$t.key}  = > {$t.value}";
 
-	   my $d     =  $t.key;
-	   my $p     =  $t.value;
-	   my $t1    = '/' ~ $d ~ '/' ~ 't1';
-           my $t2    = '/' ~ $d ~ '/' ~ 't2';
-           my $f_dir = '/' ~ $d ~ '/' ~ 'plots';
-	   if $d ~~ /sda/ {
-       	     put "home dir: " ~ $*HOME;
-	     $t1 = $*HOME ~ '/' ~ 't1';
-	     $t2 = $*HOME ~ '/' ~ 't2';
-	     $f_dir = $*HOME ~ '/' ~ 'plots';
-           }
+	    my $d     =  $t.key;
+	    my $p     =  $t.value;
+	    my $t1    = '/' ~ $d ~ '/' ~ 't1';
+            my $t2    = '/' ~ $d ~ '/' ~ 't2';
+            my $f_dir = '/' ~ $d ~ '/' ~ 'plots';
+	    if $d ~~ /sda/ {
+       	      put "home dir: " ~ $*HOME;
+	      $t1 = $*HOME ~ '/' ~ 't1';
+	      $t2 = $*HOME ~ '/' ~ 't2';
+	      $f_dir = $*HOME ~ '/' ~ 'plots';
+            }
 
-	   put do given $p.status {
+	    put do given $p.status {
 	       when Planned { "Still working on it" }
-	       when Kept    { @tasks[$i] = ploter($t1, $t2, $f_dir, $d) }
+	       when Kept    { @tasks[$i] = ploter($t1, $t2, $f_dir, $d, $f, $pub) }
 	       when Broken  { "Error!!!" }    
-	   }
-	   $i++;
+	    }
+	    $i++;
 	}
 	sleep 5;
-    }
+     }
+ }    
 }
