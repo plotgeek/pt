@@ -11,7 +11,7 @@ sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
        $d2 = $d.subst: /\s/, '', :g;
     }
     
-    my $proc = Proc::Async.new: 'chia', 'plots', 'create', '--override-k', '-k', 25, '-r', 2, '-u','128', '-b', 4520, '-f', $f, '-p', $pub, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
+    my $proc = Proc::Async.new: 'chia_plot', '-n', -1, '-r', 4, '-f', $f, '-p', $pub, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
     my $promise = $proc.start;
     my $task = $d => $promise;
     return $task;
@@ -156,14 +156,14 @@ sub MAIN($dirs,
        for @disks -> $d {
        	 put "dir: $d" ;
        
-         my $t1     = '/' ~ $d ~ '/' ~ 't1';
-         my $t2     = '/' ~ $d ~ '/' ~ 't2';
-         my $f_dir = '/' ~ $d ~ '/' ~ 'plots';
+         my $t1     = '/' ~ $d ~ '/' ~ 't1/';
+         my $t2     = '/' ~ $d ~ '/' ~ 't2/';
+         my $f_dir = '/' ~ $d ~ '/' ~ 'plots/';
          if $d ~~ /sda/ {
        	   put "home dir: " ~ $*HOME;
-	   $t1 = $*HOME ~ '/' ~ 't1';
-	   $t2 = $*HOME ~ '/' ~ 't2';
-	   $f_dir = $*HOME ~ '/' ~ 'plots';
+	   $t1 = $*HOME ~ '/' ~ 't1/';
+	   $t2 = $*HOME ~ '/' ~ 't2/';
+	   $f_dir = $*HOME ~ '/' ~ 'plots/';
          }
          my $p = ploter($t1, $t2, $f_dir, $d, $f, $pub);
          @tasks.push: $p;
@@ -178,14 +178,14 @@ sub MAIN($dirs,
 
 	    my $d     =  $t.key;
 	    my $p     =  $t.value;
-	    my $t1    = '/' ~ $d ~ '/' ~ 't1';
-            my $t2    = '/' ~ $d ~ '/' ~ 't2';
-            my $f_dir = '/' ~ $d ~ '/' ~ 'plots';
+	    my $t1    = '/' ~ $d ~ '/' ~ 't1/';
+            my $t2    = '/' ~ $d ~ '/' ~ 't2/';
+            my $f_dir = '/' ~ $d ~ '/' ~ 'plots/';
 	    if $d ~~ /sda/ {
        	      put "home dir: " ~ $*HOME;
-	      $t1 = $*HOME ~ '/' ~ 't1';
-	      $t2 = $*HOME ~ '/' ~ 't2';
-	      $f_dir = $*HOME ~ '/' ~ 'plots';
+	      $t1 = $*HOME ~ '/' ~ 't1/';
+	      $t2 = $*HOME ~ '/' ~ 't2/';
+	      $f_dir = $*HOME ~ '/' ~ 'plots/';
             }
 
 	    put do given $p.status {
