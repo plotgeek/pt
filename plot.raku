@@ -1,5 +1,15 @@
 #!/usr/bin/env rakudo
 
+
+
+grammar Parser {
+	rule TOP {<start><sep><end>}
+	token sep { '-' }
+	token start {\w+}
+	token end {\w+}
+}
+
+
 sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
 {
     my $d2 =  $d;
@@ -18,46 +28,52 @@ sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
 }
 
 sub clean(@disks) {
-    put "cleaning file t1: ";
+    my $p = Parser.parse: @disks;
+    my $start = $p<start>.chomp;
+    my $sep = $p<sep>.chomp;
+    my $end = $p<end>.chomp;
+    if $sep.contains('-') {
+        say "cleaning file";
+        for $start .. $end  -> $d {
+	   say "cleaning $d";
+    	   my $t1 = '/' ~ $d ~ '/' ~ 't1';
+    	   my $t2 = '/' ~ $d ~ '/' ~ 't2';
+
+	   if ($t1.IO ~~ :e) {
+	     for dir($t1.IO.absolute) -> $tmp {
+	       unlink $tmp;
+	     }
+	   }
+    	   if ($t2.IO ~~ :e) {
+	     for dir($t1.IO.absolute) -> $tmp {
+	       unlink $tmp;
+	     }
+	   }
+      }
+      exit(0);
+    }
+
+    put "cleaning file t1 & t2: ";
     for @disks ->  $d {
 	my $t1 = '/' ~ $d ~ '/' ~ 't1';
+	my $t2 = '/' ~ $d ~ '/' ~ 't2';
+
         if $d.contains('sda') && $d.chars == 3 {
            $t1 = $*HOME ~ '/' ~ 't1';
+           $t2 = $*HOME ~ '/' ~ 't2';
         }
 	if ($t1.IO ~~ :e) {
 	  for dir($t1.IO.absolute) -> $tmp {
 	    unlink $tmp;
 	  }
 	}
-    }
-
-    put "cleaning file t2: ";
-    for @disks ->  $d {
-	my $t2 = '/' ~ $d ~ '/' ~ 't2';
-	if $d ~~ /sda/ {
-           $t2 = $*HOME ~ '/' ~ 't2';
-        }
 	if ($t2.IO ~~ :e) {
 	  for dir($t2.IO.absolute) -> $tmp {
 	    unlink $tmp;
 	  }
 	}
     }
-
-    put "cleaning file p: ";
-    for @disks ->  $d {
-	my $p = '/' ~ $d ~ '/' ~ 'p';
-	if $d ~~ /sda/ {
-	   say "hello sda..........";
-	   $p = $*HOME ~ '/' ~ 'p';
-	}
-	if ($p.IO ~~ :e) {
-	  for dir($p.IO.absolute) -> $tmp {
-	    unlink $tmp;
-	  }
-	}	
-    }
-
+    exit(0);	
 }
 
 sub install()
