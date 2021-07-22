@@ -76,15 +76,6 @@ sub clean(@disks) {
     exit(0);	
 }
 
-sub install()
-{
-  #put "args: "	 ~ $args;
-  qqx/sed -i'' -e '\$ d'  \/etc\/proxychains4.conf  \/etc\/proxychains4.conf/;
-  put qqx/echo [ProxyList] >> \/etc\/proxychains4.conf/;
-  put qqx/echo socks5 192.168.1.6 1880 >> \/etc\/proxychains4.conf/;
-}
-
-
 sub format(@disks) {
 
    put mkdir("$*HOME/t1");
