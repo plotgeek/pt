@@ -23,6 +23,8 @@ rakudo main.raku  sda,sdb,sdc  remove
 ## clean t1 & t2
 ```
 rakudo main.raku sda,sdb,sdc  clean
+or
+rakudo main.raku sda-sdl clean
 ```
 
 ## format disks
