@@ -21,7 +21,7 @@ sub clean(@disks) {
     put "cleaning file t1: ";
     for @disks ->  $d {
 	my $t1 = '/' ~ $d ~ '/' ~ 't1';
-        if $d ~~ /sda/ {
+        if $d.contains('sda') && $d.chars == 3 {
            $t1 = $*HOME ~ '/' ~ 't1';
         }
 	if ($t1.IO ~~ :e) {
@@ -48,6 +48,7 @@ sub clean(@disks) {
     for @disks ->  $d {
 	my $p = '/' ~ $d ~ '/' ~ 'p';
 	if $d ~~ /sda/ {
+	   say "hello sda..........";
 	   $p = $*HOME ~ '/' ~ 'p';
 	}
 	if ($p.IO ~~ :e) {
