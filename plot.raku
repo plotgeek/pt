@@ -45,7 +45,7 @@ sub clean(@disks) {
 	     }
 	   }
     	   if ($t2.IO ~~ :e) {
-	     for dir($t1.IO.absolute) -> $tmp {
+	     for dir($t2.IO.absolute) -> $tmp {
 	       unlink $tmp;
 	     }
 	   }
