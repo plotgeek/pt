@@ -83,8 +83,8 @@ sub clean(@disks) {
            $t1 = $*HOME ~ '/' ~ 't1';
            $t2 = $*HOME ~ '/' ~ 't2';
         }
-	remove(t1);
-	remove(t2);
+	remove($t1);
+	remove($t2);
     }
     exit(0);	
 }
