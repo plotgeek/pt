@@ -25,15 +25,6 @@ sub MAIN($dirs, $op = 'create',
 	 exit(0);
     } 
 
-    if ($op ~~ 'remove') {
-       for @disks -> $d {
-           my $t = '/' ~ $d ~ '/' ~ 'plots';
-	   put "plots dir: $t";
-       	   qqx/chia plots remove -d $t/
-       }
-       exit(0);
-    }
-
     if ($op ~~ 'add') {
        for @disks -> $d {
            my $t = '/' ~ $d ~ '/' ~ 'plots';
