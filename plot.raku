@@ -83,16 +83,8 @@ sub clean(@disks) {
            $t1 = $*HOME ~ '/' ~ 't1';
            $t2 = $*HOME ~ '/' ~ 't2';
         }
-	if ($t1.IO ~~ :e) {
-	  for dir($t1.IO.absolute) -> $tmp {
-	    unlink $tmp;
-	  }
-	}
-	if ($t2.IO ~~ :e) {
-	  for dir($t2.IO.absolute) -> $tmp {
-	    unlink $tmp;
-	  }
-	}
+	remove(t1);
+	remove(t2);
     }
     exit(0);	
 }
