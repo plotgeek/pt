@@ -38,7 +38,7 @@ sub MAIN($dirs, $op = 'create',
        for @disks -> $d {
            my $t = '/' ~ $d ~ '/' ~ 'plots';
 	   put "plots dir: $t";
-	   if $d ~~ /sda/ {
+	   if $d.contains('sda') && $d.chars == 3 {
        	     put "home dir: " ~ $*HOME;
 	     $t = $*HOME ~ '/' ~ 'plots';
            }
