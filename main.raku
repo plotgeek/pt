@@ -1,23 +1,13 @@
 #!/usr/bin/env rakudo
 
 
-sub install()
-{
-    qqx/sed -i'' -e '\$ d'  \/etc\/proxychains4.conf  \/etc\/proxychains4.conf/;
-    put qqx/echo socks5 192.168.3.50 1880 >> \/etc\/proxychains4.conf/;
-}
-      
+
 
 sub MAIN($dirs, $op = 'create', 
          $f = 'b8184ebe49924b2065f77e13069862f1b663eb4be1b9fa0a2ed1266554511db84c19e4f31d604792a60be96076d75b88', 
          $pub = '85af06071c2131ca44e64d9a53392c88981e05e80fce246267abc2b3eb7ae5e16e0961d0a413b29728776c55ebcab568') 
 {
     my @disks = $dirs.chomp.split(',');
-
-    if ($op ~~ "install") {
-      install();
-      exit(0);
-    }
 
     if ($op ~~ 'stop') {
          for @disks -> $d {
