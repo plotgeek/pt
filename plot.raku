@@ -28,11 +28,12 @@ sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
 }
 
 sub clean(@disks) {
-    my $p = Parser.parse: @disks;
-    my $start = $p<start>.chomp;
-    my $sep = $p<sep>.chomp;
-    my $end = $p<end>.chomp;
-    if $sep.contains('-') {
+    if @disks.contains('-') {
+        my $p = Parser.parse: @disks;
+        my $start = $p<start>.chomp;
+        my $sep = $p<sep>.chomp;
+        my $end = $p<end>.chomp;
+
         say "cleaning file";
         for $start .. $end  -> $d {
 	   say "cleaning $d";
