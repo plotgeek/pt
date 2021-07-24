@@ -25,6 +25,8 @@ rakudo main.raku  sda,sdb,sdc  remove
 rakudo main.raku sda,sdb,sdc  clean
 or
 rakudo main.raku sda-sdl clean
+or 
+rakudo main.raku a-l clean
 ```
 
 ## format disks
