@@ -27,6 +27,16 @@ sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
     return $task;
 }
 
+
+sub remove($t) {
+   say "cleaning file $t";
+   if ($t.IO ~~ :e) {
+     for dir($t.IO.absolute) -> $tmp {
+       unlink $tmp;
+     }
+   }
+}
+
 sub clean(@disks) {
     if @disks.contains('-') {
         my $p = Parser.parse: @disks;
@@ -34,23 +44,33 @@ sub clean(@disks) {
         my $sep = $p<sep>.chomp;
         my $end = $p<end>.chomp;
 
-        say "cleaning file";
-        for $start .. $end  -> $d {
-	   say "cleaning $d";
-    	   my $t1 = '/' ~ $d ~ '/' ~ 't1';
-    	   my $t2 = '/' ~ $d ~ '/' ~ 't2';
 
-	   if ($t1.IO ~~ :e) {
-	     for dir($t1.IO.absolute) -> $tmp {
-	       unlink $tmp;
-	     }
-	   }
-    	   if ($t2.IO ~~ :e) {
-	     for dir($t2.IO.absolute) -> $tmp {
-	       unlink $tmp;
-	     }
-	   }
-      }
+	if $start.contains('sd') {
+	   $start = $start.substr(2, *);
+	}
+	if $end.contains('sd') {
+	   $end = $end.substr(2, *);
+	}
+	if ($start ge $end) {
+	   say "devices name args error!!";
+	   exit(0);
+	}
+	say "Start: $start, End: $end";
+	my $d = $start;
+        my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+	my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+	repeat {
+  	   remove($t1);
+	   remove($t2);
+	   $d = $d.succ;
+           $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+    	   $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+	} until ($d eq $end);
+
+	# clean the last one
+	remove($t1);
+	remove($t2);
+	
       exit(0);
     }
 
@@ -206,5 +226,5 @@ sub MAIN($dirs,
 	}
 	sleep 5;
      }
- }    
+    }    
 }
