@@ -1,14 +1,11 @@
 #!/usr/bin/env rakudo
 
-
-
 grammar Parser {
 	rule TOP {<start><sep><end>}
 	token sep { '-' }
 	token start {\w+}
 	token end {\w+}
 }
-
 
 sub ploter($t1, $t2, $f_dir, $d, $f, $pub)
 {
@@ -57,19 +54,21 @@ sub clean(@disks) {
 	}
 	say "Start: $start, End: $end";
 	my $d = $start;
-        my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
-	my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
-	repeat {
-  	   remove($t1);
+	loop {
+	   my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+	   my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+	   remove($t1);
 	   remove($t2);
-	   $d = $d.succ;
-           $t1 = '/sd' ~ $d ~ '/' ~ 't1';
-    	   $t2 = '/sd' ~ $d ~ '/' ~ 't2';
-	} until ($d eq $end);
 
-	# clean the last one
-	remove($t1);
-	remove($t2);
+	   $d = $d.succ;	     
+	   last if ($d eq $end);
+	   LAST {
+	      $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+	      $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+	      remove($t1);	      	  
+	      remove($t2);	      	  
+	   }
+	}
 	
       exit(0);
     }
@@ -79,7 +78,7 @@ sub clean(@disks) {
 	my $t1 = '/' ~ $d ~ '/' ~ 't1';
 	my $t2 = '/' ~ $d ~ '/' ~ 't2';
 
-        if $d.contains('sda') && $d.chars == 3 {
+        if ($d eq 'sda') {
            $t1 = $*HOME ~ '/' ~ 't1';
            $t2 = $*HOME ~ '/' ~ 't2';
         }
@@ -180,7 +179,7 @@ sub MAIN($dirs,
          my $t1     = '/' ~ $d ~ '/' ~ 't1/';
          my $t2     = '/' ~ $d ~ '/' ~ 't2/';
          my $f_dir = '/' ~ $d ~ '/' ~ 'plots/';
-         if $d ~~ /sda/ {
+         if ($d eq 'sda') {
        	   put "home dir: " ~ $*HOME;
 	   $t1 = $*HOME ~ '/' ~ 't1/';
 	   $t2 = $*HOME ~ '/' ~ 't2/';
