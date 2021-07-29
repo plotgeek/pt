@@ -48,10 +48,7 @@ sub clean(@disks) {
 	if $end.contains('sd') {
 	   $end = $end.substr(2, *);
 	}
-	if ($start ge $end) {
-	   say "devices name args error!!";
-	   exit(0);
-	}
+
 	say "Start: $start, End: $end";
 	my $d = $start;
 	loop {
