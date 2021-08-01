@@ -8,6 +8,9 @@ rakudo main.raku sda,sdb,sdc,sdd,sde,sdf
 ## stop plot task
 ```
 rakudo main.raku sda,sdb,sdc,sdd,sde,sdf stop
+or 
+rakudo main.raku 3452.sdb stop
+rakudo main.raku 4563.sdb stop 
 ```
 
 ## add plots dir
