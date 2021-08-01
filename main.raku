@@ -12,7 +12,7 @@ sub MAIN($dirs, $op = 'create',
 
     if ($op ~~ 'stop') {
          for @disks -> $d {
-           put "dir: $d";
+           put "stoping: $d";
            qqx/screen -S $d -X quit/
          }
 	 exit(0);
