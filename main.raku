@@ -41,6 +41,11 @@ sub MAIN($dirs, $op = 'create',
        exit(0);
     }
 
+    if ($op ~~ 'rmsys') {
+       rmsys(@disks);
+       exit(0);
+    }
+
     if ($op ~~ 'create') { 
        for @disks -> $d {
            put "dir: $d";
