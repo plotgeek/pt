@@ -37,6 +37,11 @@ rakudo main.raku a-l clean
 sudo rakudo main.raku sdb,sdc,sdd format
 ```
 
+## remove sysfile 
+```
+rakudo main.raku b-l rmsys
+```
+
 
 
 
