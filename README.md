@@ -23,7 +23,8 @@ rakudo main.raku  sda,sdb,sdc  add
 rakudo main.raku  sda,sdb,sdc  remove
 ```
 
-## clean t1 & t2
+## clean t1 & t2 & plots
+clean t1 t2, and plots dir which file size < 102GB
 ```
 rakudo main.raku sda,sdb,sdc  clean
 or
