@@ -28,7 +28,7 @@ sub ploter($t1, $t2, $f_dir, $d, $f, $pub) is export
 sub clean_plots($p) {
     if ($p.IO ~~ :e ) {
         for dir($p.IO.absolute) -> $tmp {
-            if ($tmp.IO.s/1024/1024/1024 < 102) {
+            if ($tmp.IO.s/1024/1024/1024 < 100) {
 		say "cleaning $tmp";
                 #unlink $tmp;
             }
