@@ -1,5 +1,10 @@
 # plot_task
 
+## install
+```
+sudo apt install rakudo
+```
+
 ## create plot task
 ```
 rakudo main.raku sda,sdb,sdc,sdd,sde,sdf
