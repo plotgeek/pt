@@ -50,8 +50,8 @@ sub MAIN($dirs, $op = 'create',
     if ($op ~~ 'create') { 
        for @disks -> $d {
            put "dir: $d";
-           put "farmer: $f";
-	   put "pool:   $pub";
+           put "farmer: $farmer_pk";
+	   put "pool:   $pool_pk_or_contract_addr";
 	   qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
        }
     }
