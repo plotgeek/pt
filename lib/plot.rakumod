@@ -30,7 +30,7 @@ sub clean_plots($p) {
         for dir($p.IO.absolute) -> $tmp {
             if ($tmp.IO.s/1024/1024/1024 < 100) {
 		say "cleaning $tmp";
-                #unlink $tmp;
+                unlink $tmp;
             }
         }
     }
