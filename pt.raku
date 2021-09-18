@@ -46,6 +46,11 @@ sub MAIN($dirs, $op = 'create',
        rmsys(@disks);
        exit(0);
     }
+    
+    if ($op ~~ 'rmall') {
+       rmall(@disks);
+       exit(0);
+    }
 
     if ($op ~~ 'create') { 
        for @disks -> $d {
