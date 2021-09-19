@@ -129,11 +129,16 @@ sub rmall(@disks) is export {
       exit(0);
     }
 
-    for @disks ->  $d {
-	dormall($d);
-    }
-    exit(0);	
+    if (@disks.elems == 1) {
+        my $d = @disks;
 
+	if $d.contains('sd') {
+            $d = $d.substr(2, *);
+        }
+	dormall($d);
+	exit(0);
+    }
+	
 }
 
 
