@@ -14,9 +14,9 @@ sub MAIN($dirs, $op = 'create',
        for @disks -> $d {
        	 put "dir: $d" ;
        
-         my $t1     = '/' ~ $d ~ '/' ~ 't1/';
-         my $t2     = '/' ~ $d ~ '/' ~ 't2/';
-         my $f_dir = '/' ~ $d ~ '/' ~ 'plots/';
+         my $t1     = '/sd' ~ $d ~ '/' ~ 't1/';
+         my $t2     = '/sd' ~ $d ~ '/' ~ 't2/';
+         my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
          if ($d eq 'sda') {
        	   put "home dir: " ~ $*HOME;
 	   $t1 = $*HOME ~ '/' ~ 't1/';
