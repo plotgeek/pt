@@ -89,7 +89,7 @@ sub dormall($d) {
 }
 
 sub rmall(@disks) is export {
-    if @disks.contains(/'-'/) {
+    if @disks.contains('-') {
         my $p = Parser.parse: @disks;
         my $start = $p<start>.chomp;
         my $sep = $p<sep>.chomp;
