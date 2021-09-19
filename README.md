@@ -7,45 +7,48 @@ sudo apt install rakudo
 
 ## create plot task
 ```
-rakudo main.raku sda,sdb,sdc,sdd,sde,sdf
+rakudo pt.raku b 
+or 
+rakudo pt.raku b-l
+or 
+rakudo pt.raku b-l  create b838e026155f6c1484b719820c2de2d8f4181f5fd5741be80b00c405d0a16865c877ce9f6e47a306dc6225cc6f3cefb5  xch1grt0qhtttrm04pts5v0lzzgc7kdysu775472k6agptnfdvpmhvvs020tmd
 ```
 
 ## stop plot task
 ```
-rakudo main.raku sda,sdb,sdc,sdd,sde,sdf stop
+rakudo pt.raku b stop
 or 
-rakudo main.raku 3452.sdb stop
-rakudo main.raku 4563.sdb stop 
+rakudo pt.raku b-l stop
 ```
 
 ## add plots dir
 ```
-rakudo main.raku  sda,sdb,sdc  add
+rakudo pt.raku  b-l  add
 ```
 
 ## remove plots dir
 ```
-rakudo main.raku  sda,sdb,sdc  remove
+rakudo pt.raku b-l  remove
 ```
 
 ## clean t1 & t2 & plots
 clean t1 t2, and plots dir which file size < 100GB
 ```
-rakudo main.raku sda,sdb,sdc  clean
+rakudo pt.raku sda,sdb,sdc  clean
 or
-rakudo main.raku sda-sdl clean
+rakudo pt.raku sda-sdl clean
 or 
-rakudo main.raku a-l clean
+rakudo pt.raku a-l clean
 ```
 
 ## format disks
 ```
-sudo rakudo main.raku sdb,sdc,sdd format
+sudo rakudo pt.raku sdb,sdc,sdd format
 ```
 
 ## remove sysfile 
 ```
-rakudo main.raku b-l rmsys
+rakudo pt.raku b-l rmsys
 ```
 
 
