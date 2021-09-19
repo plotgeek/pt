@@ -78,10 +78,22 @@ sub dormall($d) {
    put "rmall $d";
 
    my $dir = '/sd' ~ $d;
+   my $t1 = $dir ~ '/t1';
+   my $t2 = $dir ~ '/t2';
 
    if ($dir.IO ~~ :e) {
       my $plots = $dir ~ '/plots';
       for dir($plots.IO.absolute) -> $tmp {
+          say "rming $tmp";
+          unlink $tmp;
+      }
+      
+      for dir($t1.IO.absolute) -> $tmp {
+          say "rming $tmp";
+          unlink $tmp;
+      }
+
+      for dir($t2.IO.absolute) -> $tmp {
           say "rming $tmp";
           unlink $tmp;
       }
