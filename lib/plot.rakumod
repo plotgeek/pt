@@ -89,19 +89,18 @@ sub clean(@disks) is export {
       exit(0);
     }
 
-    put "cleaning file t1 & t2: ";
-    for @disks ->  $d {
-	my $t1 = '/' ~ $d ~ '/' ~ 't1';
-	my $t2 = '/' ~ $d ~ '/' ~ 't2';
+    if (@disks.elems == 1) {
+        my $d = @disks;
 
-        if ($d eq 'sda') {
-           $t1 = $*HOME ~ '/' ~ 't1';
-           $t2 = $*HOME ~ '/' ~ 't2';
+        if $d.contains('sd') {
+            $d = $d.substr(2, *);
         }
-	remove($t1);
-	remove($t2);
+   	my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+        my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+        remove($t1);
+        remove($t2);
+        exit(0);
     }
-    exit(0);	
 }
 
 sub format(@disks) is export {
