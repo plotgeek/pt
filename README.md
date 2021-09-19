@@ -55,6 +55,8 @@ rakudo pt.raku b-l rmsys
 ## remove all 
 ```
 rakudo pt.raku b-l rmall
+or
+rakudo pt.raku b rmall
 ```
 
 
