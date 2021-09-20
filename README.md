@@ -56,10 +56,13 @@ rakudo pt.raku b-l rmsys
 
 
 ## remove all 
+rmall op default delete 2 plots, or use the args
 ```
 rakudo pt.raku b-l rmall
 or
 rakudo pt.raku b rmall
+or 
+rakudo pt.raku b rmall 5
 ```
 
 
