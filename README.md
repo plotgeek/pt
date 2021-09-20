@@ -1,4 +1,7 @@
-# plot_task
+# a chia plot tools
+mount point:  /sdb /sdc ....
+plot dir :  /sdb/plots, /sdb/t1, /sdb/t2
+
 
 ## install
 ```
