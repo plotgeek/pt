@@ -50,9 +50,6 @@ sub MAIN($dirs, $op = 'create',
         exit(0);
     }
 
-    put "farmer: $farmer_pk";
-    put "poolpk or contract addr:   $pool_pk_or_contract_addr";
-
     if @disks.contains('-') {
 	my $p = Parser.parse: @disks;
 	my $start = $p<start>.chomp;
@@ -70,6 +67,8 @@ sub MAIN($dirs, $op = 'create',
 	my $d = $start;
 	loop {
 	    if ($op ~~ 'create') {
+	        put "farmer: $farmer_pk";
+                put "poolpk or contract addr:   $pool_pk_or_contract_addr";
 		qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 	    }
 	    if ($op ~~ 'stop') {
@@ -89,6 +88,8 @@ sub MAIN($dirs, $op = 'create',
 	    last if ($d eq $end);
 	    LAST {
 		if ($op ~~ 'create') {
+		    put "farmer: $farmer_pk";
+                    put "poolpk or contract addr:   $pool_pk_or_contract_addr";
 		    qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 		}
 		if ($op ~~ 'stop') {
@@ -116,6 +117,8 @@ sub MAIN($dirs, $op = 'create',
 	}
 
 	if ($op ~~ 'create') {
+	    put "farmer: $farmer_pk";
+            put "poolpk or contract addr:   $pool_pk_or_contract_addr";
 	    qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 	}
 	if ($op ~~ 'stop') {
