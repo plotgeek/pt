@@ -37,8 +37,17 @@ sub MAIN($dirs, $op = 'create',
     }
     
     if ($op ~~ 'rmall') {
-       rmall(@disks);
-       exit(0);
+        my $n;
+        if  (@*ARGS.elems != 3) {
+	    $n = 2;
+        } else {
+            $n = @*ARGS[2];
+        }
+        say "args: " ~ @*ARGS.elems;
+        say "n:  " ~ $n;
+	
+        rmall(@disks,$n);
+        exit(0);
     }
 
     put "farmer: $farmer_pk";
