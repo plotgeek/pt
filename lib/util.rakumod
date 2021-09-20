@@ -74,7 +74,7 @@ sub rmsys(@disks) is export {
 }
 
 
-sub dormall($d) {
+sub dormall($d,$n) {
    put "rmall $d";
 
    my $dir = '/sd' ~ $d;
@@ -83,7 +83,9 @@ sub dormall($d) {
 
    if ($dir.IO ~~ :e) {
       my $plots = $dir ~ '/plots';
+      my $cnt = 1;
       for dir($plots.IO.absolute) -> $tmp {
+          last if ($cnt++ > $n);
           say "rming $tmp";
           unlink $tmp;
       }
@@ -100,7 +102,7 @@ sub dormall($d) {
    }
 }
 
-sub rmall(@disks) is export {
+sub rmall(@disks,$n) is export {
     if @disks.contains('-') {
         my $p = Parser.parse: @disks;
         my $start = $p<start>.chomp;
@@ -118,11 +120,11 @@ sub rmall(@disks) is export {
 	say "Start: $start, End: $end";
 	my $d = $start;
 	loop {
-	   dormall($d);
+	   dormall($d,$n);
 	   $d = $d.succ;	     
 	   last if ($d eq $end);
 	   LAST {
-	      dormall($d);	      	  
+	      dormall($d,$n);	      	  
 	   }
 	}
 	
@@ -135,7 +137,7 @@ sub rmall(@disks) is export {
 	if $d.contains('sd') {
             $d = $d.substr(2, *);
         }
-	dormall($d);
+	dormall($d,$n);
 	exit(0);
     }
 	
