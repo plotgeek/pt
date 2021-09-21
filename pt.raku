@@ -70,7 +70,7 @@ sub MAIN($dirs, $op = 'create',
                 my $w = '/sd' ~ $d;
                 put "farmer: $farmer_pk";
                 put "poolpk or contract addr:   $pool_pk_or_contract_addr";
-                if get_part_size($w).substr(0..*-1) < 100 {
+                if get_part_size($w).substr(0,*-1) < 100 {
                     put "no enough space at " ~ $w;
                     NEXT { put "no enough space at " ~ $w }
                 }
@@ -96,7 +96,7 @@ sub MAIN($dirs, $op = 'create',
                     my $w = '/sd' ~ $d;
                     put "farmer: $farmer_pk";
                     put "poolpk or contract addr:   $pool_pk_or_contract_addr";
-                    if get_part_size($w).substr(0..*-1) < 100 {
+                    if get_part_size($w).substr(0,*-1) < 100 {
                         put "no enough space at " ~ $w;
                         exit(0);
                     }
