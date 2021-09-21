@@ -13,7 +13,7 @@ sub MAIN($dirs, $op = 'create',
     if ($op ~~ 'create') { 
        for @disks -> $d {
        	 put "dir: $d" ;
-         if get_part_size($w).substr(0..*-1) < 250 {
+         if get_part_size($w).substr(0..*-1) < 100 {
              say "no enough space at " ~ $w;
              exit(0);
          }
