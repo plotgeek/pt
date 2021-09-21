@@ -1,4 +1,6 @@
 # a chia plot tools
+PT is designed for small capacity disks plot. like 300G,1T,2T etc. 
+
 mount point:  /sdb /sdc ....   
 plot dir :  /sdb/plots, /sdb/t1, /sdb/t2   
 
