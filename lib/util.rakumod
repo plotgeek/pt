@@ -164,5 +164,15 @@ sub mount_point() is export
     return $mount_point.Str; 	
 }
 
+sub get_part_size($dev) is export
+{
+    for lines(qqx/df -h $dev/) -> $l {
+	if $l ~~ /^\/dev/ {
+            my @p = $l.split(/\s+/);
+            return @p[*-3];
+        }
+    }
+}
+
 
 
