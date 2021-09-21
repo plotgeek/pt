@@ -144,4 +144,25 @@ sub rmall(@disks,$n) is export {
 }
 
 
+sub mount_point() is export
+{
+    my $fstab = "/etc/fstab";
+    my $fh = $fstab.IO.open;
+    my $l;
+    my $mount_point;
+
+    for $fh.lines() -> $l {
+	if $l ~~ /^\/dev/ {
+	    my @fl = $l.split(/\s+/);
+	    if (@fl[*-5] eq '/') {
+		if @fl[0].IO ~~ :l {
+		    $mount_point = @fl[0].IO.resolve;
+		}
+	    }
+	}
+    }
+    return $mount_point.Str; 	
+}
+
+
 
