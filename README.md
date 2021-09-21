@@ -1,4 +1,4 @@
-# a hdd disk plot tool
+# a hdd plot tool
 PT is designed for small capacity disks plot. like 300G,1T,2T etc. 
 
 mount point:  /sdb /sdc ....   
