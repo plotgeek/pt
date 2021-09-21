@@ -2,6 +2,7 @@
 
 use lib 'lib';
 use plot;
+use util;
 
 sub MAIN($dirs, $op = 'create', 
          $f = 'b8184ebe49924b2065f77e13069862f1b663eb4be1b9fa0a2ed1266554511db84c19e4f31d604792a60be96076d75b88', 
