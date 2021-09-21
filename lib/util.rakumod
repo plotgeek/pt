@@ -84,20 +84,24 @@ sub dormall($d,$n) {
    if ($dir.IO ~~ :e) {
       my $plots = $dir ~ '/plots';
       my $cnt = 1;
-      for dir($plots.IO.absolute) -> $tmp {
+      if ($plots.IO ~~ :e) {
+      	for dir($plots.IO.absolute) -> $tmp {
           last if ($cnt++ > $n);
           say "rming $tmp";
           unlink $tmp;
+      	}
       }
-      
-      for dir($t1.IO.absolute) -> $tmp {
+      if ($t1.IO ~~ :e) {
+      	for dir($t1.IO.absolute) -> $tmp {
           say "rming $tmp";
           unlink $tmp;
+      	}
       }
-
-      for dir($t2.IO.absolute) -> $tmp {
+      if ($t2.IO ~~ :e) {
+      	for dir($t2.IO.absolute) -> $tmp {
           say "rming $tmp";
           unlink $tmp;
+      	}
       }
    }
 }
