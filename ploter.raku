@@ -13,7 +13,10 @@ sub MAIN($dirs, $op = 'create',
     if ($op ~~ 'create') { 
        for @disks -> $d {
        	 put "dir: $d" ;
-       
+         if get_part_size($w).substr(0..*-1) < 250 {
+             say "no enough space at " ~ $w;
+             exit(0);
+         }
          my $t1     = '/sd' ~ $d ~ '/' ~ 't1/';
          my $t2     = '/sd' ~ $d ~ '/' ~ 't2/';
          my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
