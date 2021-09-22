@@ -101,6 +101,17 @@ sub clean(@disks) is export {
         remove($t2);
         exit(0);
     }
+    
+    for @disks -> $d {
+        put "cleaningggggggggg";
+	if $d.contains('sd') {
+	    $d = $d.substr(2, *);
+	}
+	my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+	my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+	remove($t1);
+	remove($t2);
+    }
 }
 
 sub format(@disks) is export {
