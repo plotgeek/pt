@@ -141,7 +141,7 @@ sub MAIN($dirs, $op = 'create',
     }
     
     for @disks -> $t {
-    	my $d;
+    	my $d = $t;
 	if $t.contains('sd') {
 	    $d = $t.substr(2, *);
 	}
