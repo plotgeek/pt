@@ -144,5 +144,32 @@ sub MAIN($dirs, $op = 'create',
 	    qqx/chia plots add -d $t/;
 	}
     }
+    
+    for @disks -> $d {
+	if $d.contains('sd') {
+	    $d = $d.substr(2, *);
+	}
+	my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+	my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+
+	if ($op ~~ 'create') {
+	    put "farmer: $farmer_pk";
+	    put "poolpk or contract addr:   $pool_pk_or_contract_addr";
+	    qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
+	}
+	if ($op ~~ 'stop') {
+	    qqx/screen -S $d -X quit/;
+	}
+	if ($op ~~ 'add') {
+	    my $t = '/sd' ~ $d ~ '/' ~ 'plots';
+	    put "plots dir: $t";
+	    if $t.contains('sda') && $t.chars == 3 {
+		put "home dir: " ~ $*HOME;
+		$t = $*HOME ~ '/' ~ 'plots';
+	    }
+	    qqx/chia plots add -d $t/;
+	}
+    }
+
 
 }
