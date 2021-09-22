@@ -143,6 +143,7 @@ sub MAIN($dirs, $op = 'create',
 	    }
 	    qqx/chia plots add -d $t/;
 	}
+	exit(0);
     }
     
     for @disks -> $d {
