@@ -19,6 +19,10 @@ or
 rakudo pt.raku b-l  create b838e026155f6c1484b719820c2de2d8f4181f5fd5741be80b00c405d0a16865c877ce9f6e47a306dc6225cc6f3cefb5  xch1grt0qhtttrm04pts5v0lzzgc7kdysu775472k6agptnfdvpmhvvs020tmd
 ```
 
+```
+screen -ls  to view plot task.
+```
+
 ## stop plot task
 ```
 rakudo pt.raku b stop
