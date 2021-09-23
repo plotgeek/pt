@@ -103,7 +103,7 @@ sub clean(@disks) is export {
     }
     
     for @disks -> $t {
-    	my $d = $t
+    	my $d = $t;
         put "cleaningggggggggg";
 	if $t.contains('sd') {
 	    $d = $t.substr(2, *);
