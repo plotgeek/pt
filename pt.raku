@@ -77,12 +77,8 @@ sub MAIN($dirs, $op = 'create',
 		qqx/screen -S $d -X quit/;
 	    }
 	    if ($op ~~ 'add') {
-		my $t = '/' ~ $d ~ '/' ~ 'plots';
+		my $t = '/sd' ~ $d ~ '/' ~ 'plots';
 		put "plots dir: $t";
-		if $d.contains('sda') && $d.chars == 3 {
-		    put "home dir: " ~ $*HOME;
-		    $t = $*HOME ~ '/' ~ 'plots';
-		}
 		qqx/chia plots add -d $t/
 	    }
 
@@ -100,12 +96,8 @@ sub MAIN($dirs, $op = 'create',
 		    qqx/screen -S $d -X quit/;
 		}
 		if ($op ~~ 'add') {
-		    my $t = '/' ~ $d ~ '/' ~ 'plots';
+		    my $t = '/sd' ~ $d ~ '/' ~ 'plots';
 		    put "plots dir: $t";
-		    if $d.contains('sda') && $d.chars == 3 {
-			put "home dir: " ~ $*HOME;
-			$t = $*HOME ~ '/' ~ 'plots';
-		    }
 		    qqx/chia plots add -d $t/
 		}
 	    }
