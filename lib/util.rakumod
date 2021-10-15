@@ -179,4 +179,18 @@ sub get_part_size($dev) is export
 }
 
 
+sub mount($d) is export
+{
+    say "mounting " ~ $d;
+    my $tdir = '/sd' ~ $d;
+    my $tdev = '/dev/sd' ~ $d;
+    if ($tdir.IO ~~ :e) {
+	qqx/mount -t xfs $tdev $tdir/;
+    } else {
+	qqx/sudo mkdir $tdir/ ;
+	qqx/sudo mount -t xfs $tdev $tdir/;
+    }
+}
+
+
 

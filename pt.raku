@@ -81,6 +81,10 @@ sub MAIN($dirs, $op = 'create',
 		put "plots dir: $t";
 		qqx/chia plots add -d $t/
 	    }
+	    if ($op ~~ 'mount') {
+		my $t = '/dev/sd' ~ $d;
+		mount($d);
+	    }
 
 	    $d = $d.succ;
 	    last if ($d eq $end);
@@ -99,6 +103,10 @@ sub MAIN($dirs, $op = 'create',
 		    my $t = '/sd' ~ $d ~ '/' ~ 'plots';
 		    put "plots dir: $t";
 		    qqx/chia plots add -d $t/
+		}
+		if ($op ~~ 'mount') {
+		    my $t = '/dev/sd' ~ $d;
+		    mount($d);
 		}
 	    }
 	}
@@ -129,6 +137,11 @@ sub MAIN($dirs, $op = 'create',
 	    }
 	    qqx/chia plots add -d $t/;
 	}
+	if ($op ~~ 'mount') {
+	    my $t = '/dev/sd' ~ $d;
+	    mount($d);
+	}
+
 	exit(0);
     }
     
