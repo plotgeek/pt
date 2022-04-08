@@ -122,38 +122,33 @@ sub format($t) is export {
    put mkdir("$*HOME/plots");
 
    my $d = '/dev/sd' ~ $t;
+   my $td = '/sd' ~ $t;
    put mkdir("$d");
 
-   put qqx/parted \/dev\/$d << EOF mklabel gpt mkpart x xfs 0% 100% << EOF/;
+   put qqx/parted \/$d << EOF mklabel gpt mkpart x xfs 0% 100% << EOF/;
 
 
    sleep 2;
 
    put "mkfs ing";
-   put qqx/mkfs.xfs -f \/dev\/$d/;
+   put qqx/mkfs.xfs -f \/$d/;
 
 
    sleep 2;
-   put "configuring fstab";
-   put qqx/echo \/dev\/$d  \/$d xfs defaults 0 0 >> \/etc\/fstab/;
-
    put "mounting dev.";
-   put qqx/mount -a/;
+   put qqx/mount -t xfs $d $td/;
 
    sleep 2;
    put "configure tmp dir t1 t2";
-   qqx/mkdir \/$d\/t1/;
-   qqx/mkdir \/$d\/t2/;
-   qqx/mkdir \/$d\/p/;
-   qqx/mkdir \/$d\/plots/;
+   qqx/mkdir \/$td\/t1/;
+   qqx/mkdir \/$td\/t2/;
+   qqx/mkdir \/$td\/plots/;
 
 
    sleep 2;
    my $user = $*KERNEL.hostname;
    put "chown for user: " ~ $user;
-   #qqx/sudo chown  $user.$user  -R  \/sdb \/sdc \/sdd \/sde \/sdf \/sdg \/sdh \/sdi \/sdj \/sdk \/sdl/;
-
-   qqx/sudo chown  $user.$user  -R  \/$d/;
+   qqx/chown  $user.$user  -R  \/$td/;
 
    put "done";
 }
