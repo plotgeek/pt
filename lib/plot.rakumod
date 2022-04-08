@@ -115,52 +115,45 @@ sub clean(@disks) is export {
     }
 }
 
-sub format(@disks) is export {
+sub format($t) is export {
 
    put mkdir("$*HOME/t1");
    put mkdir("$*HOME/t2");
    put mkdir("$*HOME/plots");
 
-   for @disks -> $d {
-       put mkdir("/$d");
-   } 
+   my $d = '/dev/sd' ~ $t;
+   put mkdir("$d");
 
-   for @disks -> $d {
-       #put $d;
-       put qqx/parted \/dev\/$d << EOF mklabel gpt mkpart x xfs 0% 100% << EOF/;
-   }
+   put qqx/parted \/dev\/$d << EOF mklabel gpt mkpart x xfs 0% 100% << EOF/;
 
-   sleep 5;
+
+   sleep 2;
 
    put "mkfs ing";
-   for @disks -> $d {
-       put qqx/mkfs.xfs -f \/dev\/$d/;
-   }
+   put qqx/mkfs.xfs -f \/dev\/$d/;
 
-   sleep 5;
+
+   sleep 2;
    put "configuring fstab";
-   for @disks -> $d {
-       put qqx/echo \/dev\/$d  \/$d xfs defaults 0 0 >> \/etc\/fstab/;
-   }
+   put qqx/echo \/dev\/$d  \/$d xfs defaults 0 0 >> \/etc\/fstab/;
 
    put "mounting dev.";
    put qqx/mount -a/;
 
-   sleep 5;
+   sleep 2;
    put "configure tmp dir t1 t2";
-   for @disks -> $d {
-       qqx/mkdir \/$d\/t1/;
-       qqx/mkdir \/$d\/t2/;
-       qqx/mkdir \/$d\/p/;
-       qqx/mkdir \/$d\/plots/;
-   }
+   qqx/mkdir \/$d\/t1/;
+   qqx/mkdir \/$d\/t2/;
+   qqx/mkdir \/$d\/p/;
+   qqx/mkdir \/$d\/plots/;
 
-   sleep 5;
+
+   sleep 2;
    my $user = $*KERNEL.hostname;
    put "chown for user: " ~ $user;
    #qqx/sudo chown  $user.$user  -R  \/sdb \/sdc \/sdd \/sde \/sdf \/sdg \/sdh \/sdi \/sdj \/sdk \/sdl/;
-   for @disks ->$d {
-      qqx/sudo chown  $user.$user  -R  \/$d/;
-   }
+
+   qqx/sudo chown  $user.$user  -R  \/$d/;
+
    put "done";
 }

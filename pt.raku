@@ -26,11 +26,6 @@ sub MAIN($dirs, $op = 'create',
 	 exit(0);
     } 
 
-    if ($op ~~ 'format') {
-       format(@disks);        
-       exit(0);
-    }
-
     if ($op ~~ 'rmsys') {
        rmsys(@disks);
        exit(0);
@@ -85,6 +80,10 @@ sub MAIN($dirs, $op = 'create',
 		my $t = '/dev/sd' ~ $d;
 		mount($d);
 	    }
+	    if ($op ~~ 'format') {
+	       format($d);
+	    }
+
 
 	    $d = $d.succ;
 	    last if ($d eq $end);
@@ -108,6 +107,9 @@ sub MAIN($dirs, $op = 'create',
 		    my $t = '/dev/sd' ~ $d;
 		    mount($d);
 		}
+		if ($op ~~ 'format') {
+	       	   format($d);
+	    	}
 	    }
 	}
 	exit(0);
@@ -141,7 +143,9 @@ sub MAIN($dirs, $op = 'create',
 	    my $t = '/dev/sd' ~ $d;
 	    mount($d);
 	}
-
+	if ($op ~~ 'format') {
+       	   format($d);
+    	}
 	exit(0);
     }
     

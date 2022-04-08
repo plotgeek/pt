@@ -43,16 +43,12 @@ rakudo pt.raku b-l  remove
 ## clean t1 & t2 & plots
 clean t1 t2, and plots dir which file size < 100GB
 ```
-rakudo pt.raku sda,sdb,sdc  clean
-or
-rakudo pt.raku sda-sdl clean
-or 
 rakudo pt.raku a-l clean
 ```
 
 ## format disks
 ```
-sudo rakudo pt.raku sdb,sdc,sdd format
+sudo rakudo pt.raku b-l format
 ```
 
 ## remove sysfile 
