@@ -69,7 +69,7 @@ sub MAIN($dirs, $op,
 		qqx/tmux new -s $d -d rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 	    }
 	    if ($op ~~ 'stop') {
-		qqx/screen -S $d -X quit/;
+		qqx/tmux kill-session -t $d /;
 	    }
 	    if ($op ~~ 'add') {
 		my $t = '/sd' ~ $d ~ '/' ~ 'plots';
@@ -96,7 +96,7 @@ sub MAIN($dirs, $op,
 		    qqx/tmux new -s $d -d rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 		}
 		if ($op ~~ 'stop') {
-		    qqx/screen -S $d -X quit/;
+		    qqx/tmux kill-session -t $d /;
 		}
 		if ($op ~~ 'add') {
 		    my $t = '/sd' ~ $d ~ '/' ~ 'plots';
@@ -123,7 +123,7 @@ sub MAIN($dirs, $op,
 	}
 
 	if ($op ~~ 'stop') {
-	    qqx/screen -S $d -X quit/;
+	    qqx/tmux kill-session -t $d/;
 	}
 	if ($op ~~ 'add') {
 	    my $t = '/sd' ~ $d ~ '/' ~ 'plots';
