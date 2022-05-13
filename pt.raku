@@ -13,7 +13,7 @@ grammar Parser {
 }
 
 
-sub MAIN($dirs, $op = 'create', 
+sub MAIN($dirs, $op, 
          $farmer_pk = '9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b', 
          $pool_pk_or_contract_addr = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj') 
 {
@@ -66,7 +66,7 @@ sub MAIN($dirs, $op = 'create',
                 put "farmer: $farmer_pk";
                 put "poolpk or contract addr:   $pool_pk_or_contract_addr";
 
-		qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
+		qqx/tmux new -s $d -d rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 	    }
 	    if ($op ~~ 'stop') {
 		qqx/screen -S $d -X quit/;
@@ -93,7 +93,7 @@ sub MAIN($dirs, $op = 'create',
                     put "farmer: $farmer_pk";
                     put "poolpk or contract addr:   $pool_pk_or_contract_addr";
 
-		    qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
+		    qqx/tmux new -s $d -d rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 		}
 		if ($op ~~ 'stop') {
 		    qqx/screen -S $d -X quit/;
@@ -122,11 +122,6 @@ sub MAIN($dirs, $op = 'create',
 	    $d = $d.substr(2, *);
 	}
 
-	if ($op ~~ 'create') {
-	    put "farmer: $farmer_pk";
-            put "poolpk or contract addr:   $pool_pk_or_contract_addr";
-	    qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
-	}
 	if ($op ~~ 'stop') {
 	    qqx/screen -S $d -X quit/;
 	}
@@ -146,35 +141,13 @@ sub MAIN($dirs, $op = 'create',
 	if ($op ~~ 'format') {
        	   format($d);
     	}
-	exit(0);
-    }
-    
-    for @disks -> $t {
-    	my $d = $t;
-	if $t.contains('sd') {
-	    $d = $t.substr(2, *);
-	}
-	my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
-	my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
 
 	if ($op ~~ 'create') {
 	    put "farmer: $farmer_pk";
-	    put "poolpk or contract addr:   $pool_pk_or_contract_addr";
-	    qqx/screen -S $d -d -m rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
+            put "poolpk or contract addr:   $pool_pk_or_contract_addr";
+	    qqx/tmux new -s $d -d rakudo .\/ploter.raku $d 'create' $farmer_pk $pool_pk_or_contract_addr/;
 	}
-	if ($op ~~ 'stop') {
-	    qqx/screen -S $d -X quit/;
-	}
-	if ($op ~~ 'add') {
-	    my $t = '/sd' ~ $d ~ '/' ~ 'plots';
-	    put "plots dir: $t";
-	    if $t.contains('sda') && $t.chars == 3 {
-		put "home dir: " ~ $*HOME;
-		$t = $*HOME ~ '/' ~ 'plots';
-	    }
-	    qqx/chia plots add -d $t/;
-	}
+
+	exit(0);
     }
-
-
 }
