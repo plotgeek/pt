@@ -18,7 +18,7 @@ sub ploter($t1, $t2, $f_dir, $d, $f, $pub) is export
        $d2 = $d.subst: /\s/, '', :g;
     }
     
-    my $proc = Proc::Async.new: 'chia_plot_k34', '-f', $f, '-c', $pub, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
+    my $proc = Proc::Async.new: 'chia_plot_k34', '-k', 34, '-f', $f, '-c', $pub, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
     my $promise = $proc.start;
     my $task = $d => $promise;
     return $task;
