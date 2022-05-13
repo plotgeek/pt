@@ -1,5 +1,5 @@
 # a hdd plot tool
-PT is designed for small capacity disks plot. like 300G,1T,2T etc. 
+PT is designed for small capacity disks for  plot. like 300G,1T,2T etc. 
 
 mount point:  /sdb /sdc ....   
 plot dir :  /sdb/plots, /sdb/t1, /sdb/t2   
@@ -12,15 +12,15 @@ sudo apt install rakudo
 
 ## create plot task
 ```
-rakudo pt.raku b 
+rakudo pt.raku b create
 or 
-rakudo pt.raku b-l
+rakudo pt.raku b-l create
 or 
 rakudo pt.raku b-l  create b838e026155f6c1484b719820c2de2d8f4181f5fd5741be80b00c405d0a16865c877ce9f6e47a306dc6225cc6f3cefb5  xch1grt0qhtttrm04pts5v0lzzgc7kdysu775472k6agptnfdvpmhvvs020tmd
 ```
 
 ```
-screen -ls  to view plot task.
+tmux ls  to view plot task.
 ```
 
 ## stop plot task
@@ -51,11 +51,6 @@ rakudo pt.raku a-l clean
 sudo rakudo pt.raku b-l format
 ```
 
-## remove sysfile 
-```
-rakudo pt.raku b-l rmsys
-```
-
 
 ## remove all 
 rmall op default delete 2 plots, or use the args
@@ -67,6 +62,12 @@ or
 rakudo pt.raku b rmall 5
 ```
 
+
+## misc 
+remove sysfile 
+```
+rakudo pt.raku b-l rmsys
+```
 
 
 
