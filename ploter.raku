@@ -9,52 +9,27 @@ sub MAIN($dirs, $op = 'create',
          $pub = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj') 
 {
     my @disks = $dirs.chomp.split(',');
-    my @tasks;
 
     if ($op ~~ 'create') { 
-       for @disks -> $d {
-       	 put "dir: $d" ;
-	 my $w = '/sd' ~ $d;
-         my $t1     = '/sd' ~ $d ~ '/' ~ 't1/';
-         my $t2     = '/sd' ~ $d ~ '/' ~ 't2/';
-         my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
-         if ($d eq 'sda') {
-       	   put "home dir: " ~ $*HOME;
-	   $t1 = $*HOME ~ '/' ~ 't1/';
-	   $t2 = $*HOME ~ '/' ~ 't2/';
-	   $f_dir = $*HOME ~ '/' ~ 'plots/';
-         }
-         my $p = ploter($t1, $t2, $f_dir, $d, $f, $pub);
-         @tasks.push: $p;
-       }
-    
        loop {
-    	 my $n_t = @tasks.elems;
-	 my $i = 0;
-	 while ($i < $n_t) {
-	    my $t  = @tasks[$i];
-    	    put "{$n_t}, {$t.key}  = > {$t.value}";
-
-	    my $d     =  $t.key;
-	    my $p     =  $t.value;
-	    my $t1    = '/sd' ~ $d ~ '/' ~ 't1/';
-            my $t2    = '/sd' ~ $d ~ '/' ~ 't2/';
-            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
-	    if $d ~~ /sda/ {
-       	      put "home dir: " ~ $*HOME;
-	      $t1 = $*HOME ~ '/' ~ 't1/';
-	      $t2 = $*HOME ~ '/' ~ 't2/';
-	      $f_dir = $*HOME ~ '/' ~ 'plots/';
-            }
-
-	    put do given $p.status {
-	       when Planned { "Still working on it" }
-	       when Kept    { @tasks[$i] = ploter($t1, $t2, $f_dir, $d, $f, $pub) }
-	       when Broken  { "Error!!!" }    
-	    }
-	    $i++;
-	}
-	sleep 5;
+       	   for @disks -> $d {
+       	       put "dir: $d" ;
+	       my $w = '/sd' ~ $d;
+               my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
+	       # TODO: check f_dir wheather exist
+	       next if (get_num($f_dir) > 8);
+	       my $proc = ploter($f_dir, $d, $f, $pub);
+  	       my $promise = $proc.start;	   
+               loop {
+    	            put do given $promise.status {
+      	         	 when Planned { "Still working on $f_dir" } # TODO send msg to message queue
+	             	 when Kept    { $proc = ploter($f_dir, $d, $f, $pub); $promise = $proc.start }
+	             	 when Broken  { "Error!!!" }    
+      	     	    }
+	      	    last if (get_num($f_dir) > 9);
+	      	    sleep 1;      
+	       }
+       	   }
        }
      }
 }

@@ -7,21 +7,12 @@ grammar Parser {
 	token end {\w+}
 }
 
-sub ploter($t1, $t2, $f_dir, $d, $f, $pub) is export
+sub ploter($f_dir, $d, $f, $pub) is export
 {
     my $d2 =  $d;
     
-    if $d ~~ /\// {
-       $d2 = $d.subst: /\//, '_', :g;
-    }
-    if $d2 ~~ /\s/ {
-       $d2 = $d.subst: /\s/, '', :g;
-    }
-    
-    my $proc = Proc::Async.new: 'chia_plot_k34', '-k', 32, '-r', 2, '-f', $f, '-c', $pub, '-t', $t1,  '-2', $t2,  '-d', $f_dir;
-    my $promise = $proc.start;
-    my $task = $d => $promise;
-    return $task;
+    my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-c', $pub, $f_dir;
+    return $proc;
 }
 
 

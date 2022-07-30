@@ -193,4 +193,14 @@ sub mount($d) is export
 }
 
 
+sub get_num($d) is export
+{
+    my $cnt = 0;
+    if ($d.IO ~~ :e) {
+       for dir($d.IO.absolute) -> $tmp {
+          $cnt++;    			    
+       }
+    }
+    return $cnt;
+}
 
