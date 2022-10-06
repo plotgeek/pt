@@ -205,7 +205,7 @@ sub get_num($d) is export
 
 sub set_farmer_peer($p)  is export
 {
-   my $fh = $p.IO.open :rw, :bin;
+   my $fh = $p.IO.open :rw;
    "conf file: $p".say;
 
    my $current_pos = 0;
