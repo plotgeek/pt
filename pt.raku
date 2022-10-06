@@ -20,9 +20,13 @@ sub MAIN($dirs, $op,
     my @disks = $dirs.chomp.split(',');
     my @tasks;
 
-
     if ($op ~~ 'clean') {
          clean(@disks);
+	 exit(0);
+    } 
+    if ($op ~~ 'count') {
+         my $cnt = count(@disks);
+	 say "total counts: $cnt";
 	 exit(0);
     } 
 

@@ -178,7 +178,6 @@ sub get_part_size($dev) is export
     }
 }
 
-
 sub mount($d) is export
 {
     say "mounting " ~ $d;
@@ -204,3 +203,44 @@ sub get_num($d) is export
     return $cnt;
 }
 
+sub set_farmer_peer($p)  is export
+{
+   my $fh = $p.IO.open :rw, :bin;
+   "conf file: $p".say;
+
+   my $current_pos = 0;
+   my @lpos;
+   my $harvester_pos;
+   my $farmer_peer_pos;
+   my $host_pos;
+
+   for $fh.lines -> $l {
+       $current_pos+=$l.chars;
+       @lpos.push($current_pos);
+   }
+   
+   for @lpos -> $l {
+       $fh.seek($l);
+       if ($fh.readchars(10) ~~ "harvester:") {
+       	  say "found it harvester_pos: $l";
+	  $harvester_pos = $l;
+       }
+       if ($fh.readchars(12) ~~ "farmer_peer:") {
+       	  say "found it farmer_peer: $l";
+	  $farmer_peer_pos = $l;
+       }
+       $fh.seek(0);
+   }
+
+   say $fh.tell;
+   say $farmer_peer_pos = $harvester_pos + 110;
+   $fh.seek($farmer_peer_pos,SeekFromCurrent);
+
+   my $buf = Buf.new: 192,46,168,46,1,46,1;
+   $fh.write: $buf;
+   say $fh.tell;
+   $fh.readchars(12).say;
+
+   
+   close $fh;
+}
