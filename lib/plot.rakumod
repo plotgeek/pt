@@ -27,17 +27,6 @@ sub clean_plots($p) {
     }
 }
 
-sub count_plots($p)  {
-    my $cnt = 0; 
-    if ($p.IO ~~ :e ) {
-        for dir($p.IO.absolute) -> $tmp {
-            if ($tmp.IO.s/1024/1024/1024 > 100) {
-	        $cnt++;
-            }
-        }
-	return $cnt;
-    }
-}
 
 
 sub remove($t) {
