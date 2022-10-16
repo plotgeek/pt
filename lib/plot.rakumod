@@ -118,22 +118,5 @@ sub clean(@disks) is export {
     }
 }
 
-sub count(@disks) is export {
-    		  
-    my $sum = 0;
-    
-    for @disks -> $t {
-    	my $d = $t;
-
-	if $t.contains('sd') {
-	    $d = $t.substr(2, *);
-	}
-
-	my $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	put "countingggggggggg, $plots_dir";
-	$sum += count_plots($plots_dir);
-    }
-    return $sum;
-}
 
 
