@@ -121,54 +121,16 @@ sub clean(@disks) is export {
 sub count(@disks) is export {
     		  
     my $sum = 0;
-    if @disks.contains('-') {
-        my $p = Parser.parse: @disks;
-        my $start = $p<start>.chomp;
-        my $sep = $p<sep>.chomp;
-        my $end = $p<end>.chomp;
-
-	if $start.contains('sd') {
-	   $start = $start.substr(2, *);
-	}
-	if $end.contains('sd') {
-	   $end = $end.substr(2, *);
-	}
-
-	say "Start: $start, End: $end";
-	my $d = $start;
-	loop {
-	   my $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	   $sum += count_plots($plots_dir);
-	   $d = $d.succ;	     
-	   last if ($d eq $end);
-	   LAST {
-	      $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	      $sum += count_plots($plots_dir);
-	   }
-	}
-      
-      return $sum;	
-    }
-
-    if (@disks.elems == 1) {
-        my $d = @disks;
-
-        if $d.contains('sd') {
-            $d = $d.substr(2, *);
-        }
-   	my $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-        $sum = count_plots($plots_dir);
-
-	return $sum;
-    }
     
     for @disks -> $t {
     	my $d = $t;
-        put "countingggggggggg";
+
 	if $t.contains('sd') {
 	    $d = $t.substr(2, *);
 	}
+
 	my $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	put "countingggggggggg, $plots_dir";
 	$sum += count_plots($plots_dir);
     }
     return $sum;
