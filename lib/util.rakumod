@@ -304,3 +304,43 @@ sub count(@disks) is export {
     }
     return $sum;
 }
+
+
+
+sub clean_plots($p) {
+    if ($p.IO ~~ :e ) {
+        for dir($p.IO.absolute) -> $tmp {
+            if ($tmp.IO.s/1024/1024/1024 < 100) {
+		say "cleaning $tmp";
+                unlink $tmp;
+            }
+        }
+    }
+}
+
+
+sub remove($t) {
+   say "cleaning file $t";
+   if ($t.IO ~~ :e) {
+     for dir($t.IO.absolute) -> $tmp {
+       unlink $tmp;
+     }
+   }
+}
+
+sub clean(@disks) is export {
+
+    for @disks -> $t {
+    	my $d = $t;
+        put "cleaningggggggggg";
+	if $t.contains('sd') {
+	    $d = $t.substr(2, *);
+	}
+	my $t1 = '/sd' ~ $d ~ '/' ~ 't1';
+	my $t2 = '/sd' ~ $d ~ '/' ~ 't2';
+	my $plots = '/sd' ~ $d ~ '/' ~ 'plots';
+	remove($t1);
+	remove($t2);
+	clean_plots($plots);
+    }
+}
