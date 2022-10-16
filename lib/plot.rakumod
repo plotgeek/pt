@@ -1,12 +1,5 @@
 unit module plot;
 
-grammar Parser {
-	rule TOP {<start><sep><end>}
-	token sep { '-' }
-	token start {\w+}
-	token end {\w+}
-}
-
 sub ploter($f_dir, $d, $f, $pub) is export
 {
     my $d2 =  $d;
