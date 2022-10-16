@@ -178,16 +178,16 @@ sub get_part_size($dev) is export
     }
 }
 
-sub mount($d) is export
+sub mount($d, $fs) is export
 {
     say "mounting " ~ $d;
     my $tdir = '/sd' ~ $d;
     my $tdev = '/dev/sd' ~ $d;
     if ($tdir.IO ~~ :e) {
-	qqx/mount -t xfs $tdev $tdir/;
+	qqx/mount -t $fs $tdev $tdir/;
     } else {
 	qqx/sudo mkdir $tdir/ ;
-	qqx/sudo mount -t xfs $tdev $tdir/;
+	qqx/sudo mount -t $fs $tdev $tdir/;
     }
 }
 
@@ -205,42 +205,72 @@ sub get_num($d) is export
 
 sub set_farmer_peer($p)  is export
 {
-   my $fh = $p.IO.open :rw;
-   "conf file: $p".say;
+   my $fh = $p.IO.open :rw ;
 
    my $current_pos = 0;
    my @lpos;
-   my $harvester_pos;
-   my $farmer_peer_pos;
-   my $host_pos;
+   my $harvester_pos = 0;
+   my $farmer_peer_pos = 0;
+   my $host_pos = 0;
 
    for $fh.lines -> $l {
-       $current_pos+=$l.chars;
-       @lpos.push($current_pos);
-   }
-   
-   for @lpos -> $l {
-       $fh.seek($l);
-       if ($fh.readchars(10) ~~ "harvester:") {
-       	  say "found it harvester_pos: $l";
-	  $harvester_pos = $l;
+       if $l.contains("harvester:") {
+	  $harvester_pos = $fh.tell;
        }
-       if ($fh.readchars(12) ~~ "farmer_peer:") {
-       	  say "found it farmer_peer: $l";
-	  $farmer_peer_pos = $l;
+       if $l.contains("farmer_peer:") {
+	  $farmer_peer_pos = $fh.tell;
+	  say $l;
        }
-       $fh.seek(0);
+       if $l.contains("host:") {
+       }
    }
 
-   say $fh.tell;
-   say $farmer_peer_pos = $harvester_pos + 110;
-   $fh.seek($farmer_peer_pos,SeekFromCurrent);
 
-   my $buf = Buf.new: 192,46,168,46,1,46,1;
-   $fh.write: $buf;
-   say $fh.tell;
-   $fh.readchars(12).say;
+   #$fh.seek($farmer_peer_pos+6,SeekFromBeginning);
+   #my $buf = Buf.new: 0x31,0x39,0x32,0x2e,0x31,0x36,0x38,0x2e,0x31,0x2e,0x31;
+   #$fh.write: $buf;
 
-   
+   $fh.seek($farmer_peer_pos,SeekFromBeginning);
+   say $fh.readchars(1).Str;
+
    close $fh;
+}
+
+
+sub format($t, $fs) is export {
+
+   put mkdir("$*HOME/t1");
+   put mkdir("$*HOME/t2");
+   put mkdir("$*HOME/plots");
+
+   my $d = '/dev/sd' ~ $t;
+   my $td = '/sd' ~ $t;
+   put mkdir("$d");
+
+   put qqx/parted \/$d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
+
+
+   sleep 2;
+
+   put "mkfs ing";
+   put qqx/mkfs.$fs -f \/$d/;
+
+
+   sleep 2;
+   put "mounting dev.";
+   put qqx/mount -t $fs $d $td/;
+
+   sleep 2;
+   put "configure tmp dir t1 t2";
+   qqx/mkdir \/$td\/t1/;
+   qqx/mkdir \/$td\/t2/;
+   qqx/mkdir \/$td\/plots/;
+
+
+   sleep 2;
+   my $user = $*KERNEL.hostname;
+   put "chown for user: " ~ $user;
+   qqx/chown  $user.$user  -R  \/$td/;
+
+   put "done";
 }

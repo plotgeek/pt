@@ -174,40 +174,4 @@ sub count(@disks) is export {
     return $sum;
 }
 
-sub format($t) is export {
 
-   put mkdir("$*HOME/t1");
-   put mkdir("$*HOME/t2");
-   put mkdir("$*HOME/plots");
-
-   my $d = '/dev/sd' ~ $t;
-   my $td = '/sd' ~ $t;
-   put mkdir("$d");
-
-   put qqx/parted \/$d << EOF mklabel gpt mkpart x xfs 0% 100% << EOF/;
-
-
-   sleep 2;
-
-   put "mkfs ing";
-   put qqx/mkfs.xfs -f \/$d/;
-
-
-   sleep 2;
-   put "mounting dev.";
-   put qqx/mount -t xfs $d $td/;
-
-   sleep 2;
-   put "configure tmp dir t1 t2";
-   qqx/mkdir \/$td\/t1/;
-   qqx/mkdir \/$td\/t2/;
-   qqx/mkdir \/$td\/plots/;
-
-
-   sleep 2;
-   my $user = $*KERNEL.hostname;
-   put "chown for user: " ~ $user;
-   qqx/chown  $user.$user  -R  \/$td/;
-
-   put "done";
-}
