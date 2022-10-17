@@ -63,6 +63,15 @@ or
 rakudo pt.raku b rmall 5
 ```
 
+## mount
+mount disk at /sdx
+```
+rakudo pt.raku b-z mount
+or
+rakudo pt.raku b-z mount xfs
+or
+rakudo pt.raku b-z mount f2fs
+```
 
 ## misc op
 remove sysfile 
