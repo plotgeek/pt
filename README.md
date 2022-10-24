@@ -79,5 +79,10 @@ remove sysfile
 rakudo pt.raku b-l rmsys
 ```
 
+count plots file  
+```
+rakudo pt.raku b-l count
+```
+
 
 
