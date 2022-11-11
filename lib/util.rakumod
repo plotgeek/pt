@@ -290,6 +290,7 @@ sub count_plots($p)  {
 sub count(@disks) is export {
     		  
     my $sum = 0;
+    my $num   = 0;
     
     for @disks -> $t {
     	my $d = $t;
@@ -299,8 +300,10 @@ sub count(@disks) is export {
 	}
 
 	my $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	put "countingggggggggg, $plots_dir";
-	$sum += count_plots($plots_dir);
+	
+	$num = count_plots($plots_dir);
+	$sum += $num;
+	put "counting, $plots_dir: $num plots";
     }
     return $sum;
 }
