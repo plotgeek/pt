@@ -53,7 +53,7 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
     } 
     if ($op ~~ 'count') {
         my $cnt = count(@disks);
-	say "total counts: $cnt";
+	say @disks.elems  ~ " disks, total counts: $cnt";
     } 
     if ($op ~~ 'rmsys') {
         rmsys(@disks);
