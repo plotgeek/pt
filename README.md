@@ -84,5 +84,15 @@ count plots file
 rakudo pt.raku b-l count
 ```
 
+test write to find which disks is spin   
+test op will wirte a 10G file   
+```
+rakudo pt.raku k test
+```
+clean the test file
+```
+rakudo pt.raku k test clean
+```
+
 
 
