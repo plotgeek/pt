@@ -88,9 +88,7 @@ test write to find which disks is spin
 test op default  wirte a 10G file   
 ```
 rakudo pt.raku k test
-```
 or 
-```
 rakudo pt.raku k test write
 ```
 or you can specify the size of the file to write
