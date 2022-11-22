@@ -203,7 +203,7 @@ sub get_num($d) is export
     return $cnt;
 }
 
-sub set_farmer_peer($p)  is export
+sub set_farmer_peer($ip, $p)  is export
 {
    my $fh = $p.IO.open :rw ;
 
@@ -231,7 +231,7 @@ sub set_farmer_peer($p)  is export
    #$fh.write: $buf;
 
    $fh.seek($farmer_peer_pos,SeekFromBeginning);
-   say $fh.readchars(1).Str;
+   say $fh.readchars(9).Str;
 
    close $fh;
 }
@@ -345,5 +345,25 @@ sub clean(@disks) is export {
 	remove($t1);
 	remove($t2);
 	clean_plots($plots);
+    }
+}
+
+sub test(@disks, $op='write') is export {
+    
+    for @disks -> $t {
+    	my $d = $t;
+    	
+	if $t.contains('sd') {
+	   $d = $t.substr(2, *);
+	}
+	my $zerofile = '/sd' ~ $d ~ '/' ~ 'zerofile';
+	put "testing $d";
+	say $zerofile;
+	if ($op ~~ 'write') {
+	   qqx/dd if=\/dev\/zero of=$zerofile bs=1024k count=10240/;
+	}
+	if ($op ~~ 'clean') {
+	   unlink $zerofile.IO.absolute;
+	}
     }
 }
