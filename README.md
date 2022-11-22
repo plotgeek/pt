@@ -85,10 +85,19 @@ rakudo pt.raku b-l count
 ```
 
 test write to find which disks is spin   
-test op will wirte a 10G file   
+test op default  wirte a 10G file   
 ```
 rakudo pt.raku k test
 ```
+or 
+```
+rakudo pt.raku k test write
+```
+or you can specify the size of the file to write
+```
+rakudo pt.raku k test write 3g
+```
+
 clean the test file
 ```
 rakudo pt.raku k test clean
