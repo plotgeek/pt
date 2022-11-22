@@ -348,8 +348,18 @@ sub clean(@disks) is export {
     }
 }
 
-sub test(@disks, $op='write') is export {
-    
+sub get_size($size)
+{
+	say "$size";
+	my $t = $size.lc;
+	my $s = $t.subst: /g$/,'';
+	return $s;
+}
+
+sub test(@disks, $op='write', $size = '10G') is export {
+
+
+
     for @disks -> $t {
     	my $d = $t;
     	
@@ -360,7 +370,8 @@ sub test(@disks, $op='write') is export {
 	put "testing $d";
 	say $zerofile;
 	if ($op ~~ 'write') {
-	   qqx/dd if=\/dev\/zero of=$zerofile bs=1024k count=10240/;
+	   my $count = get_size($size) * 1024;
+	   qqx/dd if=\/dev\/zero of=$zerofile bs=1024k count=$count/;
 	}
 	if ($op ~~ 'clean') {
 	   unlink $zerofile.IO.absolute;

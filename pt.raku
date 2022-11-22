@@ -73,6 +73,8 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
     if ($op ~~ 'test') {
 	if (@*ARGS.elems == 3) {
 	   test(@disks, $arg_3)
+	} elsif (@*ARGS.elems == 4) {
+	   test(@disks, $arg_3, $arg_4);
 	} else {
 	   test(@disks);
 	}
