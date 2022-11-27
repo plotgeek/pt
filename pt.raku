@@ -1,4 +1,4 @@
-#!/usr/local/bin/env raku
+#!/usr/bin/env rakudo
 
 
 use lib 'lib';
