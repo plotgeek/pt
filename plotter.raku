@@ -18,12 +18,12 @@ sub MAIN($dirs, $op = 'create',
                my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
 	       # TODO: check f_dir wheather exist
 	       next if (get_num($f_dir) > 8);
-	       my $proc = ploter($f_dir, $d, $f, $pub);
+	       my $proc = plotter($f_dir, $d, $f, $pub);
   	       my $promise = $proc.start;	   
                loop {
     	            put do given $promise.status {
       	         	 when Planned { "Still working on $f_dir" } # TODO send msg to message queue
-	             	 when Kept    { $proc = ploter($f_dir, $d, $f, $pub); $promise = $proc.start }
+	             	 when Kept    { $proc = plotter($f_dir, $d, $f, $pub); $promise = $proc.start }
 	             	 when Broken  { "Error!!!" }    
       	     	    }
 	      	    last if (get_num($f_dir) > 9);
