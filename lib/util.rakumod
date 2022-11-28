@@ -356,10 +356,8 @@ sub get_size($size)
 	return $s;
 }
 
-sub test(@disks, $op='write', $size = '10G') is export {
-
-
-
+sub test(@disks, $op='write', $size = '10G') is export 
+{
     for @disks -> $t {
     	my $d = $t;
     	
