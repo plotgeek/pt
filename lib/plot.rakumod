@@ -1,6 +1,6 @@
 unit module plot;
 
-sub ploter($f_dir, $d, $f, $pub) is export
+sub plotter($f_dir, $d, $f, $pub) is export
 {
     my $d2 =  $d;
     
