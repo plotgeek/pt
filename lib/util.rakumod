@@ -106,45 +106,15 @@ sub dormall($d,$n) {
    }
 }
 
-sub rmall(@disks,$n) is export {
-    if @disks.contains('-') {
-        my $p = Parser.parse: @disks;
-        my $start = $p<start>.chomp;
-        my $sep = $p<sep>.chomp;
-        my $end = $p<end>.chomp;
-
-
-	if $start.contains('sd') {
-	   $start = $start.substr(2, *);
+sub rm(@disks,$n) is export 
+{
+    for @disks -> $t {
+    	my $d = $t;
+	if $t.contains('sd') {
+	   $d = $t.substr(2, *);
 	}
-	if $end.contains('sd') {
-	   $end = $end.substr(2, *);
-	}
-
-	say "Start: $start, End: $end";
-	my $d = $start;
-	loop {
-	   dormall($d,$n);
-	   $d = $d.succ;	     
-	   last if ($d eq $end);
-	   LAST {
-	      dormall($d,$n);	      	  
-	   }
-	}
-	
-      exit(0);
-    }
-
-    if (@disks.elems == 1) {
-        my $d = @disks;
-
-	if $d.contains('sd') {
-            $d = $d.substr(2, *);
-        }
 	dormall($d,$n);
-	exit(0);
     }
-	
 }
 
 

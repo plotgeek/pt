@@ -58,7 +58,7 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
     if ($op ~~ 'rmsys') {
         rmsys(@disks);
     }
-    if ($op ~~ 'rmall') {
+    if ($op ~~ 'rm') {
         my $n;
         if  (@*ARGS.elems != 3) {
 	    $n = 2;
@@ -68,7 +68,7 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
         say "args: " ~ @*ARGS.elems;
         say "n:  " ~ $n;
 	
-        rmall(@disks,$n);
+        rm(@disks,$n);
     }
     if ($op ~~ 'test') {
 	if (@*ARGS.elems == 3) {
