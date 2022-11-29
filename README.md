@@ -53,14 +53,14 @@ sudo rakudo pt.raku b-l format
 ```
 
 
-## rmall
-rmall op default delete 2 plots, or use the args
+## rm
+rm op default delete 2 plots, or use the args
 ```
-rakudo pt.raku b-l rmall
+rakudo pt.raku b-l rm
 or
-rakudo pt.raku b rmall
+rakudo pt.raku b rm
 or 
-rakudo pt.raku b rmall 5
+rakudo pt.raku b rm 5
 ```
 
 ## mount
