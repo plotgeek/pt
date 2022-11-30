@@ -8,7 +8,7 @@ sub MAIN($dirs, $op = 'create',
          $f = '9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b', 
          $pub = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj') 
 {
-    my @disks = $dirs.chomp.split(',');
+    my @disks = parse($dirs);
 
     if ($op ~~ 'create') { 
        loop {
