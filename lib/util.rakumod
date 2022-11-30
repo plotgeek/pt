@@ -346,3 +346,34 @@ sub test(@disks, $op='write', $size = '10G') is export
 	}
     }
 }
+
+sub parse($dirs) is export
+{
+    my @disks;
+    if ($dirs.contains(',')) {	
+       @disks = $dirs.chomp.split(',');
+    } elsif ($dirs.contains('-')) {
+       my $p     = Parser.parse: $dirs;
+       my $start = $p<start>.chomp;
+       my $sep   = $p<sep>.chomp;
+       my $end   = $p<end>.chomp;
+
+       if $start.contains('sd') {
+	    $start = $start.substr(2, *);
+       }
+       if $end.contains('sd') {
+	    $end = $end.substr(2, *);
+       }
+
+       @disks.push: $start;
+       my $t = $start;
+       loop {
+	  $t = $t.succ;
+	  @disks.push: $t;
+	  last if ($t eq $end);
+       }
+    } else {
+       @disks.push: $dirs;
+    }
+    return @disks;
+}
