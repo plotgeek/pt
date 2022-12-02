@@ -20,8 +20,24 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
         clean(@disks);
     } 
     if ($op ~~ 'count') {
-        my $cnt = count(@disks);
-	say @disks.elems  ~ " disks, total counts: $cnt";
+        my $cnt = 0;
+        if (@*ARGS.elems == 2) {
+           $cnt = count(@disks, 'plot');
+	   say @disks.elems  ~ " disks, total : $cnt plots";
+	}
+	if (@*ARGS.elems == 3) {
+	   my $ft = $arg_3;
+	   if ($arg_3 ~~ 'plot') {
+	      $cnt = count(@disks, 'plot');
+	   }
+	   if ($arg_3 ~~ 'spt') {
+	      $cnt = count(@disks, 'spt');      
+	   }
+	   if ($arg_3 ~~ 'fpt') {
+	      $cnt = count(@disks, 'fpt')
+	   }
+	   say @disks.elems  ~ " disks, total $arg_3: $cnt ";
+	}
     } 
     if ($op ~~ 'rmsys') {
         rmsys(@disks);

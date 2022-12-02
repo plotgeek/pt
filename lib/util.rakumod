@@ -246,34 +246,46 @@ sub format($t, $fs) is export {
 }
 
 
-sub count_plots($p)  {
+sub count_plots($d, $ft)  {
     my $cnt = 0; 
-    if ($p.IO ~~ :e ) {
-        for dir($p.IO.absolute) -> $tmp {
-            if ($tmp.IO.s/1024/1024/1024 > 100) {
-	        $cnt++;
-            }
-        }
+    if ($d.IO ~~ :e ) {
+        if ($ft ~~ 'plots') {
+           for dir($d.IO.absolute) -> $tmp {
+                if ($tmp.basename.match(/.plot$/)) {
+	       	   $cnt++;
+            	}
+           }
+	} elsif ($ft ~~ 'fpt') {
+           for dir($d.IO.absolute) -> $tmp {
+                if ($tmp.basename.match(/.fpt$/)) {
+	       	   $cnt++;
+            	}
+           }
+	} elsif ($ft ~~ 'spt') {
+           for dir($d.IO.absolute) -> $tmp {
+                if ($tmp.basename.match(/.spt$/)) {
+	       	   $cnt++;
+            	}
+           }
+	} else {
+	  say "wrong file type.";
+	}
+	
 	return $cnt;
     }
 }
-sub count(@disks) is export {
-    		  
+sub count(@disks, $ft = 'plot') is export {
     my $sum = 0;
-    my $num   = 0;
-    
+    my $num = 0;
     for @disks -> $t {
     	my $d = $t;
-
 	if $t.contains('sd') {
 	    $d = $t.substr(2, *);
 	}
-
 	my $plots_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	
-	$num = count_plots($plots_dir);
+	$num = count_plots($plots_dir, $ft);
 	$sum += $num;
-	put "counting, $plots_dir: $num plots";
+	say "counting, $plots_dir: $num $ft";
     }
     return $sum;
 }
