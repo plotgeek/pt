@@ -249,7 +249,7 @@ sub format($t, $fs) is export {
 sub count_plots($d, $ft)  {
     my $cnt = 0; 
     if ($d.IO ~~ :e ) {
-        if ($ft ~~ 'plots') {
+        if ($ft ~~ 'plot') {
            for dir($d.IO.absolute) -> $tmp {
                 if ($tmp.basename.match(/.plot$/)) {
 	       	   $cnt++;
