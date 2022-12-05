@@ -22,6 +22,7 @@ sub MAIN($dirs,
 	       $subpath = $subpath ~ "-d $f_dir ";
 	       $sname = $sname ~ $t;
 	   }
+	   say "path : $subpath";
 	   nossd($sname, $subpath, $addr);
        }   
     } elsif ($op ~~ 'spt') {
