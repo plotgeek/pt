@@ -5,7 +5,7 @@ use plot;
 use util;
 
 sub MAIN($dirs, 
-    	 $op = 'spt', 
+    	 $op = 'sf', 
 	 $addr = 'xch1xy4kmhd6avkde5z0h67mefzgakeq9ahnj802tuxjluq7prj9rhjqre2cjj')
 {
     my @disks = parse($dirs);
