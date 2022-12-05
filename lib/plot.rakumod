@@ -8,9 +8,10 @@ sub plotter($f_dir, $d, $f, $pub) is export
     return $proc;
 }
 
-sub nossd($op, $path, $addr) is export
+sub nossd($s, $path, $addr) is export
 {
-    qqx/tmux new -s $op -d  client  $path  -c  5  -a $addr/;
+    #say "tmux new -s $s -d  client  $path -s $s  -m 32G -c  5  -a $addr";	
+    qqx/tmux new -s $s -d  client  $path -s $s  -m 32G -c  5  -a $addr/;	
 }
 
 
