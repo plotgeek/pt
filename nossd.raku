@@ -12,8 +12,31 @@ sub MAIN($dirs,
     my @tasks = @disks.rotor: 3, :partial;
     my $path = "";
 
-
-    if ($op ~~ 'sf') {
+    if ($op ~~ 'mf') {
+       for @tasks -> @s {
+       	   my $subpath = "";
+	   my $sname = $op ~ '_';
+	   for @s -> $t {
+	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
+	       $subpath = $subpath ~ "-d,tf $f_dir ";
+	       $sname = $sname ~ $t;
+	   }
+	   say "path : $subpath";
+	   nossd($sname, $subpath, $addr);
+       }   
+    } elsif ($op ~~ 'ms') {
+       for @tasks -> @s {
+       	   my $subpath = "";
+	   my $sname = $op ~ '_';
+	   for @s -> $t {
+	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
+	       $subpath = $subpath ~ "-d,ts $f_dir ";
+	       $sname = $sname ~ $t;
+	   }
+	   say "path : $subpath";
+	   nossd($sname, $subpath, $addr);
+       }   
+    } elsif ($op ~~ 'sf') {
        for @tasks -> @s {
        	   my $subpath = "";
 	   my $sname = $op ~ '_';
