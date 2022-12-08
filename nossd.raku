@@ -59,15 +59,13 @@ sub MAIN($dirs,
        say "path : $path";
        nossd($sname, $path, $addr);
     } elsif ($op ~~ 'fpt') {
-       my $sname = $op ~ '_';
        for @disks -> $d {
            put "dir: $d" ;
            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
-	   $path = $path ~ "-d,tf $f_dir";
-	   $sname = $sname ~ $d;
+	   my $path = "-d,tf $f_dir";
+	   my $sname = $op ~ '_' ~ $d;
+       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d '8G'/;
        }
-       say "path : $path";
-       nossd($sname, $path, $addr);	
     } elsif ($op ~~ 'harvester') {
        my $sname = $op ~ '_';
        for @disks -> $d {
