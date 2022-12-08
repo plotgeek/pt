@@ -5,26 +5,14 @@ use plot;
 use util;
 
 sub MAIN($dirs, 
-    	 $op = 'sf', 
+    	 $op = 'ms', 
 	 $addr = 'xch1xy4kmhd6avkde5z0h67mefzgakeq9ahnj802tuxjluq7prj9rhjqre2cjj')
 {
     my @disks = parse($dirs);
     my @tasks = @disks.rotor: 3, :partial;
     my $path = "";
 
-    if ($op ~~ 'mf') {
-       for @tasks -> @s {
-       	   my $subpath = "";
-	   my $sname = $op ~ '_';
-	   for @s -> $t {
-	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
-	       $subpath = $subpath ~ "-d,tf $f_dir ";
-	       $sname = $sname ~ $t;
-	   }
-	   say "path : $subpath";
-	   nossd($sname, $subpath, $addr);
-       }   
-    } elsif ($op ~~ 'ms') {
+    if ($op ~~ 'ms') {
        for @tasks -> @s {
        	   my $subpath = "";
 	   my $sname = $op ~ '_';
