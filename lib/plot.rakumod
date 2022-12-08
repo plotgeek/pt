@@ -14,4 +14,10 @@ sub nossd($s, $path, $addr, $mem = '32G') is export
     qqx/tmux new -s $s -d  client  $path -s $s  -m $mem  -c  5  -a $addr/;	
 }
 
+sub nossd_fpt($sname, $path, $mem = '8G') is export
+{
+    my $proc = Proc::Async.new: 'client', '-d,tf', $path, '-c', 5, '-m', $mem, '-s', $sname;
+    return $proc;
+}
+
 
