@@ -5,7 +5,7 @@ use plot;
 use util;
 
 
-sub MAIN($d, $mem = '8G')
+sub MAIN($d, $mem = '4G')
 {
 
     my $sname   = 'fpt_' ~ $d;
