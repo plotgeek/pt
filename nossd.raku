@@ -10,7 +10,7 @@ sub MAIN($dirs,
 {
     my @disks = parse($dirs);
     my @tasks = @disks.rotor: 3, :partial;
-    my $path = "";
+    my $path  = "";
 
     if ($op ~~ 'ms') {
        for @tasks -> @s {
@@ -52,7 +52,7 @@ sub MAIN($dirs,
            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
 	   my $path = "-d,tf $f_dir";
 	   my $sname = $op ~ '_' ~ $d;
-       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d '8G'/;
+       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d '4G'/;
        }
     } elsif ($op ~~ 'harvester') {
        my $sname = $op ~ '_';
