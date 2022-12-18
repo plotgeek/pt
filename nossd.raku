@@ -10,6 +10,7 @@ sub MAIN($dirs, $op = 'ms')
 {
     my $conf  = Conf.new;
     say $conf.addr;
+    say "dir: $dirs";
     my @disks = parse($dirs);
     my @tasks = @disks.rotor: $conf.num_of_spt_disks, :partial;
     my $path  = "";
@@ -58,14 +59,15 @@ sub MAIN($dirs, $op = 'ms')
        	   qqx/tmux new -s $sname -d rakudo fpt.raku $d $mem/;
        }
     } elsif ($op ~~ 'harvester') {
-       my $sname = $op ~ '_';
+       my $sname = $op ~ '_' ~ $dirs;
        for @disks -> $d {
            put "dir: $d" ;
            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
 	   $path = $path ~ "-d,r $f_dir";
-	   $sname = $sname ~ $d;
+	   #$sname = $sname ~ $d;
        }
        say "path : $path";
+       say "sname：$sname";
        nossd($sname, $path, $conf.addr);
     } else {
        say "wrong op type $op";
