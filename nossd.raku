@@ -1,16 +1,17 @@
 #!/usr/bin/env rakudo
 
 use lib 'lib';
-use lib '.';
-use conf;
+use lib ".";
+use Conf;
 use plot;
 use util;
 
 sub MAIN($dirs, $op = 'ms')
 {
-    say $addr;
+    my $conf  = Conf.new;
+    say $conf.addr;
     my @disks = parse($dirs);
-    my @tasks = @disks.rotor: $spt_disks, :partial;
+    my @tasks = @disks.rotor: $conf.num_of_spt_disks, :partial;
     my $path  = "";
 
     if ($op ~~ 'ms') {
@@ -23,7 +24,7 @@ sub MAIN($dirs, $op = 'ms')
 	       $sname = $sname ~ $t;
 	   }
 	   say "path : $subpath";
-	   nossd($sname, $subpath, $addr, $mem_spt);
+	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt);
        }   
     } elsif ($op ~~ 'sf') {
        for @tasks -> @s {
@@ -35,7 +36,7 @@ sub MAIN($dirs, $op = 'ms')
 	       $sname = $sname ~ $t;
 	   }
 	   say "path : $subpath";
-	   nossd($sname, $subpath, $addr, $mem_spt);
+	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt);
        }   
     } elsif ($op ~~ 'spt') {
        my $sname = $op ~ '_';
@@ -46,14 +47,15 @@ sub MAIN($dirs, $op = 'ms')
 	   $sname = $sname ~ $d;
        }
        say "path : $path";
-       nossd($sname, $path, $addr,$mem_spt);
+       nossd($sname, $path, $conf.addr,$conf.mem_spt);
     } elsif ($op ~~ 'fpt') {
        for @disks -> $d {
            put "dir: $d" ;
            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
 	   my $path = "-d,tf $f_dir";
 	   my $sname = $op ~ '_' ~ $d;
-       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d $mem_fpt/;
+	   my $mem = $conf.mem_fpt;
+       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d $mem/;
        }
     } elsif ($op ~~ 'harvester') {
        my $sname = $op ~ '_';
@@ -64,7 +66,7 @@ sub MAIN($dirs, $op = 'ms')
 	   $sname = $sname ~ $d;
        }
        say "path : $path";
-       nossd($sname, $path, $addr);
+       nossd($sname, $path, $conf.addr);
     } else {
        say "wrong op type $op";
     }
