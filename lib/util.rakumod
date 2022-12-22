@@ -223,7 +223,7 @@ sub format($t, $fs) is export {
    sleep 2;
 
    put "mkfs ing";
-   put qqx/mkfs.$fs -f \/$d/;
+   put qqx/mkfs.$fs -f $d/;
 
 
    sleep 2;

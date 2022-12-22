@@ -25,7 +25,7 @@ sub MAIN($dirs, $op = 'ms')
 	       $sname = $sname ~ $t;
 	   }
 	   say "path : $subpath";
-	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt);
+	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt, $conf.p_threads, $conf.m_threads);
        }   
     } elsif ($op ~~ 'sf') {
        for @tasks -> @s {
@@ -37,7 +37,7 @@ sub MAIN($dirs, $op = 'ms')
 	       $sname = $sname ~ $t;
 	   }
 	   say "path : $subpath";
-	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt);
+	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt, $conf.p_threads, $conf.m_threads);
        }   
     } elsif ($op ~~ 'spt') {
        my $sname = $op ~ '_';
@@ -48,15 +48,15 @@ sub MAIN($dirs, $op = 'ms')
 	   $sname = $sname ~ $d;
        }
        say "path : $path";
-       nossd($sname, $path, $conf.addr,$conf.mem_spt);
+       nossd($sname, $path, $conf.addr,$conf.mem_spt, $conf.p_threads, $conf.m_threads);
     } elsif ($op ~~ 'fpt') {
        for @disks -> $d {
            put "dir: $d" ;
            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
 	   my $path = "-d,tf $f_dir";
 	   my $sname = $op ~ '_' ~ $d;
-	   my $mem = $conf.mem_fpt;
-       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d $mem/;
+	   #my $mem = $conf.mem_fpt;
+       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d /;
        }
     } elsif ($op ~~ 'harvester') {
        my $sname = $op ~ '_' ~ $dirs;
@@ -68,7 +68,7 @@ sub MAIN($dirs, $op = 'ms')
        }
        say "path : $path";
        say "sname：$sname";
-       nossd($sname, $path, $conf.addr);
+       nossd($sname, $path, $conf.addr,$conf.mem_fpt, $conf.p_threads, $conf.m_threads);
     } else {
        say "wrong op type $op";
     }
