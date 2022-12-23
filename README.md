@@ -101,5 +101,17 @@ clean the test file
 rakudo pt.raku k test clean
 ```
 
+support nossd compressed plot file:     
+create spt task
+```
+./nossd.raku b-j ms
+```
+create fpt task
+```
+./nossd.raku b-j fpt
+```
+
+
+
 
 
