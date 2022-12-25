@@ -7,7 +7,7 @@ has $.mem_spt          = "32G";
 has $.mem_fpt          = "4G";
 has $.p_threads        = 20;
 has $.f_threads        = 0;
-has $.m_threads        = 2;
+has $.m_threads        = 4;
 
 
 
