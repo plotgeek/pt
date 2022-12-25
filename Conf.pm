@@ -3,9 +3,9 @@ unit class Conf;
 # nossd args
 has $.addr             = "xch1xy4kmhd6avkde5z0h67mefzgakeq9ahnj802tuxjluq7prj9rhjqre2cjj";
 has $.num_of_spt_disks = 5;
-has $.mem_spt          = "16G";
+has $.mem_spt          = "32G";
 has $.mem_fpt          = "4G";
-has $.p_threads        = 14;
+has $.p_threads        = 20;
 has $.f_threads        = 0;
 has $.m_threads        = 2;
 
