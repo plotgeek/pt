@@ -22,8 +22,12 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
     if ($op ~~ 'count') {
         my $cnt = 0;
         if (@*ARGS.elems == 2) {
-           $cnt = count(@disks, 'plot');
-	   say @disks.elems  ~ " disks, total : $cnt plots";
+	   my $plot = count(@disks, 'plot');
+	   say @disks.elems  ~ " disks, total : $plot plots\n";
+	   my $spt = count(@disks, 'spt');
+	   say @disks.elems  ~ " disks, total : $spt spt\n";
+	   my $fpt = count(@disks, 'fpt');
+	   say @disks.elems  ~ " disks, total : $fpt fpt\n";
 	}
 	if (@*ARGS.elems == 3) {
 	   my $ft = $arg_3;
