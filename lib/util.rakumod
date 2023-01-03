@@ -397,3 +397,42 @@ sub parse($dirs) is export
     }
     return @disks;
 }
+
+sub parse_comma($dirs) is export
+{
+    my @disks;
+    my @disks_tmp;
+    if ($dirs.contains(',')) {	
+	@disks_tmp = $dirs.chomp.split(',');
+    } else {
+	@disks_tmp.push: $dirs;
+    }
+
+    for @disks_tmp -> $part {
+	if ($part.contains('-')) {
+	    my $p     = Parser.parse: $part;
+	    my $start = $p<start>.chomp;
+	    my $sep   = $p<sep>.chomp;
+	    my $end   = $p<end>.chomp;
+
+	    if $start.contains('sd') {
+		$start = $start.substr(2, *);
+	    }
+	    if $end.contains('sd') {
+		$end = $end.substr(2, *);
+	    }
+
+	    @disks.push: $start;
+	    my $t = $start;
+	    loop {
+		$t = $t.succ;
+		@disks.push: $t;
+		last if ($t eq $end);
+	    }
+	} else {
+	    @disks.push: $part;
+	}
+    }
+
+    return @disks;
+}
