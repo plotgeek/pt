@@ -94,6 +94,11 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
 	   mount($d, $fs);
        }
     }
+    if ($op ~~ 'umount') {
+       for @disks -> $d {
+	   umount($d);
+       }
+    }
     if ($op ~~ 'format') {
        for @disks -> $d {
            if (@*ARGS.elems == 3) {
