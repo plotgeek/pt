@@ -11,7 +11,7 @@ sub MAIN($dirs, $op = 'ms')
     my $conf  = Conf.new;
     say $conf.addr;
     say "dir: $dirs";
-    my @disks = parse($dirs);
+    my @disks = parse_comma($dirs);
     my @tasks = @disks.rotor: $conf.num_of_spt_disks, :partial;
     my $path  = "";
 
