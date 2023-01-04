@@ -161,6 +161,14 @@ sub mount($d, $fs) is export
     }
 }
 
+sub umount($d) is export
+{
+    say "umounting " ~ $d;
+    my $tdir = '/sd' ~ $d;
+     if ($tdir.IO ~~ :e) {
+	qqx/umount $tdir/;
+    }
+}
 
 sub get_num($d) is export
 {
