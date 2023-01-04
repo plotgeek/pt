@@ -10,7 +10,7 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
     		     $arg_4 = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj') 
 {
     my @disks;
-    @disks = parse($dirs);
+    @disks = parse_comma($dirs);
 
 
 ##########################################################################################
