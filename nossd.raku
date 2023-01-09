@@ -21,7 +21,9 @@ sub MAIN($dirs, $op = 'ms')
 	   my $sname = $op ~ '_';
 	   for @s -> $t {
 	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
-	       $subpath = $subpath ~ "-d,ts $f_dir ";
+	       if ($f_dir.IO ~~ :e) {	  
+	       	  $subpath = $subpath ~ " -d,ts $f_dir";
+	       }
 	       $sname = $sname ~ $t;
 	   }
 	   say "path : $subpath";
@@ -33,7 +35,9 @@ sub MAIN($dirs, $op = 'ms')
 	   my $sname = $op ~ '_';
 	   for @s -> $t {
 	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
-	       $subpath = $subpath ~ "-d $f_dir ";
+	       if ($f_dir.IO ~~ :e) {
+	       	  $subpath = $subpath ~ " -d $f_dir";
+	       }
 	       $sname = $sname ~ $t;
 	   }
 	   say "path : $subpath";
@@ -43,8 +47,10 @@ sub MAIN($dirs, $op = 'ms')
        my $sname = $op ~ '_';
        for @disks -> $d {
            put "dir: $d" ;
-           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
-	   $path = $path ~ "-d,ts $f_dir";
+           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   if ($f_dir.IO ~~ :e) {
+	      $path = $path ~ " -d,ts $f_dir";
+	   }
 	   $sname = $sname ~ $d;
        }
        say "path : $path";
@@ -52,11 +58,13 @@ sub MAIN($dirs, $op = 'ms')
     } elsif ($op ~~ 'fpt') {
        for @disks -> $d {
            put "dir: $d" ;
-           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
-	   my $path = "-d,tf $f_dir";
-	   my $sname = $op ~ '_' ~ $d;
-	   #my $mem = $conf.mem_fpt;
-       	   qqx/tmux new -s $sname -d rakudo fpt.raku $d /;
+           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   if ($f_dir.IO ~~ :e) {
+	      my $path = " -d,tf $f_dir";
+	      my $sname = $op ~ '_' ~ $d;
+	      #my $mem = $conf.mem_fpt;
+       	      qqx/tmux new -s $sname -d rakudo fpt.raku $d /;
+	   }
        }
     } elsif ($op ~~ 'harvester') {
        my $sname = $op ~ '_' ~ $dirs;
