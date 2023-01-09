@@ -62,8 +62,10 @@ sub MAIN($dirs, $op = 'ms')
        my $sname = $op ~ '_' ~ $dirs;
        for @disks -> $d {
            put "dir: $d" ;
-           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots ';
-	   $path = $path ~ "-d,r $f_dir";
+           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   if ($f_dir.IO ~~ :e) {
+	      $path = $path ~ " -d,r $f_dir";
+	   }
 	   #$sname = $sname ~ $d;
        }
        say "path : $path";
