@@ -348,7 +348,7 @@ sub clean(@disks) is export {
 
 sub get_size($size) is export
 {
-	say "$size";
+	#say "$size";
 	my $t = $size.lc;
 	my $s = $t.subst: /g$/,'';
 	return $s;
