@@ -8,6 +8,20 @@ sub plotter($f_dir, $d, $f, $pub) is export
     return $proc;
 }
 
+sub bb($f_dir, $d, $t, $f, $pool_key, $pool_contract) is export
+{
+    my $d2 =  $d;
+    if ($t ~~ 'pg') {
+       say "pg";
+       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-c', $pool_contract, $f_dir;
+       return $proc;
+    } elsif ($t ~~ 'og') {
+       say "og";
+       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-p', $pool_key, $f_dir;
+       return $proc;
+    }
+}
+
 sub nossd($s, $path, $addr, $mem = '32G', $p_threads = 8, $m_threads = 4) is export
 {
     my $log = 'log/' ~ $s;

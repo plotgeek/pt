@@ -17,12 +17,12 @@ sub MAIN($dirs)
                my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
 	       # TODO: check f_dir wheather exist
 	       next if (get_size(get_part_size($mount_dir)) > get_size($conf.disk_avail));
-	       my $proc = plotter($f_dir, $d, $conf.farmer_key, $conf.pool_key);
+	       my $proc = bb($f_dir, $d, $conf.type, $conf.farmer_key, $conf.pool_key, $conf.pool_contract);
   	       my $promise = $proc.start;	   
                loop {
     	            put do given $promise.status {
       	         	 when Planned { "Still working on $f_dir" } # TODO send msg to message queue
-	             	 when Kept    { $proc = plotter($f_dir, $d, $conf.farmer_key, $conf.pool_key); $promise = $proc.start }
+	             	 when Kept    { $proc = bb($f_dir, $d, $conf.type, $conf.farmer_key, $conf.pool_key, $conf.pool_contract); $promise = $proc.start }
 	             	 when Broken  { "Error!!!" }    
       	     	    }
 	      	    last if (get_size(get_part_size($mount_dir)) > get_size($conf.disk_avail));
