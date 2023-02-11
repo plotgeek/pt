@@ -1,6 +1,7 @@
 # plots management tool
 
-requirements: 
+requirements:    
+all disks mounted at dir  "/sd" + "disk name", eg. "/dev/sdb" mounted at dir "/sdb"  
 ```
 nvme ssd mount dir:  /sdnv1, /sdnv2, /sdnv3 ...     
                   :  /sdnv1/plots, /sdnv2/plots, /sdnv3/plots ...   
