@@ -11,9 +11,14 @@ has $.m_threads        = 4;
 
 
 
-# plotnft args 
+# pg args 
 has $.farmer_key       = "9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b";
-has $.pool_key         = "xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj";
+has $.pool_contract    = "xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj";
+# og args
+has $.pool_key         = "";
+
+
 
 # bladebit args
-has $.disk_avail      = "102G";
+has $.disk_avail       = "102G";
+has $.type             = "og"; 
