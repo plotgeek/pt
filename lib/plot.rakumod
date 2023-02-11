@@ -13,11 +13,11 @@ sub bb($f_dir, $d, $t, $f, $pool_key, $pool_contract) is export
     my $d2 =  $d;
     if ($t ~~ 'pg') {
        say "pg";
-       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-c', $pool_contract, $f_dir;
+       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-c', $pool_contract, "ramplot", $f_dir;
        return $proc;
     } elsif ($t ~~ 'og') {
        say "og";
-       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-p', $pool_key, $f_dir;
+       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-p', $pool_key, "ramplot", $f_dir;
        return $proc;
     }
 }
