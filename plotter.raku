@@ -12,11 +12,11 @@ sub MAIN($dirs)
     my @disks = parse($dirs);
     loop {
     	 for @disks -> $d {
-       	       put "dir: $d" ;
+       	       #put "dir: $d" ;
 	       my $mount_dir = '/sd' ~ $d;
                my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
 	       # TODO: check f_dir wheather exist
-	       next if (get_size(get_part_size($mount_dir)) > get_size($conf.disk_avail));
+	       next if (get_size(get_part_size($mount_dir)) < get_size($conf.disk_avail));
 	       my $proc = bb($f_dir, $d, $conf.type, $conf.farmer_key, $conf.pool_key, $conf.pool_contract);
   	       my $promise = $proc.start;	   
                loop {
@@ -25,7 +25,7 @@ sub MAIN($dirs)
 	             	 when Kept    { $proc = bb($f_dir, $d, $conf.type, $conf.farmer_key, $conf.pool_key, $conf.pool_contract); $promise = $proc.start }
 	             	 when Broken  { "Error!!!" }    
       	     	    }
-	      	    last if (get_size(get_part_size($mount_dir)) > get_size($conf.disk_avail));
+	      	    last if (get_size(get_part_size($mount_dir)) < get_size($conf.disk_avail));
 	      	    sleep 1;      
 	       }
        	  }
