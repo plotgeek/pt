@@ -19,6 +19,11 @@ has $.pool_key         = "";
 
 
 
-# bladebit args
-has $.disk_avail       = "102G";
-has $.type             = "og"; 
+
+has $.disk_avail       = "200G";
+has $.type             = "pg"; 
+
+
+# mmx args
+has $.mmx_name         = "cuda_plot_k32";
+has $.mmx_level        = 9;
