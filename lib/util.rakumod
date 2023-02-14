@@ -444,3 +444,17 @@ sub parse_comma($dirs) is export
 
     return @disks;
 }
+
+sub mmx_copy($host, $dir) is export
+{
+    my $proc = Proc::Async.new: 'chia_plot_copy', '-d', '-t', $host, '--', $dir;
+    return $proc;
+}
+
+sub mmx_sink($host, $dir) is export
+{
+    #my $proc = Proc::Async.new: 'chia_plot_sink', '-d', '-t', $host, $dir;
+    #return $proc;
+}
+
+
