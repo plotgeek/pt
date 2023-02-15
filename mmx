@@ -6,16 +6,17 @@ use Conf;
 use plot;
 use util;
 
-sub MAIN($dirs, $op = 'gpu')
+sub MAIN($dirs, $op = 'mmx')
 {
-    my $conf  = Conf.new;
-    say $conf.addr;
-    say "dir: $dirs";
-    my @disks = parse_comma($dirs);
-    my @tasks = @disks.rotor: $conf.num_of_spt_disks, :partial;
-    my $path  = "";
+    my $conf     = Conf.new;
+    my $mmx_copy = $conf.mmx_copy;
+    my $mmx_sink = $conf.mmx_sink;
+    my $mmx_host = $conf.mmx_host;
+    my @disks    = parse_comma($dirs);
+    my @tasks    = @disks.rotor: $conf.num_of_spt_disks, :partial;
+    my $path     = "";
 
-    if ($op ~~ 'gpu') {
+    if ($op ~~ 'mmx') {
        my $path = ""; 
        for @disks -> $d {
            put "dir: $d" ;
@@ -27,17 +28,18 @@ sub MAIN($dirs, $op = 'gpu')
        qqx/tmunx new -s $op -d rakudo gpu_plotter.raku $path/;
     } elsif ($op ~~ 'copy') {
        my $sname = $op ~ '_' ~ $dirs;
+       qqx/tmux new -s $sname -d rakudo mmx_copy.raku $dirs/;
+    } elsif ($op ~~ 'sink') {
+       my $path  = "-- ";
+       my $sname = $op ~ '_' ~ $dirs;
        for @disks -> $d {
            put "dir: $d" ;
            my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
 	   if ($f_dir.IO ~~ :e) {
-	      $path = $path ~ " -d,r $f_dir";
+	      $path = $path ~ $f_dir ~ "  "; 
 	   }
-	   #$sname = $sname ~ $d;
        }
-       say "path : $path";
-       say "sname：$sname";
-       nossd($sname, $path, $conf.addr,$conf.mem_fpt, $conf.p_threads, $conf.m_threads);
+       qqx/tmux new -s $sname -d rakudo $mmx_sink -d -t $mmx_host $path/;
     } else {
        say "wrong op type $op";
     }
