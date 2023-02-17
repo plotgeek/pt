@@ -140,7 +140,7 @@ sub get_sys_part() is export
 
 sub get_part_size($dev) is export
 {
-    for lines(qqx/df -h -BG  --sync $dev/) -> $l {
+    for lines(qqx/df -h -BG  $dev/) -> $l {
 	if $l ~~ /^\/dev/ {
             my @p = $l.split(/\s+/);
             return @p[*-3];
