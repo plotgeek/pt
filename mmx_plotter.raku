@@ -17,7 +17,7 @@ sub MAIN($dirs)
                my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
                my $tmp_dir = '/sd' ~ $d ~ '/' ~ 't1/';
 	       # TODO: check f_dir wheather exist
-	       #next if (get_size(get_part_size($mount_dir)) < get_size($conf.disk_avail));
+	       next if (get_size(get_part_size($mount_dir)) < get_size($conf.disk_avail));
 	       my $proc = mmx($d, $conf.mmx_level, $conf.type, $conf.farmer_key, $conf.pool_key, $conf.pool_contract);
   	       my $promise = $proc.start;	   
                loop {
@@ -26,7 +26,7 @@ sub MAIN($dirs)
 	             	 when Kept    { $proc = mmx($d, $conf.mmx_level, $conf.type, $conf.farmer_key, $conf.pool_key, $conf.pool_contract); $promise = $proc.start }
 	             	 when Broken  { "Error!!!" }    
       	     	    }
-	      	    #last if (get_size(get_part_size($mount_dir)) < get_size($conf.disk_avail));
+	      	    last if (get_size(get_part_size($mount_dir)) < get_size($conf.disk_avail));
 	      	    sleep 1;      
 	       }
        	  }
