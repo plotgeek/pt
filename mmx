@@ -12,34 +12,16 @@ sub MAIN($dirs, $op = 'mmx')
     my $mmx_copy = $conf.mmx_copy;
     my $mmx_sink = $conf.mmx_sink;
     my $mmx_host = $conf.mmx_host;
-    my @disks    = parse_comma($dirs);
-    my @tasks    = @disks.rotor: $conf.num_of_spt_disks, :partial;
-    my $path     = "";
 
     if ($op ~~ 'mmx') {
-       my $path = ""; 
-       for @disks -> $d {
-           put "dir: $d" ;
-           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	   if ($f_dir.IO ~~ :e) {
-	      $path = $path ~ $d ~ ","; 
-	   }
-       }
-       qqx/tmunx new -s $op -d rakudo gpu_plotter.raku $path/;
+       my $sname = $op ~ '_' ~ $dirs;
+       qqx/tmunx new -s $sname -d rakudo mmx_plotter.raku $dirs/;
     } elsif ($op ~~ 'copy') {
        my $sname = $op ~ '_' ~ $dirs;
        qqx/tmux new -s $sname -d rakudo mmx_copy.raku $dirs/;
     } elsif ($op ~~ 'sink') {
-       my $path  = "-- ";
        my $sname = $op ~ '_' ~ $dirs;
-       for @disks -> $d {
-           put "dir: $d" ;
-           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
-	   if ($f_dir.IO ~~ :e) {
-	      $path = $path ~ $f_dir ~ "  "; 
-	   }
-       }
-       qqx/tmux new -s $sname -d rakudo $mmx_sink -d -t $mmx_host $path/;
+       qqx/tmux new -s $sname -d rakudo $mmx_sink -d -t $mmx_host $dirs/;
     } else {
        say "wrong op type $op";
     }
