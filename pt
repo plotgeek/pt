@@ -80,10 +80,18 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
        }
     }
     if ($op ~~ 'add') {
-       for @disks -> $d {
-   	   my $t = '/sd' ~ $d ~ '/' ~ 'plots';
-       	   put "plots dir: $t";
-	   qqx/chia plots add -d $t/
+       if ($arg_3 ~~ 'mmx') {
+       	 for @disks -> $d {
+   	     my $t = '/sd' ~ $d ~ '/' ~ 'plots';
+       	     put "plots dir: $t";
+	     qqx/chia.bin plots add -d $t/
+       	 }
+       } else {
+       	 for @disks -> $d {
+   	     my $t = '/sd' ~ $d ~ '/' ~ 'plots';
+       	     put "plots dir: $t";
+	     qqx/chia plots add -d $t/
+       	 }
        }
     }
     if ($op ~~ 'mount') {
