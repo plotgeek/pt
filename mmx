@@ -19,9 +19,9 @@ sub MAIN($dirs, $op = 'mmx')
     } elsif ($op ~~ 'copy') {
        my $sname = $op ~ '_' ~ $dirs;
        qqx/tmux new -s $sname -d rakudo mmx_copy.raku $dirs/;
-    } elsif ($op ~~ 'sink') {
+    } elsif ($op ~~ 'write') {
        my $sname = $op ~ '_' ~ $dirs;
-       qqx/tmux new -s $sname -d rakudo $mmx_sink -d -t $mmx_host $dirs/;
+       qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
     } else {
        say "wrong op type $op";
     }
