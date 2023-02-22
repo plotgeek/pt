@@ -20,7 +20,7 @@ has $.pool_key         = "";
 
 
 
-has $.disk_avail       = "200G";
+has $.disk_avail       = "80G";
 has $.type             = "pg"; 
 
 
