@@ -16,4 +16,5 @@ sub MAIN($dirs)
 	$target = $target ~ "  " ~ $tmp_dir;
     }
     say $target;
+    qqx/tmux new -s "mmx_write" -d chia_plot_sink $target/
 }
