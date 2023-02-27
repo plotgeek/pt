@@ -161,6 +161,19 @@ sub mount($d, $fs) is export
     }
 }
 
+sub mount_nfs($d, $fs, $hostip, $hostname) is export
+{
+    say "mounting nfs $hostname.$hostip. " ~ $d;
+    my $tdir = '/sd' ~ $d;
+    my $sdev = $hostip ~ ':/sd' ~ $d;
+    if ($tdir.IO ~~ :e) {
+	qqx/sudo mount.nfs  $sdev $tdir/;
+    } else {
+	qqx/sudo mkdir $tdir/ ;
+	qqx/sudo mount.nfs  $sdev $tdir/;
+    }	
+}
+
 sub umount($d) is export
 {
     say "umounting " ~ $d;
