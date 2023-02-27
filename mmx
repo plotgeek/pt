@@ -6,7 +6,7 @@ use Conf;
 use plot;
 use util;
 
-sub MAIN($dirs, $op = 'mmx')
+sub MAIN($dirs, $op = 'mmx', $gpu = 0)
 {
     my $conf     = Conf.new;
     my $mmx_copy = $conf.mmx_copy;
@@ -15,7 +15,7 @@ sub MAIN($dirs, $op = 'mmx')
 
     if ($op ~~ 'mmx') {
        my $sname = $op ~ '_' ~ $dirs;
-       qqx/tmux new -s $sname -d rakudo mmx_plotter.raku $dirs/;
+       qqx/tmux new -s $sname -d rakudo mmx_plotter.raku $dirs $gpu/;
     } elsif ($op ~~ 'copy') {
        my $sname = $op ~ '_' ~ $dirs;
        qqx/tmux new -s $sname -d rakudo mmx_copy.raku $dirs/;
