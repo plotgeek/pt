@@ -163,14 +163,16 @@ sub mount($d, $fs) is export
 
 sub mount_nfs($d, $fs, $hostip, $hostname) is export
 {
-    say "mounting nfs $hostname.$hostip. " ~ $d;
-    my $tdir = '/sd' ~ $d;
+
+    my $tdir = '/' ~ $hostname ~ '/sd' ~ $d;
     my $sdev = $hostip ~ ':/sd' ~ $d;
+    say "$sdev";
+    say "mounting nfs $hostname $hostip " ~ $tdir;
     if ($tdir.IO ~~ :e) {
-	qqx/sudo mount.nfs  $sdev $tdir/;
+	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
     } else {
 	qqx/sudo mkdir $tdir/ ;
-	qqx/sudo mount.nfs  $sdev $tdir/;
+	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
     }	
 }
 
