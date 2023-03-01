@@ -6,16 +6,11 @@ use plot;
 use util;
 
 
-sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b', 
-    		     $arg_4 = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj', $arg_5 = 'hs153') 
+sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5') 
 {
     my @disks;
     @disks = parse_comma($dirs);
 
-
-##########################################################################################
-# misc ops 
-##########################################################################################
     if ($op ~~ 'clean') {
         clean(@disks);
     } 
@@ -68,12 +63,7 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
 	}
     }
     
-##########################################################################################
-# main ops 
-##########################################################################################
-
     my $fs = 'xfs';
-
     if ($op ~~ 'stop') {
        for @disks -> $d {
        	   qqx/tmux kill-session -t $d /;
@@ -121,5 +111,16 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
 	   }
            format($d, $fs);
        }
+    }
+    if ($op ~~ 'nfse') {
+       my $nfs_conf = "/etc/exports";
+       for @disks -> $d {
+           my $ed = "/sd" ~ $d ~ " *(rw,sync,no_root_squash)\n";
+	   if ( @*ARGS.elems >= 3) {
+	      my $nfs_op = $arg_3;
+	      spurt $nfs_conf, $ed, :append;
+	   } 
+       }
+       qqx//etc/init.d/nfs-kernel-server restart/;
     }
 }
