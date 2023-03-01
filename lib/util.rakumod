@@ -141,7 +141,7 @@ sub get_sys_part() is export
 sub get_part_size($dev) is export
 {
     for lines(qqx/df -h -BG  $dev/) -> $l {
-	if $l ~~ /^\/dev/ {
+	if $l ~~ /^('/dev'|'tmpfs')/ {
             my @p = $l.split(/\s+/);
             return @p[*-3];
         }
@@ -159,6 +159,21 @@ sub mount($d, $fs) is export
 	qqx/sudo mkdir $tdir/ ;
 	qqx/sudo mount -t $fs $tdev $tdir/;
     }
+}
+
+sub mount_nfs($d, $fs, $hostip, $hostname) is export
+{
+
+    my $tdir = '/' ~ $hostname ~ '/sd' ~ $d;
+    my $sdev = $hostip ~ ':/sd' ~ $d;
+    say "$sdev";
+    say "mounting nfs $hostname $hostip " ~ $tdir;
+    if ($tdir.IO ~~ :e) {
+	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
+    } else {
+	qqx/sudo mkdir $tdir/ ;
+	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
+    }	
 }
 
 sub umount($d) is export

@@ -20,7 +20,7 @@ has $.pool_key         = "";
 
 
 
-has $.disk_avail       = "200G";
+has $.disk_avail       = "80G";
 has $.type             = "pg"; 
 
 
@@ -29,4 +29,4 @@ has $.mmx_name         = "cuda_plot_k32";
 has $.mmx_copy         = "chia_plot_copy";
 has $.mmx_sink         = "chia_plot_sink";
 has $.mmx_host         = "localhost";
-has $.mmx_level        = 9;
+has $.mmx_level        = 8;

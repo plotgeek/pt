@@ -7,7 +7,7 @@ use util;
 
 
 sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b', 
-    		     $arg_4 = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj') 
+    		     $arg_4 = 'xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj', $arg_5 = 'hs153') 
 {
     my @disks;
     @disks = parse_comma($dirs);
@@ -96,8 +96,15 @@ sub MAIN($dirs, $op, $arg_3 = '9199c10ad809158231f81e00f3c4887119daa6706e683bda9
     }
     if ($op ~~ 'mount') {
        for @disks -> $d {
-	   if ( @*ARGS.elems == 3) {
+	   if ( @*ARGS.elems >= 3) {
 	      $fs = $arg_3;
+	      if ($fs ~~ 'nfs') {
+	      	 my $hostip   = $arg_4;
+	      	 my $hostname = $arg_5;
+	      	 say "$hostip. $hostname";
+	      	 mount_nfs($d, $fs, $hostip, $hostname);
+		 exit(0);
+	      }
 	   } 
 	   mount($d, $fs);
        }
