@@ -121,6 +121,6 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	      spurt $nfs_conf, $ed, :append;
 	   } 
        }
-       qqx//etc/init.d/nfs-kernel-server restart/;
+       #qqx//etc/init.d/nfs-kernel-server restart/;
     }
 }
