@@ -240,6 +240,7 @@ sub format($t, $fs) is export {
    my $td = '/sd' ~ $t;
    
    if ($t ~~ 'nvme0n1') {
+         $d  = '/dev/'  ~ $t;
          $td = '/sdnv1';
    }
    put mkdir("$td");
