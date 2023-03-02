@@ -238,7 +238,12 @@ sub format($t, $fs) is export {
 
    my $d = '/dev/sd' ~ $t;
    my $td = '/sd' ~ $t;
-   put mkdir("$d");
+   
+   if ($t ~~ 'nvme0n1') {
+         $td = '/sdnv1';
+   }
+   put mkdir("$td");
+
 
    put qqx/parted \/$d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
 
