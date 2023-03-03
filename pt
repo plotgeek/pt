@@ -85,19 +85,22 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        }
     }
     if ($op ~~ 'mount') {
-       for @disks -> $d {
-	   if ( @*ARGS.elems >= 3) {
+       if ( @*ARGS.elems >= 3) {
+       	  for @disks -> $d {
+              say $d;
 	      $fs = $arg_3;
 	      if ($fs ~~ 'nfs') {
 	      	 my $hostip   = $arg_4;
 	      	 my $hostname = $arg_5;
-	      	 say "$hostip. $hostname";
+	      	 say "$hostip. $hostname, $d";
 	      	 mount_nfs($d, $fs, $hostip, $hostname);
-		 exit(0);
 	      }
-	   } 
-	   mount($d, $fs);
-       }
+	   }
+       } else {
+       	  for @disks -> $d {
+	      mount($d, $fs);
+	  }
+       }	   
     }
     if ($op ~~ 'umount') {
        for @disks -> $d {
