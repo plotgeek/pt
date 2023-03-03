@@ -171,7 +171,7 @@ sub mount_nfs($d, $fs, $hostip, $hostname) is export
     if ($tdir.IO ~~ :e) {
 	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
     } else {
-	qqx/sudo mkdir $tdir/ ;
+	qqx/sudo mkdir -p $tdir/ ;
 	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
     }	
 }
