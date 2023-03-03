@@ -125,10 +125,8 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        my $nfs_conf = "/etc/exports";
        for @disks -> $d {
            my $ed = "/sd" ~ $d ~ " *(rw,sync,no_root_squash)\n";
-	   if ( @*ARGS.elems >= 3) {
-	      my $nfs_op = $arg_3;
-	      spurt $nfs_conf, $ed, :append;
-	   } 
+           my $nfs_op = $arg_3;
+	   spurt $nfs_conf, $ed, :append;
        }
        #qqx//etc/init.d/nfs-kernel-server restart/;
     }
