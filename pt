@@ -75,7 +75,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
    	     my $t = '/sd' ~ $d ~ '/' ~ 'plots';
        	     put "plots dir: $t";
 	     if (@*ARGS.elems >= 4) {
-	        my $t = '/' ~ $arg_4 ~ '/' ~ '/sd' ~ $d ~ '/' ~ 'plots';
+	        my $t = '/' ~ $arg_4 ~ '/sd' ~ $d ~ '/' ~ 'plots';
 		say $t;
 	     	qqx/chia.bin plots add -d $t/
 	     } else {
