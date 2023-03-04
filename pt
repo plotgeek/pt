@@ -100,9 +100,9 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	      	 my $hostname = $arg_5;
 	      	 say "$hostip. $hostname, $d";
 	      	 mount_nfs($d, $fs, $hostip, $hostname);
-		 exit(0);
+	      } else {
+ 	      	 mount($d, $fs);
 	      }
- 	      mount($d, $fs);
 	   }
        } else {
        	  for @disks -> $d {
