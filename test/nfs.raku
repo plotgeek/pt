@@ -17,4 +17,6 @@ sub MAIN($dirs)
 
     	spurt $nfs_exports, $d, :append;
     }
+
+    qqx/service  nfs-server restart/;
 }
