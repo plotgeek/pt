@@ -12,7 +12,7 @@ sub plotter($f_dir, $d, $f, $pub) is export
 sub mmx($d, $gpu, $level, $t, $f, $pool_key, $pool_contract) is export
 {
     #my $f_dir   = '/sd' ~ $d ~ '/' ~ 'plots/';
-    my $tmp_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
+    my $tmp_dir = '/sd' ~ $d ~ '/' ~ 't1/';
     if ($t ~~ 'pg') {
        say "pg";
        my $proc = Proc::Async.new: 'cuda_plot_k32', '-C', $level, '-g', $gpu, '-f', $f, '-c', $pool_contract, "-t", $tmp_dir, "-d", "@localhost";
