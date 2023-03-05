@@ -11,15 +11,15 @@ sub plotter($f_dir, $d, $f, $pub) is export
 
 sub mmx($d, $gpu, $level, $t, $f, $pool_key, $pool_contract) is export
 {
-    my $f_dir   = '/sd' ~ $d ~ '/' ~ 'plots/';
-    my $tmp_dir = '/sd' ~ $d ~ '/' ~ 't1/';
+    #my $f_dir   = '/sd' ~ $d ~ '/' ~ 'plots/';
+    my $tmp_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
     if ($t ~~ 'pg') {
        say "pg";
-       my $proc = Proc::Async.new: 'cuda_plot_k32', '-C', $level, '-g', $gpu, '-f', $f, '-c', $pool_contract, "-t", $tmp_dir, "-d", $f_dir;
+       my $proc = Proc::Async.new: 'cuda_plot_k32', '-C', $level, '-g', $gpu, '-f', $f, '-c', $pool_contract, "-t", $tmp_dir, "-d", "@localhost";
        return $proc;
     } elsif ($t ~~ 'og') {
        say "og";
-       my $proc = Proc::Async.new: 'cuda_plot_k32', '-C', $level, '-g', $gpu, '-f', $f, '-p', $pool_key, "-t", $tmp_dir, "-d", $f_dir;
+       my $proc = Proc::Async.new: 'cuda_plot_k32', '-C', $level, '-g', $gpu, '-f', $f, '-p', $pool_key, "-t", $tmp_dir, "-d", "@localhost";
        return $proc;
     }
 }
