@@ -332,10 +332,11 @@ sub clean_plots($p) {
 			if ($size > 87 && $size < 89) { next; say "spt size: $size";}	
 		}
 		if ($tmp.basename.match(/.plot$/)) {
-			if ($size > 101 && $size < 102) { next; say "plot size: $size";}
+			if ($size > 71) { next; say "plot size: $size";}
+			
 		}
 		say "cleaning $tmp";
-                unlink $tmp;
+                #unlink $tmp;
         }
     }
 }
