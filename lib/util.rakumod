@@ -336,7 +336,7 @@ sub clean_plots($p) {
 			
 		}
 		say "cleaning $tmp";
-                #unlink $tmp;
+                unlink $tmp;
         }
     }
 }
