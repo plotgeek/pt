@@ -9,6 +9,7 @@ use util;
 sub MAIN($dirs, $op = 'mmx', $gpu = 0)
 {
     my $conf     = Conf.new;
+    my @disks    = parse_comma($dirs);
     my $mmx_copy = $conf.mmx_copy;
     my $mmx_sink = $conf.mmx_sink;
     my $mmx_host = $conf.mmx_host;
@@ -17,8 +18,10 @@ sub MAIN($dirs, $op = 'mmx', $gpu = 0)
        my $sname = $op ~ '_' ~ $dirs;
        qqx/tmux new -s $sname -d rakudo mmx_plotter.raku $dirs $gpu/;
     } elsif ($op ~~ 'copy') {
-       my $sname = $op ~ '_' ~ $dirs;
-       qqx/tmux new -s $sname -d rakudo mmx_copy.raku $dirs/;
+       for @disks ->$d {
+       	   my $sname = $op ~ '_' ~ $d;
+	   qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
+       }
     } elsif ($op ~~ 'write') {
        my $sname = $op ~ '_' ~ $dirs;
        qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;

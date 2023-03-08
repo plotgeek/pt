@@ -9,7 +9,7 @@ use Conf;
 sub MAIN($dirs) 
 {
     my $conf  = Conf.new;	
-    my @disks = parse($dirs);
+    my @disks = parse_comma($dirs);
     loop {
     	 for @disks -> $d {
                my $tmp_dir   = '/sd' ~ $d ~ '/' ~ "plots/";
