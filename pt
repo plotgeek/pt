@@ -132,4 +132,14 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        }
        qqx/service  nfs-server restart/;
     }
+    if ($op ~~ 'copy') {
+       for @disks -> $d {
+       	   my $sname = $op ~ '_' ~ $d;
+	   qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
+       }
+    }
+    if ($op ~~ 'write') {
+       my $sname = $op ~ '_' ~ $dirs;
+       qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
+    }
 }
