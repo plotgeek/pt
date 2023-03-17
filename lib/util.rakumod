@@ -246,7 +246,7 @@ sub format($t, $fs) is export {
    put mkdir("$td");
 
 
-   put qqx/parted \/$d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
+   put qqx/parted $d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
 
 
    sleep 2;
