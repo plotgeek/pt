@@ -243,10 +243,20 @@ sub format($t, $fs) is export {
          $d  = '/dev/'  ~ $t;
          $td = '/sdnv1';
    }
+   if ($t ~~ 'nvme1n1') {
+         $d  = '/dev/'  ~ $t;
+         $td = '/sdnv2';
+   }
+   if ($t ~~ 'nvme2n1') {
+         $d  = '/dev/'  ~ $t;
+         $td = '/sdnv3';
+   }
    put mkdir("$td");
 
 
-   put qqx/parted $d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
+   #put qqx/parted $d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
+   qqx/parted $d mklabel gpt/;
+   qqx/parted $d mkpart x $fs 0% 100%/;
 
 
    sleep 2;
