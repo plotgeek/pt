@@ -255,8 +255,6 @@ sub format($t, $fs) is export {
 
 
    #put qqx/parted $d << EOF mklabel gpt mkpart x $fs 0% 100% << EOF/;
-   qqx/parted $d mklabel gpt/;
-   qqx/parted $d mkpart x $fs 0% 100%/;
 
 
    sleep 2;
@@ -265,7 +263,9 @@ sub format($t, $fs) is export {
    if ($fs ~~ "f2fs") {
      put qqx/mkfs.$fs -l f2fs -m $d/;
    } else {
-     put qqx/mkfs.$fs -f $d/;
+      qqx/parted $d mklabel gpt/;
+      qqx/parted $d mkpart x $fs 0% 100%/;
+      put qqx/mkfs.$fs -f $d/;
    }
 
 
