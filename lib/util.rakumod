@@ -263,7 +263,7 @@ sub format($t, $fs) is export {
    if ($fs ~~ "f2fs") {
      put qqx/mkfs.$fs -l f2fs -m $d/;
    } else {
-      qqx/parted $d mklabel gpt/;
+      qqx/parted -s $d mklabel gpt/;
       qqx/parted $d mkpart x $fs 0% 100%/;
       put qqx/mkfs.$fs -f $d/;
    }
