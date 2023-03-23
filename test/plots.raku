@@ -34,8 +34,10 @@ sub MAIN($conf)
 	    my $devs     =  $m<devs>;
 	    #my @disks    =  parse_comma($devs);
 	    say "$host, $ip, $devs";
-	    qqx/rakudo ../pt $devs mount nfs $ip $host/;
+	    say "mounting $host@$ip:$devs";
+	    qqx/sudo rakudo ../pt $devs mount nfs $ip $host/;
+	    say "adding plots dir: $devs";
+	    qqx/rakudo ../pt $devs add mmx $host/;
         }
-
 	close $fh;
 }
