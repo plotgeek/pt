@@ -3,12 +3,6 @@
 use lib '../lib';
 use util;
 
-grammar DEVS {
-	rule TOP {<start><sep><end>}
-	token sep   { '-' }
-	token start {\w+}
-	token end   {\w+}
-}
 grammar NFS {
 	rule TOP {<host><space><sep><space><ip><space><sep><space><devs>}
 	token sep  {':'}
@@ -37,9 +31,10 @@ sub MAIN($conf)
 
 	    my $host     =  $m<host>;
 	    my $ip       =  $m<ip>;
-	    my $devs =  $m<devs>;
-	    my @disks    =  parse_comma($devs);
-	    say "$host, $ip";
+	    my $devs     =  $m<devs>;
+	    #my @disks    =  parse_comma($devs);
+	    say "$host, $ip, $devs";
+	    qqx/rakudo ../pt $devs mount nfs $ip $host/;
         }
 
 	close $fh;
