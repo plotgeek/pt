@@ -262,16 +262,26 @@ sub format($t, $fs) is export {
    put "mkfs ing";
    if ($fs ~~ "f2fs") {
      put qqx/mkfs.$fs -l f2fs -m $d/;
+   } elif ($fs ~~ "ntfs") {
+     my $ntfs1 = $d ~ '1';
+     qqx/sudo parted -s $d mklabel gpt/;
+     qqx/sudo parted -s $d mkpart ntfs 0% 100%/;
+     qqx/sudo mkfs.ntfs -f $ntfs1/;
    } else {
       qqx/parted -s $d mklabel gpt/;
-      qqx/parted $d mkpart x $fs 0% 100%/;
+      qqx/parted -s $d mkpart x $fs 0% 100%/;
       put qqx/mkfs.$fs -f $d/;
    }
 
 
    sleep 2;
    put "mounting dev.";
-   put qqx/mount -t $fs $d $td/;
+   if ($fs ~~ "ntfs") {
+     my $ntfs1 = $d ~ '1';
+     qqx/sudo mount -o noatime,async,big_writes -t ntfs-3g -w $ntfs1 $td/
+   } else {
+     put qqx/mount -t $fs $d $td/;
+   }
 
    sleep 2;
    put "configure tmp dir t1 t2";
