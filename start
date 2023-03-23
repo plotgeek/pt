@@ -15,7 +15,7 @@ grammar NFS {
 
 
 
-sub MAIN($conf)
+sub MAIN($conf = "$*HOME/pt/nfs.conf")
 {
 	my $fh = $conf.IO.open :rw;
 
