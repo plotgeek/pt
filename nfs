@@ -22,6 +22,11 @@ grammar COMMENT {
 
 sub MAIN($conf = "$*HOME/pt/nfs.conf")
 {
+	if ($conf.IO !~~ :e) {
+	   say "$conf do not exist,please check it";
+	   exit(0);
+	}
+	say "\nusing conf: $conf\n";
 	my $fh = $conf.IO.open :rw;
 
 	for $fh.lines -> $l {
