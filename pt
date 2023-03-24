@@ -123,7 +123,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
            format($d, $fs);
        }
     }
-    if ($op ~~ 'nfse') {
+    if ($op ~~ 'nfs') {
        my $nfs_conf = "/etc/exports";
        for @disks -> $d {
            my $ed = "/sd" ~ $d ~ " *(rw,async,no_root_squash)\n";
