@@ -4,7 +4,7 @@ use lib 'lib';
 use util;
 
 grammar NFS {
-	rule TOP {<host><space><sep><space><ip><space><sep><space><devs>}
+	rule TOP {<space><host><space><sep><space><ip><space><sep><space><devs>}
 	token sep  {':'}
 	token host {\w+}
 	token ip   {\d+<dot>\d+<dot>\d+<dot>\d+}
