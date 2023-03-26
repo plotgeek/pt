@@ -28,14 +28,20 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	   my $ft = $arg_3;
 	   if ($arg_3 ~~ 'plot') {
 	      $cnt = count(@disks, 'plot');
+	      say @disks.elems  ~ " disks, total $arg_3: $cnt ";
 	   }
 	   if ($arg_3 ~~ 'spt') {
 	      $cnt = count(@disks, 'spt');      
+	      say @disks.elems  ~ " disks, total $arg_3: $cnt ";
 	   }
 	   if ($arg_3 ~~ 'fpt') {
-	      $cnt = count(@disks, 'fpt')
+	      $cnt = count(@disks, 'fpt');
+	      say @disks.elems  ~ " disks, total $arg_3: $cnt ";
 	   }
-	   say @disks.elems  ~ " disks, total $arg_3: $cnt ";
+	   if ($arg_3 ~~ 'disk') {
+	      say "$dirs is total " ~ @disks.elems ~ " disks\n";
+	   }
+
 	}
     } 
     if ($op ~~ 'rmsys') {
