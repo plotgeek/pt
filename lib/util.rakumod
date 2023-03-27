@@ -153,6 +153,10 @@ sub mount($d, $fs) is export
     say "mounting " ~ $d;
     my $tdir = '/sd' ~ $d;
     my $tdev = '/dev/sd' ~ $d;
+
+    if ($fs ~~ 'ntfs') {
+       $tdev = $tdev ~ '1';
+    }
     if ($tdir.IO ~~ :e) {
 	qqx/mount -t $fs $tdev $tdir/;
     } else {
