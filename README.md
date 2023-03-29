@@ -34,10 +34,10 @@ pt: management tool
 4)  count-> clean -> test  
 5)  log  
 
-nossd plot   
+nossd: nossd plot tool   
 nossd b-z fpt/spt  
 
-mmx plot  
+mmx: mmx plot tool   
 mmx  nv1   
 mmx  nv1 copy  
 mmx  b-z  write  
