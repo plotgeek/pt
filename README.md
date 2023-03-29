@@ -1,5 +1,7 @@
 # plots management tool
 
+![PT操作步骤](https://github.com/plotgeek/pt/blob/memplot/PT.png)
+
 requirements:    
 all disks mounted at dir  "/sd" + "disk name", eg. "/dev/sdb" mounted at dir "/sdb"  
 ```
