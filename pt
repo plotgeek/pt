@@ -160,4 +160,25 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	   say "host  $d end:";
        }
     }
+    if ($op ~~ 'stat') {
+       for @disks -> $h {
+       	   if (@*ARGS.elems == 3) {
+	     say "host $h start:";
+	     say qqx/ssh $h@$h $arg_3/;
+	     say "host $h end:";
+	   } else {
+	     say "host  $h start:";
+       	     say qqx/ssh $h@$h df -h/;
+	     say "host  $h end:";
+	   }
+       }
+    }
+    if ($op ~~ 'scp') {
+       for @disks -> $h {
+       	   say "host $h start:";
+	   qqx/scp -r $arg_3 $h@$h:~\//;
+	   say "host $h end:";
+       }
+    }
+
 }
