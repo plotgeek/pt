@@ -148,4 +148,14 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        my $sname = $op ~ '_' ~ $dirs;
        qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
     }
+    if ($op ~~ 'log') {
+       my $cnt = 10;
+       if (@*ARGS.elems == 3) {
+       	  $cnt = $arg_3;
+       }
+       for @disks -> $d {
+           my $xchlog = "/home/$d/.chia/mainnet/log/debug.log";
+       	   say qqx/ssh $d@$d tail -n $cnt $xchlog/;
+       }
+    }
 }
