@@ -15,7 +15,7 @@ t2 temp dir:         /sdb/t2, /sdc/t2, /sdd/t2 ...
 ```
 pt <dir/hosts>  [cmds]  [args]  
   
-device mout at： /sdx  
+disks mount point： /sdx  
 /sdb  
 /sdb/plots  
 /sdb/t1  
