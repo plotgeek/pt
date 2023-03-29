@@ -12,7 +12,7 @@ t1 temp dir:         /sdb/t1, /sdc/t1, /sdd/t1 ...
 t2 temp dir:         /sdb/t2, /sdc/t2, /sdd/t2 ...   
 ```
 
-![PT操作步骤](https://github.com/plotgeek/pt/blob/memplot/PT.png)
+[PT完整操作步骤](https://github.com/plotgeek/pt/blob/memplot/PT.png)
 
 
 ## install
