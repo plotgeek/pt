@@ -151,31 +151,27 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        if (@*ARGS.elems == 3) {
        	  $cnt = $arg_3;
        }
-       for @disks -> $d {
-           my $xchlog = "/home/$d/.chia/mainnet/log/debug.log";
-	   say "host  $d start:";
-       	   say qqx/ssh $d@$d tail -n $cnt $xchlog/;
-	   say "host  $d end:";
+       for @disks -> $h {
+           my $xchlog = "/home/$h/.chia/mainnet/log/debug.log";
+           say "========$h start============";
+       	   say qqx/ssh $h@$h tail -n $cnt $xchlog/;
        }
     }
     if ($op ~~ 'stat') {
        for @disks -> $h {
        	   if (@*ARGS.elems == 3) {
-	     say "host $h start:";
+	     say "========$h start============";
 	     say qqx/ssh $h@$h $arg_3/;
-	     say "host $h end:";
 	   } else {
-	     say "host  $h start:";
+	     say "========$h start============";
        	     say qqx/ssh $h@$h df -h/;
-	     say "host  $h end:";
 	   }
        }
     }
     if ($op ~~ 'scp') {
        for @disks -> $h {
-       	   say "host $h start:";
+	   say "========$h start============";
 	   qqx/scp -r $arg_3 $h@$h:~\//;
-	   say "host $h end:";
        }
     }
 
