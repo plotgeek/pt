@@ -30,7 +30,7 @@ disks mount point： /sdx
 pt: management tool  
 1)  format/mount -> copy/write  -> umount  
 2)  add->add mmx  
-3)  nfs -> mount nfs  
+3)  nfs -> mount nfs -> add nfs  
 4)  count-> clean -> test  
 5)  log  
 
