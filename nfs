@@ -20,7 +20,7 @@ grammar COMMENT {
 	token comment {.*}
 }
 
-sub MAIN($op = "all", $conf = "./nfs.conf")
+sub MAIN($op = "mount", $conf = "./nfs.conf")
 {
 	if ($conf.IO !~~ :e) {
 	   say "$conf do not exist,please check it";
