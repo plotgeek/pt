@@ -1,4 +1,4 @@
-
+#!/usr/bin/env rakudo
 use lib "../lib/";
 use util;
 
