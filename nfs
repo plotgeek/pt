@@ -20,7 +20,7 @@ grammar COMMENT {
 	token comment {.*}
 }
 
-sub MAIN($conf = "./nfs.conf")
+sub MAIN($op = "all", $conf = "./nfs.conf")
 {
 	if ($conf.IO !~~ :e) {
 	   say "$conf do not exist,please check it";
@@ -48,11 +48,21 @@ sub MAIN($conf = "./nfs.conf")
 		my $host     =  $m<host>;
 		my $ip       =  $m<ip>;
 		my $devs     =  $m<devs>;
-
-		say "mounting $host@$ip:$devs";
-		qqx/sudo rakudo pt $devs mount nfs $ip $host/;
-		say "adding plots dir: $devs";
-		qqx/rakudo pt $devs add mmx $host/;
+		
+		if ($op ~~ "mount") {
+		   say "mounting $host@$ip:$devs";
+		   qqx/sudo rakudo pt $devs mount nfs $ip $host/;
+		}
+		if ($op ~~ "add") {
+		   say "adding plots dir: $devs";
+		   qqx/rakudo pt $devs add mmx $host/;
+		}
+		if ($op ~~ "all") {
+		   say "mounting $host@$ip:$devs";
+		   qqx/sudo rakudo pt $devs mount nfs $ip $host/;
+		   say "adding plots dir: $devs";
+		   qqx/rakudo pt $devs add mmx $host/;
+		}
 	    }
         }
 	close $fh;
