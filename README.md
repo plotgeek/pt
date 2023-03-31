@@ -32,7 +32,7 @@ pt: management tool
 2)  add->add mmx  
 3)  nfs -> mount nfs -> add nfs  
 4)  count-> clean -> test  
-5)  log  
+5)  log -> stat -> scp 
 
 nossd: nossd plot tool   
 nossd b-z fpt/spt  
