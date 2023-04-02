@@ -28,11 +28,12 @@ disks mount point： /sdx
 
 
 pt: management tool  
-1)  format/mount -> copy/write  -> umount  
-2)  add->add mmx  
-3)  nfs -> mount nfs -> add nfs  
-4)  count-> clean -> test  
-5)  log -> stat -> scp 
+1)  format -> copy/write  -> umount  
+2)  count-> clean -> test 
+3)  mount->mount nfs  
+4)  add -> add mmx -> add nfs     
+5)  nfs -> mount -> add   
+6)  log -> stat -> scp 
 
 nossd: nossd plot tool   
 nossd b-z fpt/spt  
