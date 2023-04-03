@@ -14,9 +14,9 @@ sub MAIN($dirs)
     for @disks -> $d {
 	my $tmp_dir   = '/sd' ~ $d ~ '/' ~ "plots/";
 	if ($tmp_dir.IO ~~ :e) {
-	   $target = $target ~ "  " ~ $tmp_dir;
+	    $target = $target ~ "  " ~ $tmp_dir;
 	} else {
-	   say "$tmp_dir dosen't exist, need to create!!";
+	    say "$tmp_dir dosen't exist, need to create!!";
 	}
     }
     say $target;

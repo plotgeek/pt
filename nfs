@@ -4,66 +4,66 @@ use lib 'lib';
 use util;
 
 grammar NFS {
-	rule TOP {<space><host><space><sep><space><ip><space><sep><space><devs>}
-	token sep  {':'}
-	token host {\w+}
-	token ip   {\d+<dot>\d+<dot>\d+<dot>\d+}
-	token dot  {'.'}	      
-	token devs {.*}
-	token space{\s*}
+    rule TOP {<space><host><space><sep><space><ip><space><sep><space><devs>}
+    token sep  {':'}
+    token host {\w+}
+    token ip   {\d+<dot>\d+<dot>\d+<dot>\d+}
+    token dot  {'.'}	      
+    token devs {.*}
+    token space{\s*}
 }
 
 grammar COMMENT {
-	rule TOP      {<start><space><comment>}
-	token start   {^'#'}
-	token space   {\s*}
-	token comment {.*}
+    rule TOP      {<start><space><comment>}
+    token start   {^'#'}
+    token space   {\s*}
+    token comment {.*}
 }
 
 sub MAIN($op = "mount", $conf = "./nfs.conf")
 {
-	if ($conf.IO !~~ :e) {
-	   say "$conf do not exist,please check it";
-	   exit(0);
+    if ($conf.IO !~~ :e) {
+	say "$conf do not exist,please check it";
+	exit(0);
+    }
+    say "\nusing conf: $conf\n";
+    my $fh = $conf.IO.open :rw;
+
+    for $fh.lines -> $l {
+
+	# omit comment
+	my $c = COMMENT.parse($l);
+	my $s = $c<start>;
+	if ($s ~~ '#') {
+	    next;
 	}
-	say "\nusing conf: $conf\n";
-	my $fh = $conf.IO.open :rw;
 
-	for $fh.lines -> $l {
-
-	    # omit comment
-	    my $c = COMMENT.parse($l);
-	    my $s = $c<start>;
-	    if ($s ~~ '#') {
-	        next;
+	# parse hostname
+	# parse ip
+	# parse devs
+	my $m =  NFS.parse($l);
+	#say $m.raku;
+	my $sep = $m<sep>[0];
+	if ($sep ~~ ':') {
+	    my $host     =  $m<host>;
+	    my $ip       =  $m<ip>;
+	    my $devs     =  $m<devs>;
+	    
+	    if ($op ~~ "mount") {
+		say "mounting $host@$ip:$devs";
+		qqx/sudo rakudo pt $devs mount nfs $ip $host/;
 	    }
-
-	    # parse hostname
-	    # parse ip
-	    # parse devs
-	    my $m =  NFS.parse($l);
-	    #say $m.raku;
-	    my $sep = $m<sep>[0];
-	    if ($sep ~~ ':') {
-		my $host     =  $m<host>;
-		my $ip       =  $m<ip>;
-		my $devs     =  $m<devs>;
-		
-		if ($op ~~ "mount") {
-		   say "mounting $host@$ip:$devs";
-		   qqx/sudo rakudo pt $devs mount nfs $ip $host/;
-		}
-		if ($op ~~ "add") {
-		   say "adding plots dir: $devs";
-		   qqx/rakudo pt $devs add mmx $host/;
-		}
-		if ($op ~~ "all") {
-		   say "mounting $host@$ip:$devs";
-		   qqx/sudo rakudo pt $devs mount nfs $ip $host/;
-		   say "adding plots dir: $devs";
-		   qqx/rakudo pt $devs add mmx $host/;
-		}
+	    if ($op ~~ "add") {
+		say "adding plots dir: $devs";
+		qqx/rakudo pt $devs add mmx $host/;
 	    }
-        }
-	close $fh;
+	    if ($op ~~ "all") {
+		say "mounting $host@$ip:$devs";
+		qqx/sudo rakudo pt $devs mount nfs $ip $host/;
+		say "adding plots dir: $devs";
+		qqx/rakudo pt $devs add mmx $host/;
+	    }
+	}
+    }
+    close $fh;
 }

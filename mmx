@@ -15,17 +15,17 @@ sub MAIN($dirs, $op = 'mmx', $gpu = 0)
     my $mmx_host = $conf.mmx_host;
 
     if ($op ~~ 'mmx') {
-       my $sname = $op ~ '_' ~ $dirs;
-       qqx/tmux new -s $sname -d rakudo mmx_plotter.raku $dirs $gpu/;
+	my $sname = $op ~ '_' ~ $dirs;
+	qqx/tmux new -s $sname -d rakudo mmx_plotter.raku $dirs $gpu/;
     } elsif ($op ~~ 'copy') {
-       for @disks ->$d {
-       	   my $sname = $op ~ '_' ~ $d;
-	   qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
-       }
+	for @disks ->$d {
+	    my $sname = $op ~ '_' ~ $d;
+	    qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
+	}
     } elsif ($op ~~ 'write') {
-       my $sname = $op ~ '_' ~ $dirs;
-       qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
+	my $sname = $op ~ '_' ~ $dirs;
+	qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
     } else {
-       say "wrong op type $op";
+	say "wrong op type $op";
     }
 }

@@ -17,30 +17,30 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
     if ($op ~~ 'count') {
         my $cnt = 0;
         if (@*ARGS.elems == 2) {
-	   my $plot = count(@disks, 'plot');
-	   say @disks.elems  ~ " disks, total : $plot plots\n";
-	   my $spt = count(@disks, 'spt');
-	   say @disks.elems  ~ " disks, total : $spt spt\n";
-	   my $fpt = count(@disks, 'fpt');
-	   say @disks.elems  ~ " disks, total : $fpt fpt\n";
+	    my $plot = count(@disks, 'plot');
+	    say @disks.elems  ~ " disks, total : $plot plots\n";
+	    my $spt = count(@disks, 'spt');
+	    say @disks.elems  ~ " disks, total : $spt spt\n";
+	    my $fpt = count(@disks, 'fpt');
+	    say @disks.elems  ~ " disks, total : $fpt fpt\n";
 	}
 	if (@*ARGS.elems == 3) {
-	   my $ft = $arg_3;
-	   if ($arg_3 ~~ 'plot') {
-	      $cnt = count(@disks, 'plot');
-	      say @disks.elems  ~ " disks, total $arg_3: $cnt ";
-	   }
-	   if ($arg_3 ~~ 'spt') {
-	      $cnt = count(@disks, 'spt');      
-	      say @disks.elems  ~ " disks, total $arg_3: $cnt ";
-	   }
-	   if ($arg_3 ~~ 'fpt') {
-	      $cnt = count(@disks, 'fpt');
-	      say @disks.elems  ~ " disks, total $arg_3: $cnt ";
-	   }
-	   if ($arg_3 ~~ 'disk') {
-	      say "$dirs is total " ~ @disks.elems ~ " disks\n";
-	   }
+	    my $ft = $arg_3;
+	    if ($arg_3 ~~ 'plot') {
+		$cnt = count(@disks, 'plot');
+		say @disks.elems  ~ " disks, total $arg_3: $cnt ";
+	    }
+	    if ($arg_3 ~~ 'spt') {
+		$cnt = count(@disks, 'spt');      
+		say @disks.elems  ~ " disks, total $arg_3: $cnt ";
+	    }
+	    if ($arg_3 ~~ 'fpt') {
+		$cnt = count(@disks, 'fpt');
+		say @disks.elems  ~ " disks, total $arg_3: $cnt ";
+	    }
+	    if ($arg_3 ~~ 'disk') {
+		say "$dirs is total " ~ @disks.elems ~ " disks\n";
+	    }
 
 	}
     } 
@@ -61,118 +61,118 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
     }
     if ($op ~~ 'test') {
 	if (@*ARGS.elems == 3) {
-	   test(@disks, $arg_3)
+	    test(@disks, $arg_3)
 	} elsif (@*ARGS.elems == 4) {
-	   test(@disks, $arg_3, $arg_4);
+	    test(@disks, $arg_3, $arg_4);
 	} else {
-	   test(@disks);
+	    test(@disks);
 	}
     }
     
     my $fs = 'xfs';
     if ($op ~~ 'stop') {
-       for @disks -> $d {
-       	   qqx/tmux kill-session -t $d /;
-       }
+	for @disks -> $d {
+	    qqx/tmux kill-session -t $d /;
+	}
     }
     if ($op ~~ 'add') {
-       if ($arg_3 ~~ 'mmx') {
-       	 for @disks -> $d {
-   	     my $t = '/sd' ~ $d ~ '/' ~ 'plots';
-       	     put "plots dir: $t";
-	     if (@*ARGS.elems >= 4) {
-	        $t = '/' ~ $arg_4 ~ '/sd' ~ $d ~ '/' ~ 'plots';
-		say $t;
-	     }
-             qqx/chia.bin plots add -d $t/;
-       	 }
-       } else {
-       	 for @disks -> $d {
-   	     my $t = '/sd' ~ $d ~ '/' ~ 'plots';
-       	     put "plots dir: $t";
-	     qqx/chia plots add -d $t/;
-       	 }
-       }
+	if ($arg_3 ~~ 'mmx') {
+	    for @disks -> $d {
+		my $t = '/sd' ~ $d ~ '/' ~ 'plots';
+		put "plots dir: $t";
+		if (@*ARGS.elems >= 4) {
+		    $t = '/' ~ $arg_4 ~ '/sd' ~ $d ~ '/' ~ 'plots';
+		    say $t;
+		}
+		qqx/chia.bin plots add -d $t/;
+	    }
+	} else {
+	    for @disks -> $d {
+		my $t = '/sd' ~ $d ~ '/' ~ 'plots';
+		put "plots dir: $t";
+		qqx/chia plots add -d $t/;
+	    }
+	}
     }
     if ($op ~~ 'mount') {
-       if ( @*ARGS.elems >= 3) {
-       	  for @disks -> $d {
-              say $d;
-	      $fs = $arg_3;
-	      if ($fs ~~ 'nfs') {
-	      	 my $hostip   = $arg_4;
-	      	 my $hostname = $arg_5;
-	      	 say "$hostip. $hostname, $d";
-	      	 mount_nfs($d, $fs, $hostip, $hostname);
-	      } else {
- 	      	 mount($d, $fs);
-	      }
-	   }
-       } else {
-       	  for @disks -> $d {
-	      mount($d, $fs);
-	  }
-       }	   
+	if ( @*ARGS.elems >= 3) {
+	    for @disks -> $d {
+		say $d;
+		$fs = $arg_3;
+		if ($fs ~~ 'nfs') {
+		    my $hostip   = $arg_4;
+		    my $hostname = $arg_5;
+		    say "$hostip. $hostname, $d";
+		    mount_nfs($d, $fs, $hostip, $hostname);
+		} else {
+		    mount($d, $fs);
+		}
+	    }
+	} else {
+	    for @disks -> $d {
+		mount($d, $fs);
+	    }
+	}	   
     }
     if ($op ~~ 'umount') {
-       for @disks -> $d {
-	   umount($d);
-       }
+	for @disks -> $d {
+	    umount($d);
+	}
     }
     if ($op ~~ 'format') {
-       for @disks -> $d {
-           if (@*ARGS.elems == 3) {
-	      $fs = $arg_3;
-	   }
-           format($d, $fs);
-       }
+	for @disks -> $d {
+	    if (@*ARGS.elems == 3) {
+		$fs = $arg_3;
+	    }
+	    format($d, $fs);
+	}
     }
     if ($op ~~ 'nfs') {
-       my $nfs_conf = "/etc/exports";
-       for @disks -> $d {
-           my $ed = "/sd" ~ $d ~ " *(rw,async,no_subtree_check,no_root_squash)\n";
-           my $nfs_op = $arg_3;
-	   spurt $nfs_conf, $ed, :append;
-       }
-       qqx/service  nfs-server restart/;
+	my $nfs_conf = "/etc/exports";
+	for @disks -> $d {
+	    my $ed = "/sd" ~ $d ~ " *(rw,async,no_subtree_check,no_root_squash)\n";
+	    my $nfs_op = $arg_3;
+	    spurt $nfs_conf, $ed, :append;
+	}
+	qqx/service  nfs-server restart/;
     }
     if ($op ~~ 'copy') {
-       for @disks -> $d {
-       	   my $sname = $op ~ '_' ~ $d;
-	   qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
-       }
+	for @disks -> $d {
+	    my $sname = $op ~ '_' ~ $d;
+	    qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
+	}
     }
     if ($op ~~ 'write') {
-       my $sname = $op ~ '_' ~ $dirs;
-       qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
+	my $sname = $op ~ '_' ~ $dirs;
+	qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
     }
     if ($op ~~ 'log') {
-       my $cnt = 10;
-       if (@*ARGS.elems == 3) {
-       	  $cnt = $arg_3;
-       }
-       for @disks -> $h {
-           my $xchlog = "/home/$h/.chia/mainnet/log/debug.log";
-           say "========$h start============";
-       	   say qqx/ssh $h@$h tail -n $cnt $xchlog/;
-       }
+	my $cnt = 10;
+	if (@*ARGS.elems == 3) {
+	    $cnt = $arg_3;
+	}
+	for @disks -> $h {
+	    my $xchlog = "/home/$h/.chia/mainnet/log/debug.log";
+	    say "========$h start============";
+	    say qqx/ssh $h@$h tail -n $cnt $xchlog/;
+	}
     }
     if ($op ~~ 'stat') {
-       for @disks -> $h {
-       	   if (@*ARGS.elems == 3) {
-	     say "========$h start============";
-	     say qqx/ssh $h@$h $arg_3/;
-	   } else {
-	     say "========$h start============";
-       	     say qqx/ssh $h@$h df -h/;
-	   }
-       }
+	for @disks -> $h {
+	    if (@*ARGS.elems == 3) {
+		say "========$h start============";
+		say qqx/ssh $h@$h $arg_3/;
+	    } else {
+		say "========$h start============";
+		say qqx/ssh $h@$h df -h/;
+	    }
+	}
     }
     if ($op ~~ 'scp') {
-       for @disks -> $h {
-	   say "========$h start============";
-	   qqx/scp -r $arg_3 $h@$h:~\//;
-       }
+	for @disks -> $h {
+	    say "========$h start============";
+	    qqx/scp -r $arg_3 $h@$h:~\//;
+	}
     }
 
 }
