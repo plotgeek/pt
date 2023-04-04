@@ -1,6 +1,10 @@
 # plots management tool
 
-
+## install
+```
+sudo apt install rakudo
+```
+## requirement
 All disk's mount point format is like below 
 ```
 "/sd" + "device name"
@@ -15,7 +19,7 @@ t1 temp dir:         /sdb/t1, /sdc/t1, /sdd/t1 ...
 t2 temp dir:         /sdb/t2, /sdc/t2, /sdd/t2 ...   
 ```
 
-[PT commands](https://github.com/plotgeek/pt/blob/memplot/PT.png)   
+## [pt commands](https://github.com/plotgeek/pt/blob/memplot/PT.png)   
 ```
 there are two conf files: 
 [Conf.pm] is for plotting args.  
@@ -26,9 +30,10 @@ pt <dirs/hosts>  [cmds]  [args]
 nossd <dirs> [cmds] [args]  
 mmx   <dirs> [cmds] [args]   
 nfs [cmds]
+bb  [cmds]
 ```
 
-$\mathbf{pt}$  
+### pt
 ```
 1)  format -> copy/write  -> umount  
 2)  count-> clean -> test 
@@ -37,29 +42,26 @@ $\mathbf{pt}$
 5)  nfs -> mount -> add   
 6)  log -> stat -> scp 
 ```
-$\mathbf{nossd}$  
+### nossd  
 ```
 1) nossd b-z fpt
 2) nossd b-z spt
 ```
-$\mathbf{mmx}$ 
+### mmx 
 
 ```
 1) mmx  nv1   
 2) mmx  nv1 copy  
 3) mmx  b-z  write  
 ```
-$\mathbf{nfs}$ 
+### nfs
 ```
 1) nfs mount
 2) nfs add
 ```
 
 
-## install
-```
-sudo apt install rakudo
-```
+
 
 
 
