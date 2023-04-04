@@ -1,7 +1,8 @@
 # plots management tool
 
 
-All disk's mount point format are  "/sd" + "devcie name", eg. "/dev/sdb" mount point is "/sdb"  
+All disk's mount point format are  "/sd" + "devcie name",   
+e.g "/dev/sdb" mount point is "/sdb"  
 ```
 nvme ssd mount dir:  /sdnv1, /sdnv2, /sdnv3 ...     
                   :  /sdnv1/plots, /sdnv2/plots, /sdnv3/plots ...   
