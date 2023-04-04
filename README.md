@@ -13,37 +13,38 @@ t2 temp dir:         /sdb/t2, /sdc/t2, /sdd/t2 ...
 
 [PT commands](https://github.com/plotgeek/pt/blob/memplot/PT.png)  
 ```
-pt <dir/hosts>  [cmds]  [args]  
-  
-disks mount point： /sdx  
-/sdb  
-/sdb/plots  
-/sdb/t1  
-/sdb/t2  
+pt <dirs/hosts>  [cmds]  [args]  
+nossd <dirs> [cmds] [args]  
+mmx   <dirs> [cmds] [args]   
+nfs [cmds]
+```
 
-/sdnv1  
-/sdnv1/plots  
-/sdnv1/t1  
-/sdnv1/t2  
-
-
-pt: management tool  
+$\mathbf{pt}$  
+```
 1)  format -> copy/write  -> umount  
 2)  count-> clean -> test 
 3)  mount->mount nfs  
 4)  add -> add mmx -> add nfs     
 5)  nfs -> mount -> add   
 6)  log -> stat -> scp 
-
-nossd: nossd plot tool   
-nossd b-z fpt/spt  
-
-mmx: mmx plot tool   
-mmx  nv1   
-mmx  nv1 copy  
-mmx  b-z  write  
 ```
+$\mathbf{nossd}$  
+```
+1) nossd b-z fpt
+2) nossd b-z spt
+```
+$\mathbf{mmx}$ 
 
+```
+1) mmx  nv1   
+2) mmx  nv1 copy  
+3) mmx  b-z  write  
+```
+$\mathbf{nfs}$ 
+```
+1) nfs mount
+2) nfs add
+```
 
 
 ## install
