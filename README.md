@@ -3,7 +3,7 @@
 
 All disk's mount point format are 
 ```
-"/sd" + "devcice name"
+"/sd" + "device name"
 ```
 ```
 e.g "/dev/sdb" mount point is "/sdb"  
