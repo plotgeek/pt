@@ -16,8 +16,11 @@ t2 temp dir:         /sdb/t2, /sdc/t2, /sdd/t2 ...
 ```
 
 [PT commands](https://github.com/plotgeek/pt/blob/memplot/PT.png)   
-[Conf.pm](https://github.com/plotgeek/pt/blob/memplot/Conf.pm) is for plotting args.  
-[nfs.conf](https://github.com/plotgeek/pt/blob/memplot/nfs.conf) is for nfs args.  
+```
+there are two conf files: 
+[Conf.pm] is for plotting args.  
+[nfs.conf] is for nfs args.  
+```
 ```
 pt <dirs/hosts>  [cmds]  [args]  
 nossd <dirs> [cmds] [args]  
