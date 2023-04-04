@@ -5,7 +5,7 @@
 sudo apt install rakudo
 ```
 ## requirement
-All disk's mount point format is like below 
+all disk's mount point format is like below 
 ```
 "/sd" + "device name"
 ```
