@@ -1,7 +1,7 @@
 # plots management tool
 
 
-All disk's mount point format are 
+All disk's mount point format is like below 
 ```
 "/sd" + "device name"
 ```
