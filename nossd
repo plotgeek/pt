@@ -6,7 +6,7 @@ use Conf;
 use plot;
 use util;
 
-sub MAIN($dirs, $op = 'ms')
+sub MAIN($dirs, $op = 'ms', $arg_3 = 'arg_3')
 {
     my $conf  = Conf.new;
     say $conf.addr;
@@ -67,14 +67,20 @@ sub MAIN($dirs, $op = 'ms')
 	   }
        }
     } elsif ($op ~~ 'harvester') {
-       my $sname = $op ~ '_' ~ $dirs;
+       my $sname = 'h_' ~ $dirs;
        for @disks -> $d {
            put "dir: $d" ;
-           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   my $f_dir = '';
+           if (@*ARGS.elems == 3) {
+	      my $pre = $arg_3;
+       	      $sname = 'h_' ~ $pre ~ '_' ~ $dirs; 	 
+	      $f_dir = '/' ~ $pre ~ '/sd' ~ $d ~ '/' ~ 'plots';
+	   } else {
+             $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   }
 	   if ($f_dir.IO ~~ :e) {
 	      $path = $path ~ " -d,r $f_dir";
 	   }
-	   #$sname = $sname ~ $d;
        }
        say "path : $path";
        say "sname：$sname";
