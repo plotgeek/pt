@@ -30,3 +30,4 @@ has $.mmx_copy         = "chia_plot_copy";
 has $.mmx_sink         = "chia_plot_sink";
 has $.mmx_host         = "localhost";
 has $.mmx_level        = 8;
+has $.mmx_port         = 8444     
