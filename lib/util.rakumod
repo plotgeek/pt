@@ -272,6 +272,8 @@ sub format($t, $fs) is export {
      qqx/sudo parted -s $d mklabel gpt/;
      qqx/sudo parted -s $d mkpart ntfs 0% 100%/;
      qqx/sudo mkfs.ntfs -f $ntfs1/;
+   } elsif ($fs ~~ "btrfs") {
+     put qqx/mkfs.$fs -m single -d single -f $d/;
    } else {
       qqx/parted -s $d mklabel gpt/;
       qqx/parted -s $d mkpart x $fs 0% 100%/;
