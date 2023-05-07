@@ -159,7 +159,7 @@ sub mount($d, $fs) is export
        $tdev = $tdev ~ '1';
     }
     if ($tdir.IO ~~ :e) {
-	qqx/mount -t $fs $tdev $tdir/;
+	qqx/sudo mount -t $fs $tdev $tdir/;
     } else {
 	qqx/sudo mkdir $tdir/ ;
 	qqx/sudo mount -t $fs $tdev $tdir/;
@@ -186,7 +186,7 @@ sub umount($d) is export
     say "umounting " ~ $d;
     my $tdir = '/sd' ~ $d;
      if ($tdir.IO ~~ :e) {
-	qqx/umount $tdir/;
+	qqx/sudo umount $tdir/;
     }
 }
 
@@ -266,18 +266,18 @@ sub format($t, $fs) is export {
 
    put "mkfs ing";
    if ($fs ~~ "f2fs") {
-     put qqx/mkfs.$fs -l f2fs -m $d/;
+     put qqx/sudo mkfs.$fs -l f2fs -m $d/;
    } elsif ($fs ~~ "ntfs") {
      my $ntfs1 = $d ~ '1';
      qqx/sudo parted -s $d mklabel gpt/;
      qqx/sudo parted -s $d mkpart ntfs 0% 100%/;
      qqx/sudo mkfs.ntfs -f $ntfs1/;
    } elsif ($fs ~~ "btrfs") {
-     put qqx/mkfs.$fs -m single -d single -f $d/;
+     put qqx/sudo mkfs.$fs -m single -d single -f $d/;
    } else {
       qqx/parted -s $d mklabel gpt/;
       qqx/parted -s $d mkpart x $fs 0% 100%/;
-      put qqx/mkfs.$fs -f $d/;
+      put qqx/sudo mkfs.$fs -f $d/;
    }
 
 
@@ -287,7 +287,7 @@ sub format($t, $fs) is export {
      my $ntfs1 = $d ~ '1';
      qqx/sudo mount -o noatime,async,big_writes -t ntfs-3g -w $ntfs1 $td/
    } else {
-     put qqx/mount -t $fs $d $td/;
+     put qqx/sudo mount -t $fs $d $td/;
    }
 
    sleep 2;
@@ -300,7 +300,7 @@ sub format($t, $fs) is export {
    sleep 2;
    my $user = $*KERNEL.hostname;
    put "chown for user: " ~ $user;
-   qqx/chown  $user.$user  -R  \/$td/;
+   qqx/sudo chown  $user.$user  -R  \/$td/;
 
    put "done";
 }
