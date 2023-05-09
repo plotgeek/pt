@@ -22,7 +22,7 @@ has $.pool_key         = "";
 
 has $.disk_avail       = "80G";
 has $.type             = "pg"; 
-
+has $.media            = "cudaplot"; # diskplot,ramplot,cudaplot
 
 # mmx args
 has $.mmx_name         = "cuda_plot_k32";

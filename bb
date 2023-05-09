@@ -9,5 +9,6 @@ use Conf;
 sub MAIN($dirs) 
 {
     say "$dirs";
-    qqx/tmux new -s $dirs -d rakudo plotter.raku $dirs /;
+    my $sname = "bb_" ~ $dirs;
+    qqx/tmux new -s $sname -d rakudo plotter.raku $dirs /;
 }
