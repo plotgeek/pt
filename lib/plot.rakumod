@@ -24,16 +24,16 @@ sub mmx($d, $gpu, $mmx_name, $x, $level, $t, $f, $pool_key, $pool_contract) is e
     }
 }
 
-sub bb($f_dir, $d, $t, $f, $pool_key, $pool_contract) is export
+sub bb($f_dir, $d, $t, $f, $pool_key, $pool_contract, $media) is export
 {
     my $d2 =  $d;
     if ($t ~~ 'pg') {
        say "pg";
-       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-c', $pool_contract, "ramplot", $f_dir;
+       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-c', $pool_contract, $media, $f_dir;
        return $proc;
     } elsif ($t ~~ 'og') {
        say "og";
-       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-p', $pool_key, "ramplot", $f_dir;
+       my $proc = Proc::Async.new: 'bladebit', '-f', $f, '-p', $pool_key, $media, $f_dir;
        return $proc;
     }
 }
