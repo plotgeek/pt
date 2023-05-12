@@ -21,7 +21,7 @@ has $.pool_key         = "987e0cd0ffc600cc910d69a6a55021e290080da04506f4023bb04d
 
 # common args
 has $.disk_avail       = "80G";
-has $.type             = "pg"; 
+has $.type             = "pg"; # pg,og
 
 # bb args
 has $.bb               = "bladebit_cuda"; # bladebit,bladebit_cuda
