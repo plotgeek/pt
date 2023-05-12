@@ -54,6 +54,10 @@ bb  [cmds]
 2) mmx  nv1 copy  
 3) mmx  b-z  write  
 ```
+### bb
+1) bb nv1
+2) pt nv1 copy
+3) pt nv1 b-z write
 ### nfs
 ```
 1) nfs mount
