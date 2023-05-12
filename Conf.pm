@@ -19,10 +19,13 @@ has $.pool_key         = "";
 
 
 
-
+# common args
 has $.disk_avail       = "80G";
 has $.type             = "pg"; 
+
+# bb args
 has $.media            = "cudaplot"; # diskplot,ramplot,cudaplot
+has $.bb_level         = 7;
 
 # mmx args
 has $.mmx_name         = "cuda_plot_k32";
