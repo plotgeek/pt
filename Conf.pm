@@ -15,15 +15,16 @@ has $.m_threads        = 4;
 has $.farmer_key       = "9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b";
 has $.pool_contract    = "xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj";
 # og args
-has $.pool_key         = "";
+has $.pool_key         = "987e0cd0ffc600cc910d69a6a55021e290080da04506f4023bb04dc30f12311f7702a5def764c2064f60fae4cc19d7a9";
 
 
 
 # common args
 has $.disk_avail       = "80G";
-has $.type             = "pg"; 
+has $.type             = "og"; 
 
 # bb args
+has $.bb               = "bladebit_cuda"; # bladebit,bladebit_cuda
 has $.media            = "cudaplot"; # diskplot,ramplot,cudaplot
 has $.bb_level         = 7;
 
