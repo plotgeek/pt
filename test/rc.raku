@@ -3,11 +3,10 @@
 use lib "../lib";
 use util;
 
-sub MAIN($hs, $cmd)
+sub MAIN($cmd, $f = "./c8.txt")
 {
-	my @all = parse_comma($hs);
-
-	for @all -> $h {
+	my $host = $f;
+	for $host.IO.lines() -> $h {
 	    say "-------- start host: $h --------";
 	    if ($cmd.contains("sudo")) {
 	      say qqx/ssh $h@$h "echo $h | $cmd"/;

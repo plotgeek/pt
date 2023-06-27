@@ -4,10 +4,10 @@ use util;
 
 sub MAIN($h="h.txt")
 {
-	my $host = "./c8.txt";
-	my $ca   = "./ca";
+	my $host = "./h.txt";
+
 	for $host.IO.lines() -> $h {
 	    say $h;
-	    qqx/scp -r $ca  $h@$h:~\//;
+	    qqx/ssh-copy-id $h@$h/;
 	}
 }
