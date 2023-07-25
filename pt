@@ -130,7 +130,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
     if ($op ~~ 'nfs') {
 	my $nfs_conf = "/etc/exports";
 	for @disks -> $d {
-	    my $ed = "/sd" ~ $d ~ " *(ro,async,no_subtree_check,no_root_squash)\n";
+	    my $ed = "/sd" ~ $d ~ " *(rw,async,no_subtree_check,no_root_squash)\n";
 	    my $nfs_op = $arg_3;
 	    spurt $nfs_conf, $ed, :append;
 	}
