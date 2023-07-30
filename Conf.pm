@@ -22,6 +22,7 @@ has $.pool_key         = "987e0cd0ffc600cc910d69a6a55021e290080da04506f4023bb04d
 # common args
 has $.disk_avail       = "80G";
 has $.type             = "pg"; # pg,og
+has $.mount_prefix     = "/z47";
 
 # bb args
 has $.bb               = "bladebit_cuda"; # bladebit,bladebit_cuda
@@ -34,4 +35,11 @@ has $.mmx_copy         = "chia_plot_copy";
 has $.mmx_sink         = "chia_plot_sink";
 has $.mmx_host         = "localhost";
 has $.mmx_level        = 8;
-has $.mmx_port         = 8444     
+has $.mmx_port         = 8444;     
+
+
+# spacemesh args
+
+    
+has $.smh_root_path    ="~/squashfs-root";
+has $.smh_numunits     = 4;
