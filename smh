@@ -1,0 +1,61 @@
+#!/usr/bin/env rakudo
+
+use lib 'lib';
+use lib ".";
+use Conf;
+use plot;
+use util;
+
+sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
+{
+    my $conf        = Conf.new;
+    my @disks       = parse_comma($dirs);
+    my $num_of_disk = @disks.elems;
+    my $num_of_gpu  = qqx/nvidia-smi -L |wc -l/;
+    my @gpus        = parse_comma($gpu);
+    my $work_of_gpu = @gpus.elems;
+    say " num_of_disk: $num_of_disk\n num_of_gpu: $num_of_gpu work_of_gpu: $work_of_gpu\n task_per_gpu: $task_per_gpu \n";
+
+    if ($work_of_gpu > $num_of_gpu) {
+	say "error, the max num of gpu: $num_of_gpu";
+	exit(1);
+    }
+    my $max_of_task = min($num_of_disk, $work_of_gpu);
+    my $pre_num_of_task = $work_of_gpu div $task_per_gpu;
+
+    my $num_of_task = min($max_of_task, $pre_num_of_task);
+    say " num of task: $num_of_task";
+    if ($num_of_task == 0) {
+	say " args erro";
+	exit(1);
+    }
+
+    while ($num_of_task--) {
+	#say "gpus: " ~ @gpus;
+	my $p = @gpus.pop;
+	my $gpu_cnt = $task_per_gpu;
+	#say "task_per_gpu: $gpu_cnt";
+
+	while (--$gpu_cnt && $gpu_cnt>0) {
+	    my $t = @gpus.pop;
+	    $p = $p ~ ',' ~ $t;
+	}
+	say "task of gpu: $p";
+
+	my $d = @disks.pop;
+	say "disk: $d";
+	
+	my $root_path = $conf.smh_root_path;
+	my $smh = $root_path ~ "/node/go-spacemesh";
+	my $smh_log_dir = $conf.smh_root_path ~ '/log';
+	my $smh_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d;
+	my $smh_data_dir = $conf.mount_prefix ~ "/sd" ~ $d ~ "/plots";
+	my $smh_conf = $conf.smh_root_path ~ '/node-config.json';
+	my $smh_numunits = $conf.smh_numunits;
+	my $smh_filelock = $smh_log_dir ~ '/filelock_' ~ $d;
+	#say $smh_filelock;
+	say $smh;
+	qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-provider $p --filelock $smh_filelock /;
+
+    }
+}
