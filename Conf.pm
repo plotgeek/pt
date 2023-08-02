@@ -40,6 +40,8 @@ has $.mmx_port         = 8444;
 
 # spacemesh args
 
-    
+has $.smh_op           ="plot"; # "plot" or "mining"
+#has $.smh_op           ="mining"; # "plot" or "mining"
 has $.smh_root_path    ="~/squashfs-root";
 has $.smh_numunits     = 4;
+has $.smh_coinbase     ="sm1qqqqqqrlwdvqf9rpvvnvgya0flksx0dmvr4ghusuw76kj";
