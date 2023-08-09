@@ -64,7 +64,8 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	my $smh_data_dir    = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $plots_dir;
 	my $smh_conf        = $conf.smh_root_path ~ '/node-config.json';
 	my $smh_numunits    = $conf.smh_numunits;
-	my $smh_filelock    = $smh_log_dir ~ '/filelock_' ~ $d;
+	my $smh_filelock    = $smh_log_dir ~ '/filelock_' ~ $d ~ $plots_dir;
+	my $sname           = $smh_filelock;
 	my $smh_coinbase    = $conf.smh_coinbase;
 
 	my $smh_postcli     = $conf.smh_postcli;
@@ -91,8 +92,8 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	}
 
 	if ($smh_op ~~ "mining") {
-	   say "qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /";
-	   qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /;
+	   say "qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /";
+	   qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /;
 	}
     }
 }
