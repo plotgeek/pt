@@ -85,11 +85,13 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 		say "index: $g";
 		say "from: $from";
 		say "to: $to";
+		say "qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
 		qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
 	    }
 	}
 
 	if ($smh_op ~~ "mining") {
+	   say "qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /";
 	   qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /;
 	}
     }
