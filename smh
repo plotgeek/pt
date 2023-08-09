@@ -90,7 +90,7 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	}
 
 	if ($smh_op ~~ "mining") {
-	   qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /;
+	   qqx/tmux new -s $d -d $smh --config $smh_conf  --data-folder $smh_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $smh_numunits --smeshing-opts-maxfilesize $smh_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /;
 	}
     }
 }
