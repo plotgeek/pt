@@ -65,7 +65,7 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	my $smh_conf        = $conf.smh_root_path ~ '/node-config.json';
 	my $smh_numunits    = $conf.smh_numunits;
 	my $smh_filelock    = $smh_log_dir ~ '/filelock_' ~ $d ~ $plots_dir;
-	my $sname           = $smh_filelock;
+	my $sname           = $d ~ $plots_dir;
 	my $smh_coinbase    = $conf.smh_coinbase;
 
 	my $smh_postcli     = $conf.smh_postcli;
