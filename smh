@@ -62,6 +62,7 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	my $smh_log_dir     = $conf.smh_root_path ~ '/log';
 	my $smh_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d;
 	my $smh_data_dir    = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $plots_dir;
+	my $smh_keybin      = $smh_data_dir ~ "/key.bin";
 	my $smh_conf        = './node-config.json';
 	my $smh_numunits    = $conf.smh_numunits;
 	my $smh_filelock    = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $plots_dir;
@@ -70,16 +71,24 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 
 	my $smh_postcli     = $conf.smh_postcli;
 	my $smh_lu          = $conf.smh_lu;
-	my $smh_commitid    = $conf.smh_commitid;
-	my $smh_id          = $conf.smh_id;
 	my $smh_maxfilesize = $conf.smh_maxfilesize;
-	#say $smh_filelock;
+
 	#say $smh;
 	say "plots dir: $plots_dir";
 	say "data dir: $smh_data_dir";
-
+	#say $smh_filelock;
 
 	if ($smh_op ~~ "plot") {
+	    my $smh_id;
+	    say $smh_keybin;
+	    if ($smh_keybin.IO ~~ :e) {
+	       $smh_id           = $smh_keybin.IO.lines[0].substr(*-64);
+	    } else {
+	       my $tmp           = qqx/\~\/postcli\/postkey $smh_data_dir/;
+	       $smh_id           = $tmp.lines[0];
+	    }
+            my $smh_commitid    = $smh_id;
+
 	    loop (my $g = 0; $g < $num_of_gpu; $g++) {
 		my $from = $g * ($smh_numunits * 32 div $num_of_gpu);
 		my $to   = ($g + 1) * ($smh_numunits * 32 div $num_of_gpu) - 1;
@@ -87,7 +96,7 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 		say "from: $from";
 		say "to: $to";
 		say "qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
-		qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
+		#qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
 	    }
 	}
 
