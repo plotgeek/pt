@@ -57,15 +57,15 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	say "disk: $d";
 	
 	my $root_path = $conf.smh_root_path;
-	my $smh             = $root_path ~ "/node/go-spacemesh";
+	my $smh             = $root_path ~ "/go-spacemesh";
 	my $plots_dir       = $conf.plots_dir;
 	my $smh_log_dir     = $conf.smh_root_path ~ '/log';
 	my $smh_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d;
 	my $smh_data_dir    = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $plots_dir;
 	my $smh_conf        = './node-config.json';
 	my $smh_numunits    = $conf.smh_numunits;
-	my $smh_filelock    = $smh_log_dir ~ '/filelock_' ~ $d ~ $plots_dir;
-	my $sname           = $d ~ $plots_dir;
+	my $smh_filelock    = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $plots_dir;
+	my $sname           = $d ~ '_' ~ $plots_dir;
 	my $smh_coinbase    = $conf.smh_coinbase;
 
 	my $smh_postcli     = $conf.smh_postcli;
