@@ -60,7 +60,7 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 	my $smh             = $root_path ~ "/go-spacemesh";
 	my $plots_dir       = $conf.plots_dir;
 	my $smh_log_dir     = $conf.smh_root_path ~ '/log';
-	my $smh_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d;
+	my $smh_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d ~ '_' ~ $plots_dir;
 	my $smh_data_dir    = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $plots_dir;
 	my $smh_keybin      = $smh_data_dir ~ "/key.bin";
 	my $smh_conf        = './node-config.json';
@@ -96,7 +96,7 @@ sub MAIN($dirs, $gpu = "0", $task_per_gpu = 1)
 		say "from: $from";
 		say "to: $to";
 		say "qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
-		#qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
+		qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
 	    }
 	}
 
