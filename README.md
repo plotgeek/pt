@@ -5,7 +5,7 @@
 pt can be used for chia and spacemesh plots.
 ## install
 ```
-sudo apt install rakudo
+sudo apt install rakudo jq 
 ```
 ## requirement
 all disk's mount point format is like below 
