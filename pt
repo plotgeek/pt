@@ -2,14 +2,16 @@
 
 
 use lib 'lib';
+use lib '.';
 use plot;
 use util;
-
+use Conf;
 
 sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5') 
 {
     my @disks;
     @disks = parse_comma($dirs);
+    my $conf = Conf.new;
 
     if ($op ~~ 'clean') {
         clean(@disks);
@@ -174,5 +176,20 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	    qqx/scp -r $arg_3 $h@$h:~\//;
 	}
     }
-
+    if ($op ~~ 'sid') {
+        my @plots=("plots");
+        if (@*ARGS.elems == 3) {
+            @plots = parse_comma($arg_3);
+        }
+        for @disks -> $d {
+            for @plots -> $p {
+                my $smh_data_dir          = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
+                my $postdata_metadata  = $smh_data_dir ~ '/postdata_metadata.json';
+                my $keybin  = $smh_data_dir ~ '/key.bin';
+                my $k = qqx/cat $keybin/;
+                say $keybin;
+                say $k;
+            }
+        }
+    }
 }
