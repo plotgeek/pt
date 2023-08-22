@@ -42,18 +42,6 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
     }
 
     while ($num_of_task--) {
-	my $p;
-        my $gpu_cnt = $task_per_gpu;
-	if ($smh_op ~~ "plot") {
-	   $p = @gpus.pop;
-	   while (--$gpu_cnt && $gpu_cnt>0) {
-	       my $t = @gpus.pop;
-	       $p = $p ~ ',' ~ $t;
-	   }
-	   say "\ntask of gpu id: $p";
-	}
-	
-
 	my $d = @disks.pop;
 	say "disk: $d";
 	
@@ -91,8 +79,19 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
             my $smh_commitid    = $smh_id;
 
 	    loop (my $g = 0; $g < $num_of_gpu; $g++) {
-		my $from = $g * ($smh_numunits * 32 div $num_of_gpu);
-		my $to   = ($g + 1) * ($smh_numunits * 32 div $num_of_gpu) - 1;
+		my $sum = $smh_numunits * 32;
+		my $r   = $sum mod $num_of_gpu;
+		my $nu  = $sum div $num_of_gpu;
+		if $r > 0 {
+		    $nu = $nu + 1;
+		}
+		my $from = $g * $nu;
+		my $to   = ($g + 1) * $nu - 1;
+		if ($to+1) > $sum {
+		    $to = $sum-1;
+		}
+		say "r : $r";
+		say "nu: $nu";
 		say "index: $g";
 		say "from: $from";
 		say "to: $to";
