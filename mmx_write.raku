@@ -9,10 +9,14 @@ use Conf;
 sub MAIN($dirs) 
 {
     my $conf   = Conf.new;	
+    my $prefix = $conf.mount_prefix;
+    my $plots_dir = $conf.plots_dir;
+    say $prefix;
+    say $plots_dir;
     my @disks  = parse_comma($dirs);
     my $target = ""; 
     for @disks -> $d {
-	my $tmp_dir   = '/sd' ~ $d ~ '/' ~ "plots/";
+	my $tmp_dir   = $prefix ~ '/sd' ~ $d ~ '/' ~ $plots_dir;
 	if ($tmp_dir.IO ~~ :e) {
 	    $target = $target ~ "  " ~ $tmp_dir;
 	} else {
