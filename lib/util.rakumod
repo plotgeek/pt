@@ -154,6 +154,27 @@ sub mount($d, $fs) is export
     say "mounting " ~ $d;
     my $tdir = '/sd' ~ $d;
     my $tdev = '/dev/sd' ~ $d;
+    if ($d ~~ 'nvme0n1') {
+       $tdir = '/sdnv1';
+       $tdev = '/dev/' ~ $d;
+    }
+    if ($d ~~ 'nvme1n1') {
+       $tdir = '/sdnv2';
+       $tdev = '/dev/' ~ $d;
+    }
+    if ($d ~~ 'nvme2n1') {
+       $tdir = '/sdnv3';
+       $tdev = '/dev/' ~ $d;
+    }
+    if ($d ~~ 'nvme3n1') {
+       $tdir = '/sdnv4';
+       $tdev = '/dev/' ~ $d;
+    }
+    if ($d ~~ 'nvme4n1') {
+       $tdir = '/sdnv5';
+       $tdev = '/dev/' ~ $d;
+    }
+
 
     if ($fs ~~ 'ntfs') {
        $tdev = $tdev ~ '1';
@@ -255,6 +276,14 @@ sub format($t, $fs) is export {
    if ($t ~~ 'nvme2n1') {
          $d  = '/dev/'  ~ $t;
          $td = '/sdnv3';
+   }
+   if ($t ~~ 'nvme3n1') {
+         $d  = '/dev/'  ~ $t;
+         $td = '/sdnv4';
+   }
+   if ($t ~~ 'nvme4n1') {
+         $d  = '/dev/'  ~ $t;
+         $td = '/sdnv5';
    }
    put mkdir("$td");
 
