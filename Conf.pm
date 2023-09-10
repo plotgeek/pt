@@ -8,6 +8,9 @@ has $.mem_fpt          = "4G";
 has $.p_threads        = 20;
 has $.f_threads        = 0;
 has $.m_threads        = 4;
+has $.nossd_level      = 15;
+has $.gpu_index        = 0;
+has $.file_type        = "*.fpt";
 
 
 
