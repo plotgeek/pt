@@ -24,7 +24,7 @@ sub MAIN($dirs)
     }
     if ($conf.nossd_mining) {
        say "mining mode";
-       qqx/tmux new -s mining -d client $path -c $level -a $addr/;
+       qqx/tmux new -s mining -d client $path -c $conf.nossd_level -a $conf.addr/;
     } else {
        say "ploting mode";
        if (!$conf.notmp) {
