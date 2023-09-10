@@ -17,16 +17,19 @@ sub MAIN($dirs)
 
 	    for dir($tmp_dir.IO.absolute) -> $pf {
 		# TODO: check f_dir wheather exist
-		my $proc      = mmx_copy($host, $pf);
-		my $promise   = $proc.start;	   
-		loop {
-    	            put do given $promise.status {
-			when Planned { "Still copying on $tmp_dir" } 
-			when Kept    { last; }
-			when Broken  { "Error!!!" }    
-      	     	    }
-	      	    sleep 1;      
-	        }
+		if ($pf.IO.extension ~~ 'fpt') {
+		   my $proc      = mmx_copy($host, $pf);
+		   my $promise   = $proc.start;	   
+		   loop {
+    	           	put do given $promise.status {
+			    when Planned { "Still copying on $tmp_dir" } 
+			    when Kept    { last; }
+	        	    when Broken  { "Error!!!" }    
+      	     	    	}
+	      	        sleep 1;      
+	           }
+		}
+		say "no fpt file";
 	    }
 	}
 	sleep 1; 
