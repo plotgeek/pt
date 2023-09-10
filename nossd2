@@ -16,9 +16,21 @@ sub MAIN($dirs)
 	    say "dir: $d" ;
 	    my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
 	    $tmp = '/sd' ~ $d ~ '/' ~ 't1/';
-	    $path = $path ~ '-d,~t ' ~  $f_dir ~ " ";
+            if ($conf.nossd_mining) {
+	       $path = $path ~ '-d,r ' ~ $f_dir ~ " ";
+	    } else {
+	       $path = $path ~ '-d,~t ' ~ $f_dir ~ " ";
+	    }
     }
-    $path = $path ~ '-d,t ' ~ "/sdnv1/t1";
-    say $path;
-    nossd2($path, $conf.nossd_level, $conf.addr);
+    if ($conf.nossd_mining) {
+       say "mining mode";
+       qqx/tmux new -s mining -d client $path -c $level -a $addr/;
+    } else {
+       say "ploting mode";
+       if (!$conf.notmp) {
+            $path = $path ~ '-d,t ' ~ "/sdnv1/t1";
+       }
+       say $path;
+       qqx/tmux new -s ploting -d client $path -c $conf.nossd_level -a $conf.addr --no-gpu-mining/;
+    }
 }
