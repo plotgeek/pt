@@ -58,4 +58,8 @@ sub nossd_fpt($sname, $path, $mem = '4G', $f_threads = 8, $m_threads = 4) is exp
     return $proc;
 }
 
-
+sub nossd2($dir, $level, $addr) is export
+{
+    say $dir, $addr, $level;
+    qqx/tmux new -s nossd2 -d client $dir -c $level -a $addr --no-gpu-mining/;
+}
