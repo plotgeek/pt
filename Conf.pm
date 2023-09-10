@@ -41,12 +41,11 @@ has $.mmx_port         = 8444;
 
 # spacemesh args
 
-has $.smh_op           ="plot"; # "plot" or "mining"
-has $.smh_root_path    ="~/squashfs-root";
+has $.smh_op           ="mining"; # "plot" or "mining"
+has $.smh_root_path    ="~/node";
 has $.smh_numunits     = 4;
 has $.smh_coinbase     ="sm1qqqqqqrlwdvqf9rpvvnvgya0flksx0dmvr4ghusuw76kj";
-has $.smh_commitid     ="b8c06b5ac9fe2f54921fd596f6ac55898fc515105ee0695f642d50f2a28d879d";
-has $.smh_id           ="b8c06b5ac9fe2f54921fd596f6ac55898fc515105ee0695f642d50f2a28d879d";
 has $.smh_lu           =4294967296;
 has $.smh_maxfilesize  =2147483648;
-has $.smh_postcli      ="~/postcli/postcli"
+has $.smh_postcli      ="~/postcli/postcli";
+has $.smh_postkey      ="~/postcli/postkey";
