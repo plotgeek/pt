@@ -1,0 +1,24 @@
+#!/usr/bin/env rakudo
+
+use lib 'lib';
+use lib '.';
+use plot;
+use util;
+use Conf;
+
+sub MAIN($dirs) 
+{
+    my $conf  = Conf.new;	
+    my @disks = parse($dirs);
+    my $path = "";    
+    my $tmp = "";    
+    for @disks -> $d {
+	    say "dir: $d" ;
+	    my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
+	    $tmp = '/sd' ~ $d ~ '/' ~ 't1/';
+	    $path = $path ~ '-d,~t ' ~  $f_dir ~ " ";
+    }
+    $path = $path ~ '-d,t ' ~ "/sdnv1/t1";
+    say $path;
+    nossd2($path, $conf.nossd_level, $conf.addr);
+}
