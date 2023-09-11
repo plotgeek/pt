@@ -295,7 +295,7 @@ sub format($t, $fs) is export {
 
    put "mkfs ing";
    if ($fs ~~ "f2fs") {
-     put qqx/sudo mkfs.$fs -l f2fs -m $d/;
+     put qqx/sudo mkfs.$fs -f -l f2fs -m $d/;
    } elsif ($fs ~~ "ntfs") {
      my $ntfs1 = $d ~ '1';
      qqx/sudo parted -s $d mklabel gpt/;
