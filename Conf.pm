@@ -12,7 +12,7 @@ has $.nossd_level      = 15;
 has $.gpu_index        = 0;
 has $.file_type        = "*.fpt";
 has $.nossd_mining     = False;
-has $.notmp            = False;
+has $.notmp            = True;
 
 # pg args 
 has $.farmer_key       = "9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b";
