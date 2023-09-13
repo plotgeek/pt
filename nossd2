@@ -17,10 +17,11 @@ sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1")
     my $num   = (^10000).pick;
     my $spath = '~/s' ~ $num;
     say $spath;
+    my $prefix = $conf.mount_prefix;
 
     for @disks -> $d {
 	    say "dir: $d" ;
-	    my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots/';
+	    my $f_dir = $prefix ~ '/sd' ~ $d ~ '/' ~ 'plots/';
             if ($conf.nossd_mining) {
 	       $path = $path ~ '-d,r ' ~ $f_dir ~ " ";
 	    } else {
@@ -29,8 +30,8 @@ sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1")
     }
     if ($conf.nossd_mining) {
        say "mining mode";
-       say "qqx/tmux new -s mining -d client $path -a $addr/";
        my $sname = 'plot_' ~ $num;
+       say "qqx/tmux new -s $sname -d client $path -a $addr/";
        qqx/tmux new -s $sname -d client $path -a $addr -s $spath/;
     } else {
        say "ploting mode";
