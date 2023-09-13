@@ -6,7 +6,7 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs, $tmp_dir="/sdnv1/t1") 
+sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1") 
 {
     my $conf  = Conf.new;	
     my @disks = parse($dirs);
@@ -40,8 +40,8 @@ sub MAIN($dirs, $tmp_dir="/sdnv1/t1")
        	    $path = $path ~ '-d,t ' ~ $tmp_dir;
        }
        say $path;
-       say "qqx/tmux new -s ploting -d client $path -c $level -a $addr -s $spath --no-gpu-mining/";
        my $sname = 'plot_' ~ $num;
-       qqx/tmux new -s $sname -d client $path -c $level -a $addr -s $spath --no-gpu-mining/;
+       say "qqx/tmux new -s $sname -d client $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/";
+       qqx/tmux new -s $sname -d client $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/;
     }
 }
