@@ -265,24 +265,24 @@ sub format($t, $fs) is export {
    my $d = '/dev/sd' ~ $t;
    my $td = '/sd' ~ $t;
    
-   if ($t ~~ 'nvme0n1') {
-         $d  = '/dev/'  ~ $t;
+   if ($t ~~ 'nv0') {
+         $d  = '/dev/nvme0n1';
          $td = '/sdnv1';
    }
-   if ($t ~~ 'nvme1n1') {
-         $d  = '/dev/'  ~ $t;
+   if ($t ~~ 'nv1') {
+         $d  = '/dev/nvme1n1';
          $td = '/sdnv2';
    }
-   if ($t ~~ 'nvme2n1') {
-         $d  = '/dev/'  ~ $t;
+   if ($t ~~ 'nv2') {
+         $d  = '/dev/nvme2n1';
          $td = '/sdnv3';
    }
-   if ($t ~~ 'nvme3n1') {
-         $d  = '/dev/'  ~ $t;
+   if ($t ~~ 'nv3') {
+         $d  = '/dev/nvme3n1';
          $td = '/sdnv4';
    }
-   if ($t ~~ 'nvme4n1') {
-         $d  = '/dev/'  ~ $t;
+   if ($t ~~ 'nv4') {
+         $d  = '/dev/nvme4n1';
          $td = '/sdnv5';
    }
    put mkdir("$td");
