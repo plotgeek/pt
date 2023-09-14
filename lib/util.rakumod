@@ -267,23 +267,23 @@ sub format($t, $fs) is export {
    
    if ($t ~~ 'nv0') {
          $d  = '/dev/nvme0n1';
-         $td = '/sdnv1';
+         $td = '/sdnv0';
    }
    if ($t ~~ 'nv1') {
          $d  = '/dev/nvme1n1';
-         $td = '/sdnv2';
+         $td = '/sdnv1';
    }
    if ($t ~~ 'nv2') {
          $d  = '/dev/nvme2n1';
-         $td = '/sdnv3';
+         $td = '/sdnv2';
    }
    if ($t ~~ 'nv3') {
          $d  = '/dev/nvme3n1';
-         $td = '/sdnv4';
+         $td = '/sdnv3';
    }
    if ($t ~~ 'nv4') {
          $d  = '/dev/nvme4n1';
-         $td = '/sdnv5';
+         $td = '/sdnv4';
    }
    put mkdir("$td");
 
