@@ -154,25 +154,25 @@ sub mount($d, $fs) is export
     say "mounting " ~ $d;
     my $tdir = '/sd' ~ $d;
     my $tdev = '/dev/sd' ~ $d;
-    if ($d ~~ 'nvme0n1') {
+    if ($d ~~ 'nv0') {
+       $tdir = '/sdnv0';
+       $tdev = '/dev/nvme0n1';
+    }
+    if ($d ~~ 'nv1') {
        $tdir = '/sdnv1';
-       $tdev = '/dev/' ~ $d;
+       $tdev = '/dev/nvme1n1';
     }
-    if ($d ~~ 'nvme1n1') {
+    if ($d ~~ 'nv2') {
        $tdir = '/sdnv2';
-       $tdev = '/dev/' ~ $d;
+       $tdev = '/dev/nvme2n1';
     }
-    if ($d ~~ 'nvme2n1') {
+    if ($d ~~ 'nv3') {
        $tdir = '/sdnv3';
-       $tdev = '/dev/' ~ $d;
+       $tdev = '/dev/nvme3n1';
     }
-    if ($d ~~ 'nvme3n1') {
+    if ($d ~~ 'nv4') {
        $tdir = '/sdnv4';
-       $tdev = '/dev/' ~ $d;
-    }
-    if ($d ~~ 'nvme4n1') {
-       $tdir = '/sdnv5';
-       $tdev = '/dev/' ~ $d;
+       $tdev = '/dev/nvme4n1';
     }
 
 
