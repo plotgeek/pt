@@ -13,6 +13,7 @@ has $.nossd            = "~/nossd/client";
 has $.file_type        = "*.fpt";
 has $.nossd_mining     = False;
 has $.notmp            = True;
+has $.use_cpu          = True;
 
 # pg args 
 has $.farmer_key       = "9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b";

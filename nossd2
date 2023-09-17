@@ -60,8 +60,15 @@ sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1")
        	    $path = $path ~ '-d,t ' ~ $tmp_dir;
        }
        say $path;
-       my $sname = 'plot_' ~ $num;
-       say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/";
-       qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/;
+       my $sname = 'plot_' ~ $dirs;
+       my $pth_num = $conf.p_threads;
+       if ($conf.use_cpu) {
+       	  say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/";
+       	  qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/;
+       } else {
+       	  say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/";
+       	  qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/;
+
+       }
     }
 }
