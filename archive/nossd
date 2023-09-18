@@ -1,0 +1,91 @@
+#!/usr/bin/env rakudo
+
+use lib 'lib';
+use lib ".";
+use Conf;
+use plot;
+use util;
+
+sub MAIN($dirs, $op = 'ms', $arg_3 = 'arg_3')
+{
+    my $conf  = Conf.new;
+    say $conf.addr;
+    say "dir: $dirs";
+    my @disks = parse_comma($dirs);
+    my @tasks = @disks.rotor: $conf.num_of_spt_disks, :partial;
+    my $path  = "";
+
+    if ($op ~~ 'ms') {
+       for @tasks -> @s {
+       	   my $subpath = "";
+	   my $sname = $op ~ '_';
+	   for @s -> $t {
+	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
+	       if ($f_dir.IO ~~ :e) {	  
+	       	  $subpath = $subpath ~ " -d,ts $f_dir";
+	       }
+	       $sname = $sname ~ $t;
+	   }
+	   say "path : $subpath";
+	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt, $conf.p_threads, $conf.m_threads);
+       }   
+    } elsif ($op ~~ 'sf') {
+       for @tasks -> @s {
+       	   my $subpath = "";
+	   my $sname = $op ~ '_';
+	   for @s -> $t {
+	       my $f_dir = '/sd' ~ $t ~ '/' ~ 'plots';
+	       if ($f_dir.IO ~~ :e) {
+	       	  $subpath = $subpath ~ " -d $f_dir";
+	       }
+	       $sname = $sname ~ $t;
+	   }
+	   say "path : $subpath";
+	   nossd($sname, $subpath, $conf.addr, $conf.mem_spt, $conf.p_threads, $conf.m_threads);
+       }   
+    } elsif ($op ~~ 'spt') {
+       my $sname = $op ~ '_';
+       for @disks -> $d {
+           put "dir: $d" ;
+           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   if ($f_dir.IO ~~ :e) {
+	      $path = $path ~ " -d,ts $f_dir";
+	   }
+	   $sname = $sname ~ $d;
+       }
+       say "path : $path";
+       nossd($sname, $path, $conf.addr,$conf.mem_spt, $conf.p_threads, $conf.m_threads);
+    } elsif ($op ~~ 'fpt') {
+       for @disks -> $d {
+           put "dir: $d" ;
+           my $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   if ($f_dir.IO ~~ :e) {
+	      my $path = " -d,tf $f_dir";
+	      my $sname = $op ~ '_' ~ $d;
+	      #my $mem = $conf.mem_fpt;
+       	      qqx/tmux new -s $sname -d rakudo fpt.raku $d /;
+	   }
+       }
+    } elsif ($op ~~ 'harvester') {
+       my $sname = 'h_' ~ $dirs;
+       for @disks -> $d {
+           put "dir: $d" ;
+	   my $f_dir = '';
+           if (@*ARGS.elems == 3) {
+	      my $pre = $arg_3;
+       	      $sname = 'h_' ~ $pre ~ '_' ~ $dirs; 	 
+	      $f_dir = '/' ~ $pre ~ '/sd' ~ $d ~ '/' ~ 'plots';
+	   } else {
+             $f_dir = '/sd' ~ $d ~ '/' ~ 'plots';
+	   }
+	   if ($f_dir.IO ~~ :e) {
+	      $path = $path ~ " -d,r $f_dir";
+	   }
+       }
+       say "path : $path";
+       say "sname：$sname";
+       nossd($sname, $path, $conf.addr,$conf.mem_fpt, $conf.p_threads, $conf.m_threads);
+    } else {
+       say "wrong op type $op";
+    }
+}
