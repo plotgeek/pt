@@ -384,19 +384,10 @@ sub count(@disks, $ft = 'plot') is export {
 sub clean_plots($p) {
     if ($p.IO ~~ :e ) {
         for dir($p.IO.absolute) -> $tmp {
-		my $size = $tmp.IO.s/1024/1024/1024;
-		if ($tmp.basename.match(/.fpt$/)) {
-			if ($size > 77 && $size < 79)  { next; say "fpt size: $size";}
-		}
-		if ($tmp.basename.match(/.spt$/)) {
-			if ($size > 87 && $size < 89) { next; say "spt size: $size";}	
-		}
-		if ($tmp.basename.match(/.plot$/)) {
-			if ($size > 71) { next; say "plot size: $size";}
-			
-		}
-		say "cleaning $tmp";
-                unlink $tmp;
+	     if ($tmp.IO.extension ~~ 'tmp') {
+	     	say "cleaning $tmp";
+		unlink $tmp;	
+	     }
         }
     }
 }
