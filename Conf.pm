@@ -5,12 +5,12 @@ has $.addr             = "xch1xy4kmhd6avkde5z0h67mefzgakeq9ahnj802tuxjluq7prj9rh
 has $.num_of_spt_disks = 5;
 has $.mem_spt          = "32G";
 has $.mem_fpt          = "4G";
-has $.p_threads        = 36;
+has $.p_threads        = 32;
 has $.f_threads        = 0;
 has $.m_threads        = 4;
 has $.nossd_level      = 14;
 has $.nossd            = "~/nossd/client";
-has $.file_type        = "*.fpt";
+
 has $.nossd_mining     = False;
 has $.notmp            = True;
 has $.use_cpu          = False;
@@ -24,6 +24,7 @@ has $.pool_key         = "987e0cd0ffc600cc910d69a6a55021e290080da04506f4023bb04d
 
 
 # common args
+has $.file_type        = "*.fpt";
 has $.disk_avail       = "80G";
 has $.type             = "pg"; # pg,og
 has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
@@ -36,11 +37,12 @@ has $.bb_level         = 7;
 
 # mmx args
 has $.mmx_name         = "cuda_plot_k32";
-has $.mmx_copy         = "chia_plot_copy";
-has $.mmx_sink         = "chia_plot_sink";
+has $.mmx_copy         = "~/sink/chia_plot_copy";
+has $.mmx_sink         = "~/sink/chia_plot_sink";
 has $.mmx_host         = "localhost";
 has $.mmx_level        = 8;
 has $.mmx_port         = 8444;     
+has $.mmx_single       = False;
 
 
 # spacemesh args

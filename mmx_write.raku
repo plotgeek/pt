@@ -12,6 +12,7 @@ sub MAIN($dirs)
     my $prefix = $conf.mount_prefix;
     my $plots_dir = $conf.plots_dir;
     #my $file_type = $conf.file_type;
+    my $sink   = $conf.mmx_sink;
     say $prefix;
     say $plots_dir;
     my @disks  = parse_comma($dirs);
@@ -26,5 +27,5 @@ sub MAIN($dirs)
     }
     say $target;
     my $sname = "mmx_write_" ~ $dirs; 
-    qqx/tmux new -s $sname -d chia_plot_sink $target/;
+    qqx/tmux new -s $sname -d $sink $target/;
 }
