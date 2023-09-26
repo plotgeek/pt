@@ -42,7 +42,7 @@ has $.mmx_sink         = "~/sink/chia_plot_sink";
 has $.mmx_host         = "localhost";
 has $.mmx_level        = 8;
 has $.mmx_port         = 8444;     
-has $.mmx_single       = False;
+has $.mmx_single       = True;
 
 
 # spacemesh args
