@@ -2,7 +2,7 @@
 
 
 ## overview
-pt can be used for chia and spacemesh plots.
+chia and spacemesh plot tool.
 ## install
 ```
 sudo apt install rakudo jq 
