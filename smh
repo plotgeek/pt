@@ -21,6 +21,9 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
     my $num_of_gpu  = $work_of_gpu;
 
     my $num_of_task = $num_of_disk;
+
+    my @ips         = get_veth_ip();
+    my $num_nodes   = 0;
     say "$smh_op mode";
     if ($smh_op ~~ "plot") {
        say " num_of_disk: $num_of_disk\n num_of_gpu: $num_of_gpu\n work_of_gpu: $work_of_gpu\n task_per_gpu: $task_per_gpu \n";
@@ -63,8 +66,8 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
 	my $smh_maxfilesize = $conf.smh_maxfilesize;
 
 	#say $smh;
-	say "plots dir: $plots_dir";
-	say "data dir: $smh_data_dir";
+	#say "plots dir: $plots_dir";
+	#say "data dir: $smh_data_dir";
 	#say $smh_filelock;
 
 	if ($smh_op ~~ "plot") {
@@ -102,22 +105,31 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
 	}
 
 	if ($smh_op ~~ "mining") {
-	   say @plots;
 	   if @plots.elems > 0 {
 	      for @plots -> $p {
-                  $smh_data_dir          = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
-		  my $postdata_metadata  = $smh_data_dir ~ '/postdata_metadata.json';
-		  say $postdata_metadata;
-		  my $mining_numunits    = (qqx/cat $postdata_metadata | jq '.NumUnits'/).chomp;
-		  my $mining_maxfilesize = (qqx/cat $postdata_metadata | jq '.MaxFileSize'/).chomp;
-		  my $mining_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d ~ '_' ~ $p;
-		  $sname                 = $d ~ '_' ~ $p;
-		  my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
 
-                  say "qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /";
-	          qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock /;
+                  my $smh_data_dir          = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
+		  if $($smh_data_dir.IO ~~ :e ) {
+	      	     $num_nodes++;
+		     my $postdata_metadata  = $smh_data_dir ~ '/postdata_metadata.json';
+		     my $mining_numunits    = (qqx/cat $postdata_metadata | jq '.NumUnits'/).chomp;
+		     my $mining_maxfilesize = (qqx/cat $postdata_metadata | jq '.MaxFileSize'/).chomp;
+		     my $mining_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d ~ '_' ~ $p;
+		     my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
+		  
+		     my $ip = @ips.pop ~ "";
+		     my $pub_listen = "$ip:9092";
+		     my $pri_listen = "$ip:9093";
+		     my $json_listen = "$ip:9094";
+		     $sname                 = $d ~ '_' ~ $p ~ '_' ~ $ip;
+
+		     say "tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen";
+	             qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen/;
+		     sleep(1);
+		  }
 	       }
 	   }
 	}
+	say "num of nodes: $num_nodes";
     }
 }
