@@ -15,7 +15,7 @@ sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1")
     my $level = $conf.nossd_level;
     say $level, $addr;
     my $num   = (^10000).pick;
-    my $spath = '~/s' ~ $num;
+    my $spath = '~/.nossd/' ~ $num;
     my $sname = "";
     my $nossd = $conf.nossd; 
     
