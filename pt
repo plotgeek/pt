@@ -192,4 +192,29 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
             }
         }
     }
+    if ($op ~~ 'veth') {
+       say "adding veth";
+       for @disks -> $e {
+           say "veth: $e";
+       	   qqx/sudo ip link add dev $e type veth/;
+	   sleep(1);
+       }
+    }
+    if ($op ~~ 'node') {
+       my $num_nodes = 0;
+       my $p1 = 'p1';
+       my $p9 = 'p9';
+       my @n;
+       for  @disks -> $d {
+       	   for $p1 ... $p9 -> $p {
+	       my $node = '/sd' ~ $d ~ '/' ~ $p; 	       	   
+	       if ($node.IO ~~ :e) {
+	       	  $num_nodes++;
+		  @n.push($p);
+	       }
+	   }
+       }
+       say @n;
+       say "num of nodes: $num_nodes";
+    }
 }
