@@ -7,6 +7,23 @@ grammar Parser {
 	token end {\w+}
 }
 
+grammar VETH {
+    rule TOP {<space><veth><space><sep><space><ip>}
+    token sep  {':'}
+    token veth {\w+}
+    token ip   {\d+<dot>\d+<dot>\d+<dot>\d+}
+    token dot  {'.'}	      
+    token space{\s*}
+}
+
+grammar COMMENT {
+    rule TOP      {<start><space><comment>}
+    token start   {^'#'}
+    token space   {\s*}
+    token comment {.*}
+}
+
+
 sub dormsys($d) {
    put "sysfile $d";
 
@@ -531,3 +548,32 @@ sub mmx_sink($host, $dir) is export
 }
 
 
+sub get_veth_ip($conf="$*HOME/pt/veth.conf") is export
+{
+    my @ips;
+    say "using conf $conf";
+    my $fh = $conf.IO.open :r;
+
+    for $fh.lines -> $l {
+    	#say $l;
+	# omit comment
+	my $c = COMMENT.parse($l);
+	my $s = $c<start>;
+	if ($s ~~ '#') {
+	    next;
+	}
+
+	# parse veth
+	# parse ip
+	my $m =  VETH.parse($l);
+	#say $m.raku;
+	my $sep = $m<sep>;
+	if ($sep ~~ ':') {
+	    my $veth     =  $m<veth>;
+	    my $ip       =  $m<ip>;
+	    @ips.push($ip);
+	}
+    }
+    close $fh;
+    return @ips;
+}
