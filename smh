@@ -6,7 +6,7 @@ use Conf;
 use plot;
 use util;
 
-sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
+sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 {
     my $conf        = Conf.new;
     my @disks       = parse_comma($dirs);
@@ -26,14 +26,14 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
     my $num_nodes   = 0;
     say "$smh_op mode";
     if ($smh_op ~~ "plot") {
-       say " num_of_disk: $num_of_disk\n num_of_gpu: $num_of_gpu\n work_of_gpu: $work_of_gpu\n task_per_gpu: $task_per_gpu \n";
+       say " num_of_disk: $num_of_disk\n num_of_gpu: $num_of_gpu\n work_of_gpu: $work_of_gpu\n task_per_gpu: $task_per_gpu_or_ip \n";
        if ($work_of_gpu > $num_of_gpu) {
 	   say "error, the max num of gpu: $num_of_gpu";
 	   exit(1);
        }
 
        my $max_of_task = min($num_of_disk, $work_of_gpu);
-       my $pre_num_of_task = $work_of_gpu div $task_per_gpu;
+       my $pre_num_of_task = $work_of_gpu div $task_per_gpu_or_ip;
 
        $num_of_task = min($max_of_task, $pre_num_of_task);
        say " num of task: $num_of_task";
@@ -116,8 +116,12 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu = 1)
 		     my $mining_maxfilesize = (qqx/cat $postdata_metadata | jq '.MaxFileSize'/).chomp;
 		     my $mining_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d ~ '_' ~ $p;
 		     my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
-		  
-		     my $ip = @ips.pop ~ "";
+		     my $ip;
+		     if ($task_per_gpu_or_ip ~~ 1) {		  
+		     	$ip = @ips.pop ~ "";
+		     } else {
+		        $ip = $task_per_gpu_or_ip;
+		     }
 		     my $pub_listen = "$ip:9092";
 		     my $pri_listen = "$ip:9093";
 		     my $json_listen = "$ip:9094";
