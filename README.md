@@ -68,6 +68,17 @@ bb  [cmds]
 1) nfs mount
 2) nfs add
 ```
+### smh
+```
+smh mining mode
+1) veth add/set/del
+2) smh b-l p1-p4
+```
+```
+smh plot mode
+1) smh b 0-7 8
+```
+
 
 
 
