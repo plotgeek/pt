@@ -208,11 +208,12 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        for  @disks -> $d {
        	   for $p1 ... $p9 -> $p {
 	       my $node = '/sd' ~ $d ~ '/' ~ $p; 	       	   
-	       my $data = '/sd' ~ $d ~ '/data' ~ '/data_' ~ $d ~ '_' ~ $p;
+	       my $data = '/sd' ~ $d ~ '/data' ~ '/data_' ~ $p;
 	       if ($node.IO ~~ :e) {
 	       	  $num_nodes++;
 		  @n.push($p);
 		  print qqx/du -sh $data/;
+		  #qqx/rm -rf $data/;
 	       }
 	   }
        }
