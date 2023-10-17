@@ -116,7 +116,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 		     my $mining_numunits    = (qqx/cat $postdata_metadata | jq '.NumUnits'/).chomp;
 		     my $mining_maxfilesize = (qqx/cat $postdata_metadata | jq '.MaxFileSize'/).chomp;
 		     #my $mining_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d ~ '_' ~ $p;
-		     my $mining_data_folder = $smh_log_dir ~ '/data_' ~ $d ~ '_' ~ $p;
+		     my $mining_data_folder = $smh_log_dir ~ '/data_' ~ $p;
 		     my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
 		     my $ip;
 		     if ($task_per_gpu_or_ip ~~ 1) {		  
