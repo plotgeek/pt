@@ -212,10 +212,10 @@ sub mount_nfs($d, $fs, $hostip, $hostname) is export
     say "$sdev";
     say "mounting nfs $hostname $hostip " ~ $tdir;
     if ($tdir.IO ~~ :e) {
-	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
+	qqx/sudo mount.nfs -o rw,soft,timeo=30,retry=10k,nolock $sdev $tdir/;
     } else {
 	qqx/sudo mkdir -p $tdir/ ;
-	qqx/sudo mount.nfs -o nolock $sdev $tdir/;
+	qqx/sudo mount.nfs -o rw,soft,timeo=30,retry=10k,nolock $sdev $tdir/;
     }	
 }
 
