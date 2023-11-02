@@ -1,8 +1,5 @@
-# plots management tool
+# chia & spacemesh plots tool
 
-
-## overview
-chia and spacemesh plot tool.
 ## install
 ```
 sudo apt install rakudo jq 
