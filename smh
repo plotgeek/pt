@@ -54,7 +54,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 	#my $smh_log_dir     = $conf.smh_root_path ~ '/data';
 	my $smh_log_dir     = "/sd" ~ $d ~ '/data';
 
-	my $smh_data_dir    = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $plots_dir;
+	my $smh_data_dir    = "/" ~ $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $plots_dir;
 	my $smh_keybin      = $smh_data_dir ~ "/key.bin";
 	my $smh_conf        = './node-config.json';
 	my $smh_numunits    = $conf.smh_numunits;
@@ -109,7 +109,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 	   if @plots.elems > 0 {
 	      for @plots -> $p {
 
-                  my $smh_data_dir          = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
+                  my $smh_data_dir          = "/" ~ $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
 		  if $($smh_data_dir.IO ~~ :e ) {
 	      	     $num_nodes++;
 		     my $postdata_metadata  = $smh_data_dir ~ '/postdata_metadata.json';
