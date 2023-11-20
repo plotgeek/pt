@@ -534,6 +534,23 @@ sub parse_comma($dirs) is export
 
     return @disks;
 }
+sub parse_start($dirs) is export
+{
+    my $p     = Parser.parse: $dirs;
+    my $start = $p<start>.chomp;
+    my $end   = $p<end>.chomp;
+    return $start;
+}
+
+sub parse_end($dirs) is export
+{
+    my $p     = Parser.parse: $dirs;
+    my $start = $p<start>.chomp;
+    my $end   = $p<end>.chomp;
+    return $end;
+}
+
+
 
 sub mmx_copy($host, $dir) is export
 {
