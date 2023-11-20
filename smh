@@ -6,7 +6,7 @@ use Conf;
 use plot;
 use util;
 
-sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
+sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 {
     my $conf        = Conf.new;
     my @disks       = parse_comma($dirs);
@@ -15,32 +15,20 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 
     my @plots        = parse_comma($gpus_or_plotdirs);
     my @gpus        = parse_comma($gpus_or_plotdirs);
-    my $work_of_gpu = @gpus.elems;
+    my $specified_of_gpu = @gpus.elems;
 
-    #my $num_of_gpu  = qqx/nvidia-smi -L | grep "GPU" | wc -l/;
-    my $num_of_gpu  = $work_of_gpu;
+    my $num_of_gpu of Int  = (qqx/nvidia-smi -L | grep "GPU" | wc -l/).Int;
 
-    my $num_of_task = $num_of_disk;
+    my $num_of_task = 1;
 
     my @ips         = get_veth_ip();
     my $num_nodes   = 0;
     say "$smh_op mode";
     if ($smh_op ~~ "plot") {
-       say " num_of_disk: $num_of_disk\n num_of_gpu: $num_of_gpu\n work_of_gpu: $work_of_gpu\n task_per_gpu: $task_per_gpu_or_ip \n";
-       if ($work_of_gpu > $num_of_gpu) {
+       say " num_of_disk: $num_of_disk\n num_of_gpu: $num_of_gpu specified_of_gpu: $specified_of_gpu\n";
+       if ($specified_of_gpu > $num_of_gpu) {
 	   say "error, the max num of gpu: $num_of_gpu";
 	   exit(1);
-       }
-
-       my $max_of_task = min($num_of_disk, $work_of_gpu);
-       my $pre_num_of_task = $work_of_gpu div $task_per_gpu_or_ip;
-
-       $num_of_task = min($max_of_task, $pre_num_of_task);
-       say " num of task: $num_of_task";
-
-       if ($num_of_task == 0) {
-	  say " args erro";
-	  exit(1);
        }
     }
 
@@ -82,8 +70,22 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 	    }
             my $smh_commitid    = $smh_id;
 
-	    loop (my $g = 0; $g < $num_of_gpu; $g++) {
-		my $sum = $smh_numunits * 32;
+	    #loop (my $g = 0; $g < $num_of_gpu; $g++) {
+	    for @gpus -> $g {
+		my $sum = 0;
+		my $base_index = 0;
+	        if ($file_index_or_ip ~~ 1) {
+		    say "all file index";
+		    $sum = $smh_numunits * 32;
+		} else {
+      		    my $file_start = parse_start($file_index_or_ip);
+      		    my $file_end   = parse_end($file_index_or_ip);
+      		    my $file_range =  $file_end.Int - $file_start.Int;
+      		    say "file_range : $file_range";
+		    $sum = $file_range + 1;
+		    $base_index = $file_start;
+    		}
+
 		my $r   = $sum mod $num_of_gpu;
 		my $nu  = $sum div $num_of_gpu;
 		if $r > 0 {
@@ -99,6 +101,10 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 		say "index: $g";
 		say "from: $from";
 		say "to: $to";
+
+		$from += $base_index;
+		$to   += $base_index;
+		
 		say "qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
 		qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
 		sleep(1);
@@ -119,10 +125,10 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 		     my $mining_data_folder = $smh_log_dir ~ '/data_' ~ $p;
 		     my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
 		     my $ip;
-		     if ($task_per_gpu_or_ip ~~ 1) {		  
+		     if ($file_index_or_ip ~~ 1) {		  
 		     	$ip = @ips.pop ~ "";
 		     } else {
-		        $ip = $task_per_gpu_or_ip;
+		        $ip = $file_index_or_ip;
 		     }
 		     my $pub_listen = "$ip:9092";
 		     my $pri_listen = "$ip:9093";
@@ -135,7 +141,8 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $task_per_gpu_or_ip = 1)
 		  }
 	       }
 	   }
+	   say "num of nodes: $num_nodes";
 	}
-	say "num of nodes: $num_nodes";
+	
     }
 }
