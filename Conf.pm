@@ -28,7 +28,7 @@ has $.file_type        = "*.fpt";
 has $.disk_avail       = "80G";
 has $.type             = "pg"; # pg,og
 has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
-has $.plots_dir        = "plots";
+has $.plots_dir        = $*KERNEL.hostname; # eg. "plots";
 
 # bb args
 has $.bb               = "bladebit_cuda"; # bladebit,bladebit_cuda
