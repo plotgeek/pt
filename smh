@@ -108,8 +108,8 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 		$to   += $base_index;
 		$g_i  += 1;
 		
-		say "qqx/tmux new -s $g_i -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
-		qqx/tmux new -s $g_i -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
+		say "qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
+		qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
 		sleep(1);
 	    }
 	}
