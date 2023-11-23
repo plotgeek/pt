@@ -71,42 +71,46 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
             my $smh_commitid    = $smh_id;
 
 	    #loop (my $g = 0; $g < $num_of_gpu; $g++) {
+	    my $g_i = 0;
 	    for @gpus -> $g {
 		my $sum = 0;
 		my $base_index = 0;
-	        if ($file_index_or_ip ~~ 1) {
-		    say "all file index";
-		    $sum = $smh_numunits * 32;
-		} else {
+		if ($file_index_or_ip.contains('-')) {
       		    my $file_start = parse_start($file_index_or_ip);
       		    my $file_end   = parse_end($file_index_or_ip);
       		    my $file_range =  $file_end.Int - $file_start.Int;
       		    say "file_range : $file_range";
 		    $sum = $file_range + 1;
 		    $base_index = $file_start;
-    		}
+    		} else {
+		   say "all file index";
+		   $sum = $smh_numunits * 32;
+		}
 
 		my $r   = $sum mod $num_of_gpu;
 		my $nu  = $sum div $num_of_gpu;
 		if $r > 0 {
 		    $nu = $nu + 1;
 		}
-		my $from = $g * $nu;
-		my $to   = ($g + 1) * $nu - 1;
+		my $from = $g_i * $nu;
+		my $to   = ($g_i + 1) * $nu - 1;
 		if ($to+1) > $sum {
 		    $to = $sum-1;
 		}
 		say "r : $r";
 		say "nu: $nu";
-		say "index: $g";
+		say "gpu number: $g";
+		say "gpu index: $g_i";
 		say "from: $from";
 		say "to: $to";
+		say "base_index: $base_index";
 
 		$from += $base_index;
 		$to   += $base_index;
+		$g_i  += 1;
 		
-		say "qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
-		qqx/tmux new -s $g -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
+		say "qqx/tmux new -s $g_i -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/";
+		qqx/tmux new -s $g_i -d $smh_postcli -provider $g -commitmentAtxId $smh_commitid -id $smh_id -labelsPerUnit $smh_lu -maxFileSize $smh_maxfilesize -numUnits $smh_numunits -datadir $smh_data_dir -fromFile $from -toFile $to/;
 		sleep(1);
 	    }
 	}
