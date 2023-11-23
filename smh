@@ -70,7 +70,6 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 	    }
             my $smh_commitid    = $smh_id;
 
-	    #loop (my $g = 0; $g < $num_of_gpu; $g++) {
 	    my $g_i = 0;
 	    for @gpus -> $g {
 		my $sum = 0;
@@ -87,8 +86,8 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 		   $sum = $smh_numunits * 32;
 		}
 
-		my $r   = $sum mod $num_of_gpu;
-		my $nu  = $sum div $num_of_gpu;
+		my $r   = $sum mod $specified_of_gpu;
+		my $nu  = $sum div $specified_of_gpu;
 		if $r > 0 {
 		    $nu = $nu + 1;
 		}
