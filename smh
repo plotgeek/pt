@@ -19,7 +19,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 
     my $num_of_gpu of Int  = (qqx/nvidia-smi -L | grep "GPU" | wc -l/).Int;
 
-    my $num_of_task = 1;
+    my $num_of_task = $num_of_disk;
 
     my @ips         = get_veth_ip();
     my $num_nodes   = 0;
