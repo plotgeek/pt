@@ -73,7 +73,8 @@ smh mining mode
 ```
 ```
 smh plot mode
-1) smh b 0-7 8
+1) smh b 0-7
+2) smh b 0-7 333-2559
 ```
 
 
