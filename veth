@@ -3,63 +3,16 @@
 use lib 'lib';
 use util;
 
-grammar VETH {
-    rule TOP {<space><veth><space><sep><space><ip>}
-    token sep  {':'}
-    token veth {\w+}
-    token ip   {\d+<dot>\d+<dot>\d+<dot>\d+}
-    token dot  {'.'}	      
-    token space{\s*}
-}
-
-grammar COMMENT {
-    rule TOP      {<start><space><comment>}
-    token start   {^'#'}
-    token space   {\s*}
-    token comment {.*}
-}
-
-sub MAIN($op = "add", $conf = "./veth.conf")
+sub MAIN($op = "stat")
 {
-    if ($conf.IO !~~ :e) {
-	say "$conf do not exist,please check it";
-	exit(0);
+    if ($op ~~ "stat") {
+       my @addrs = get_veth_ip();
+       for @addrs -> $a {
+       	   say $a.key.Str;
+	   say $a.value.Str;
+	   my $ip = $a.key.Str;
+	   my $base_port = $a.value.Str;
+       	   say qqx/grpcurl  --plaintext -d "\{\}" $ip:$base_port spacemesh.v1.NodeService.Status/;
+       }
     }
-    say "\nusing conf: $conf\n";
-    my $fh = $conf.IO.open :rw;
-
-    for $fh.lines -> $l {
-    	#say $l;
-	# omit comment
-	my $c = COMMENT.parse($l);
-	my $s = $c<start>;
-	if ($s ~~ '#') {
-	    next;
-	}
-
-	# parse veth
-	# parse ip
-	my $m =  VETH.parse($l);
-	#say $m.raku;
-	my $sep = $m<sep>;
-	if ($sep ~~ ':') {
-	    my $veth     =  $m<veth>;
-	    my $ip       =  $m<ip>;
-	    if ($op ~~ "add") {
-		say "adding veth $veth";
-		qqx/sudo rakudo pt $veth veth/;
-	    }
-	    if ($op ~~ "set") {
-	        # todo
-		say "setting $ip for $veth";
-		my $ips = $ip ~ '/22';
-		qqx/sudo ip addr add $ip dev $veth/;
-	    }
-	    if ($op ~~ "del") {
-	       say "deleting veth $veth";
-       	       qqx/sudo ip link delete $veth/;
-	    }
-	}
-    }
-    close $fh;
 }
