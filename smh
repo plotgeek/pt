@@ -21,7 +21,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 
     my $num_of_task = $num_of_disk;
 
-    my @ips         = get_veth_ip();
+    my @addrs         = get_veth_ip();
     my $num_nodes   = 0;
     say "$smh_op mode";
     if ($smh_op ~~ "plot") {
@@ -127,16 +127,20 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 		     #my $mining_data_folder = $conf.smh_root_path ~ '/log/data_' ~ $d ~ '_' ~ $p;
 		     my $mining_data_folder = $smh_log_dir ~ '/data_' ~ $p;
 		     my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
-		     my $ip;
+		     my $addr;
 		     if ($file_index_or_ip ~~ 1) {		  
-		     	$ip = @ips.pop ~ "";
+		     	$addr = @addrs.pop;
 		     } else {
-		        $ip = $file_index_or_ip;
+		        $addr = $file_index_or_ip;
 		     }
-		     my $pub_listen = "$ip:9092";
-		     my $pri_listen = "$ip:9093";
-		     my $json_listen = "$ip:9094";
-		     $sname                 = $d ~ '_' ~ $p ~ '_' ~ $ip;
+		     my $ip         = $addr.key.Str;
+		     my $base_port  = $addr.value.Str;
+		     my $pub_listen = "$ip:$base_port";
+		     my $pri_port   = $base_port + 1;
+		     my $pri_listen = "$ip:$pri_port";
+		     my $json_port  = $base_port + 2;
+		     my $json_listen = "$ip:$json_port";
+		     $sname                 = $d ~ '_' ~ $p ~ '_' ~ $base_port;
 
 		     say "tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen";
 	             qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen/;

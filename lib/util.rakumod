@@ -8,11 +8,11 @@ grammar Parser {
 }
 
 grammar VETH {
-    rule TOP {<space><veth><space><sep><space><ip>}
+    rule TOP {<space><ip><space><sep><space><base_port>}
     token sep  {':'}
-    token veth {\w+}
     token ip   {\d+<dot>\d+<dot>\d+<dot>\d+}
     token dot  {'.'}	      
+    token base_port {\d+}
     token space{\s*}
 }
 
@@ -567,7 +567,7 @@ sub mmx_sink($host, $dir) is export
 
 sub get_veth_ip($conf="$*HOME/pt/veth.conf") is export
 {
-    my @ips;
+    my @addrs;
     say "using conf $conf";
     my $fh = $conf.IO.open :r;
 
@@ -580,17 +580,17 @@ sub get_veth_ip($conf="$*HOME/pt/veth.conf") is export
 	    next;
 	}
 
-	# parse veth
 	# parse ip
 	my $m =  VETH.parse($l);
 	#say $m.raku;
 	my $sep = $m<sep>;
 	if ($sep ~~ ':') {
-	    my $veth     =  $m<veth>;
+	    my $base_port     =  $m<base_port>;
 	    my $ip       =  $m<ip>;
-	    @ips.push($ip);
+	    my $a        = $ip => $base_port;
+	    @addrs.push($a);
 	}
     }
     close $fh;
-    return @ips;
+    return @addrs;
 }
