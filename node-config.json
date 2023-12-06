@@ -80,21 +80,15 @@
   "p2p": {
     "disable-reuseport": false,
     "p2p-disable-legacy-discovery": true,
-    "bootnodes": [
-      "/dns4/mainnet-bootnode-10.spacemesh.network/tcp/5000/p2p/12D3KooWHK5m83sNj2eNMJMGAngcS9gBja27ho83t79Q2CD4iRjQ",
-      "/dns4/mainnet-bootnode-11.spacemesh.network/tcp/5000/p2p/12D3KooWFrCDS8tc29nxJEYf4sKFXhXw7wMSdhQP4S7tsbfh6ngn",
-      "/dns4/mainnet-bootnode-12.spacemesh.network/tcp/5000/p2p/12D3KooWG4gk8GtMsAjYxHtbNC7oEoBTMRLbLDpKgSQMQkYBFRsw",
-      "/dns4/mainnet-bootnode-13.spacemesh.network/tcp/5000/p2p/12D3KooWPfWYFAkvB5SoqntFr1FMv41U5gqsgx1xoa2EzYuZiSQr",
-      "/dns4/mainnet-bootnode-14.spacemesh.network/tcp/5000/p2p/12D3KooWRkZMjGNrQfRyeKQC9U58cUwAfyQMtjNsupixkBFag8AY",
-      "/dns4/mainnet-bootnode-15.spacemesh.network/tcp/5000/p2p/12D3KooWSZyCMiphAZeVyKv9CGsrULT3nb3TdryjLxGwrjTrU3Ni",
-      "/dns4/mainnet-bootnode-16.spacemesh.network/tcp/5000/p2p/12D3KooWDAFRuFrMNgVQMDy8cgD71GLtPyYyfQzFxMZr2yUBgjHK",
-      "/dns4/mainnet-bootnode-17.spacemesh.network/tcp/5000/p2p/12D3KooWEZ4XzrSMgUyu1xZGVXPYhEXQWAtfaxDFaxQtWsx7SUGn",
-      "/dns4/mainnet-bootnode-18.spacemesh.network/tcp/5000/p2p/12D3KooWMJmdfwxDctuGGoTYJD8Wj9jubQBbPfrgrzzXaQ1RTKE6",
-      "/dns4/mainnet-bootnode-19.spacemesh.network/tcp/5000/p2p/12D3KooWQwpnXv96RP2rdiboJdcEfWSbjMGsf5kwpoia6jxyjWe9"
-    ],
+    "bootnodes": [],
     "min-peers": 20,
     "low-peers": 50,
-    "high-peers": 80
+    "high-peers": 80,
+    "direct": [
+       "/ip4/10.168.1.167/tcp/7513/p2p/12D3KooWDHDsMAdq3JYq8JQ3DeQXSh8SQj5JYmgm6sTU1r5QY8b8",
+       "/ip4/10.168.1.102/tcp/7513/p2p/12D3KooWBDHmCJSa9rnc4kwSTRujGGcRHsAjvawLTXukhDvetYBC",
+       "/ip4/10.168.1.101/tcp/7513/p2p/12D3KooWDQ6rHwxngfbqWLs6vqNqL5M2chHdFBR6HRwxysjUZkcf"
+    ]
   },
   "logging": {
     "p2p": "error"

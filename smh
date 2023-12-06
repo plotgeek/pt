@@ -18,10 +18,9 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
     my $specified_of_gpu = @gpus.elems;
 
     my $num_of_gpu of Int  = (qqx/nvidia-smi -L | grep "GPU" | wc -l/).Int;
-
-    my $num_of_task = $num_of_disk;
-
     my @addrs         = get_veth_ip();
+    my $num_of_task = min($num_of_disk,@addrs.elems);
+
     my $num_nodes   = 0;
     say "$smh_op mode";
     if ($smh_op ~~ "plot") {
