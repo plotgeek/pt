@@ -1,10 +1,15 @@
 #!/usr/bin/env rakudo
 
 use lib 'lib';
+use lib '.';
 use util;
+use Conf;
 
 sub MAIN($op = "stat")
 {
+    my $conf        = Conf.new;
+    my $root_path   = $conf.smh_root_path;
+    my $grpc        = $root_path ~ "/grpcurl";
     if ($op ~~ "stat") {
        my @addrs = get_veth_ip();
        for @addrs -> $a {
@@ -12,7 +17,7 @@ sub MAIN($op = "stat")
 	   say $a.value.Str;
 	   my $ip = $a.key.Str;
 	   my $base_port = $a.value.Str;
-       	   say qqx/grpcurl  --plaintext -d "\{\}" $ip:$base_port spacemesh.v1.NodeService.Status/;
+       	   say qqx/$grpc  --plaintext -d "\{\}" $ip:$base_port spacemesh.v1.NodeService.Status/;
        }
     }
 }
