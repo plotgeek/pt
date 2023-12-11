@@ -69,13 +69,13 @@
       "transaction",
       "activation"
     ],
-    "grpc-public-listener": "0.0.0.0:9092",
+    "grpc-public-listener": "0.0.0.0:9002",
     "grpc-private-services": [
       "smesher",
       "admin"
     ],
-    "grpc-private-listener": "127.0.0.1:9093",
-    "grpc-json-listener": "0.0.0.0:9094"
+    "grpc-private-listener": "127.0.0.1:9003",
+    "grpc-json-listener": "0.0.0.0:9004"
   },
   "p2p": {
     "disable-reuseport": false,
@@ -85,9 +85,11 @@
     "low-peers": 50,
     "high-peers": 80,
     "direct": [
-       "/ip4/10.168.1.167/tcp/7513/p2p/12D3KooWDHDsMAdq3JYq8JQ3DeQXSh8SQj5JYmgm6sTU1r5QY8b8",
-       "/ip4/10.168.1.102/tcp/7513/p2p/12D3KooWBDHmCJSa9rnc4kwSTRujGGcRHsAjvawLTXukhDvetYBC",
-       "/ip4/10.168.1.101/tcp/7513/p2p/12D3KooWDQ6rHwxngfbqWLs6vqNqL5M2chHdFBR6HRwxysjUZkcf"
+       "/ip4/192.168.3.199/tcp/7513/p2p/12D3KooWRqpMbcSzqu6516Ff2oZWWN1Fy6YaTX9KFU4FVdwAaj9x",
+       "/ip4/192.168.3.191/tcp/7513/p2p/12D3KooWPwRfojR9xZNwz3Lyfn7TcSUDjAH6eRwBcozdG1vKcjpo",
+       "/ip4/192.168.3.192/tcp/7513/p2p/12D3KooWFWeqzU5ecfbzx7jwLxgxmdkRKYEapzEgeVhyyL6Vriud",
+       "/ip4/192.168.3.190/tcp/7513/p2p/12D3KooWBZ31oPSVvTJpeXtqSiUg3JMZiiWQK5Qtc9rAic79yUNY",
+       "/ip4/192.168.3.189/tcp/7513/p2p/12D3KooWDHDsMAdq3JYq8JQ3DeQXSh8SQj5JYmgm6sTU1r5QY8b8"
     ]
   },
   "logging": {
