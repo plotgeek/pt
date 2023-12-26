@@ -19,7 +19,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 
     my $num_of_gpu of Int  = (qqx/nvidia-smi -L | grep "GPU" | wc -l/).Int;
     my @addrs         = get_veth_ip();
-    my $num_of_task = min($num_of_disk,@addrs.elems);
+    my $num_of_task = @disks.elems;
 
     my $num_nodes   = 0;
     say "$smh_op mode";
@@ -149,6 +149,37 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 	   }
 	   say "num of nodes: $num_nodes";
 	}
-	
+
+	if ($smh_op ~~ "node") {
+	   if @plots.elems > 0 {
+	      for @plots -> $p {
+	         say "$p";
+                  my $smh_data_dir          = "/" ~ $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
+		  if $($smh_data_dir.IO ~~ :e ) {
+	      	     $num_nodes++;
+		     my $mining_data_folder = $smh_log_dir ~ '/data_' ~ $p;
+		     my $smh_filelock       = $smh_log_dir ~ '/filelock_' ~ $d ~ '_' ~ $p;
+		     my $addr;
+		     if ($file_index_or_ip ~~ 1) {		  
+		     	$addr = @addrs.pop;
+		     } else {
+		        $addr = $file_index_or_ip;
+		     }
+		     my $ip         = $addr.key.Str;
+		     my $base_port  = $addr.value.Str;
+		     my $pub_listen = "$ip:$base_port";
+		     my $pri_port   = $base_port + 1;
+		     my $pri_listen = "$ip:$pri_port";
+		     my $json_port  = $base_port + 2;
+		     my $json_listen = "$ip:$json_port";
+		     $sname                 = $d ~ '_' ~ $p ~ '_' ~ $base_port;
+	             say "tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen";
+	             qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen/;
+		     sleep(1);
+		  }
+	       }
+	   }
+	   say "num of nodes: $num_nodes";
+	}	
     }
 }
