@@ -138,11 +138,14 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 		     my $pri_port   = $base_port + 1;
 		     my $pri_listen = "$ip:$pri_port";
 		     my $json_port  = $base_port + 2;
-		     my $json_listen = "$ip:$json_port";
+		     my $json_listen= "$ip:$json_port";
+		     my $tls_port   = $base_port + 3;
+		     my $tls_listen = "$ip:$tls_port";
 		     $sname                 = $d ~ '_' ~ $p ~ '_' ~ $base_port;
 
-		     say "tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen";
-	             qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen/;
+		     say "tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen --grpc-tls-listener $tls_listen";
+		     qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-opts-numunits $mining_numunits --smeshing-opts-maxfilesize $mining_maxfilesize --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen --grpc-tls-listener $tls_listen/;
+
 		     sleep(1);
 		  }
 	       }
@@ -169,12 +172,14 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 		     my $base_port  = $addr.value.Str;
 		     my $pub_listen = "$ip:$base_port";
 		     my $pri_port   = $base_port + 1;
-		     my $pri_listen = "$ip:$pri_port";
+		     my $pri_listen = "127.0.0.1:$pri_port";
 		     my $json_port  = $base_port + 2;
 		     my $json_listen = "$ip:$json_port";
+		     my $tls_port   = $base_port + 3;
+		     my $tls_listen = "$ip:$tls_port";
 		     $sname                 = $d ~ '_' ~ $p ~ '_' ~ $base_port;
-	             say "tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen";
-	             qqx/tmux new -s $sname -d $smh --config $smh_conf  --data-folder $mining_data_folder --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen/;
+	             say "tmux new -s $sname -d $smh --config $smh_conf  --no-main-override --smeshing-start=false --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen --grpc-tls-listener $tls_listen";
+	             qqx/tmux new -s $sname -d $smh --config $smh_conf  --no-main-override --smeshing-start=false --data-folder $mining_data_folder --smeshing-opts-datadir $smh_data_dir --smeshing-coinbase $smh_coinbase --filelock $smh_filelock --grpc-public-listener $pub_listen --grpc-private-listener $pri_listen --grpc-json-listener $json_listen --grpc-tls-listener $tls_listen/;
 		     sleep(1);
 		  }
 	       }
