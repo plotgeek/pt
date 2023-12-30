@@ -56,3 +56,4 @@ has $.smh_lu           =4294967296;
 has $.smh_maxfilesize  =2147483648;
 has $.smh_postcli      ="~/postcli/postcli";
 has $.smh_postkey      ="~/postcli/postkey";
+has $.smh_commitid     ="f7dde7ca4d2869fd70e78bc39acae1bce95a710d5b7fe5a8a22267546c68aa88";

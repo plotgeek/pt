@@ -67,7 +67,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 	       my $tmp           = qqx/\~\/postcli\/postkey $smh_data_dir/;
 	       $smh_id           = $tmp.lines[0];
 	    }
-            my $smh_commitid    = $smh_id;
+            my $smh_commitid    = $conf.smh_commitid;
 
 	    my $g_i = 0;
 	    for @gpus -> $g {
