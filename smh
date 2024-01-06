@@ -172,7 +172,7 @@ sub MAIN($dirs, $gpus_or_plotdirs = "plots", $file_index_or_ip = 1)
 		     my $base_port  = $addr.value.Str;
 		     my $pub_listen = "$ip:$base_port";
 		     my $pri_port   = $base_port + 1;
-		     my $pri_listen = "127.0.0.1:$pri_port";
+		     my $pri_listen = "$ip:$pri_port";
 		     my $json_port  = $base_port + 2;
 		     my $json_listen = "$ip:$json_port";
 		     my $tls_port   = $base_port + 3;

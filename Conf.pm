@@ -47,8 +47,8 @@ has $.mmx_single       = True;
 
 # spacemesh args
 
-has $.smh_op           ="mining"; # "plot" or "mining"
-has $.smh_root_path    ="~/node";
+has $.smh_op           ="node"; # "plot" or "mining"
+has $.smh_root_path    ="~/tls-node";
 has $.smh_numunits     = 4;
 #has $.smh_coinbase     ="sm1qqqqqqrlwdvqf9rpvvnvgya0flksx0dmvr4ghusuw76kj";
 has $.smh_coinbase     ="sm1qqqqqqyapfx5jz303qcqnzs0futlsy6l9fauy2quskedg";
