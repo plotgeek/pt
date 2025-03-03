@@ -6,7 +6,7 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs, $gpu = "0", $tmp_dir="/sdnv1/t1") 
+sub MAIN($dirs, $gpu = "all", $tmp_dir="/sdnv1/t1") 
 {
     my $conf  = Conf.new;	
     my @disks = parse_comma($dirs);
@@ -53,14 +53,19 @@ sub MAIN($dirs, $gpu = "0", $tmp_dir="/sdnv1/t1")
     } elsif ($gpu ~~ '0') {
        $gpu_str = get_first_gpu_uuid();
     } else {
-       $gpu_str = " -g " ~ $gpu;
+       my @gpus = parse_comma($gpu);
+       for @gpus -> $g {
+          say $g;
+	  $gpu_str =  $gpu_str ~ " -g " ~ $g
+       }
+       say $gpu_str;
     }
 
     if ($conf.nossd_mining) {
        say "mining mode";
        say $gpu_str;
        my $hostname = $*KERNEL.hostname;
-       say "qqx/tmux new -s $sname -d $nossd $path -a $addr/";
+       say "qqx/tmux new -s $sname -d $nossd $path -a $addr -s $spath $gpu_str -w $hostname/";
        qqx/tmux new -s $sname -d $nossd $path -a $addr -s $spath $gpu_str -w $hostname/;
     } else {
        say "ploting mode";
