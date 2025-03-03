@@ -6,7 +6,7 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1") 
+sub MAIN($dirs, $gpu = "0", $tmp_dir="/sdnv1/t1") 
 {
     my $conf  = Conf.new;	
     my @disks = parse_comma($dirs);
@@ -47,11 +47,21 @@ sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1")
          }
     }
     $sname = $sname ~ $dirs;
+    my $gpu_str = "";
+    if ($gpu ~~ 'all') {
+       $gpu_str = get_all_gpu_uuid();
+    } elsif ($gpu ~~ '0') {
+       $gpu_str = get_first_gpu_uuid();
+    } else {
+       $gpu_str = " -g " ~ $gpu;
+    }
+
     if ($conf.nossd_mining) {
        say "mining mode";
+       say $gpu_str;
        my $hostname = $*KERNEL.hostname;
        say "qqx/tmux new -s $sname -d $nossd $path -a $addr/";
-       qqx/tmux new -s $sname -d $nossd $path -a $addr -s $spath -w $hostname/;
+       qqx/tmux new -s $sname -d $nossd $path -a $addr -s $spath $gpu_str -w $hostname/;
     } else {
        say "ploting mode";
        if ($conf.notmp) {
@@ -66,9 +76,8 @@ sub MAIN($dirs, $gpu = 0, $tmp_dir="/sdnv1/t1")
        	  say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/";
        	  qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/;
        } else {
-       	  say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/";
-       	  qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath -g $gpu -x $gpu --no-gpu-mining/;
-
+          say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath $gpu_str --no-gpu-mining/";
+          qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath  $gpu_str --no-gpu-mining/;
        }
     }
 }
