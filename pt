@@ -122,7 +122,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 		   mount($d, $fs);
 		}
 	    }
-	    await;
+	    await @promises;
 	    say "paralle mount done";
 	}	   
     }
@@ -133,7 +133,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
                umount($d);
 	    }
 	}
-	await;
+	await @promises;
 	say "paralle umount done";
     }
     if ($op ~~ 'format') {
