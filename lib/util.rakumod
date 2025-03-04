@@ -168,7 +168,7 @@ sub get_part_size($dev) is export
 
 sub mount($d, $fs) is export
 {
-    say "mounting " ~ $d;
+    #say "mounting " ~ $d;
     my $tdir = '/sd' ~ $d;
     my $tdev = '/dev/sd' ~ $d;
     if ($d ~~ 'nv0') {
@@ -221,7 +221,7 @@ sub mount_nfs($d, $fs, $hostip, $hostname) is export
 
 sub umount($d) is export
 {
-    say "umounting " ~ $d;
+    #say "umounting " ~ $d;
     my $tdir = '/sd' ~ $d;
      if ($tdir.IO ~~ :e) {
 	qqx/sudo umount $tdir/;
