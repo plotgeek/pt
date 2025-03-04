@@ -98,6 +98,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
     }
     if ($op ~~ 'mount') {
 	if ( @*ARGS.elems >= 3) {
+	    my @promises;
 	    for @disks -> $d {
 		say $d;
 		$fs = $arg_3;
@@ -107,13 +108,22 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 		    say "$hostip. $hostname, $d";
 		    mount_nfs($d, $fs, $hostip, $hostname);
 		} else {
-		    mount($d, $fs);
+		    @promises.push: start {
+                        mount($d, $fs);
+		    }
 		}
 	    }
+	    await @promises;
+	    say "paralle mount done";
 	} else {
+	    my @promises;
 	    for @disks -> $d {
-		mount($d, $fs);
+	        @promises.push: start {
+		   mount($d, $fs);
+		}
 	    }
+	    await;
+	    say "paralle mount done";
 	}	   
     }
     if ($op ~~ 'umount') {
