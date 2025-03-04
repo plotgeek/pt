@@ -127,9 +127,14 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	}	   
     }
     if ($op ~~ 'umount') {
+        my @promises;
 	for @disks -> $d {
-	    umount($d);
+            @promises.push: start {
+               umount($d);
+	    }
 	}
+	await;
+	say "paralle umount done";
     }
     if ($op ~~ 'format') {
 	for @disks -> $d {
