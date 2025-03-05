@@ -344,7 +344,8 @@ sub format($t, $fs) is export {
 
 
    sleep 2;
-   my $user = $*KERNEL.hostname;
+   #my $user = $*KERNEL.hostname;
+   my $user = qqx/whoami/.trim;
    put "chown for user: " ~ $user;
    qqx/sudo chown  $user.$user  -R  \/$td/;
 
