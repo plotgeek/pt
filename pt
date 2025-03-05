@@ -114,7 +114,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 		}
 	    }
 	    await @promises;
-	    say "paralle mount done";
+	    say "\nparalle mount done\n";
 	} else {
 	    my @promises;
 	    for @disks -> $d {
@@ -123,7 +123,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 		}
 	    }
 	    await @promises;
-	    say "paralle mount done";
+	    say "\nparalle mount done\n";
 	}	   
     }
     if ($op ~~ 'umount') {
@@ -134,7 +134,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	    }
 	}
 	await @promises;
-	say "paralle umount done";
+	say "\nparalle umount done\n";
     }
     if ($op ~~ 'format') {
 	for @disks -> $d {
