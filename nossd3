@@ -6,7 +6,7 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs, $gpu = "all", $tmp_dir="/sdnv1/t1") 
+sub MAIN($dirs, $gpu = "all", $varg = "/sdnv1/t1") 
 {
     my $conf  = Conf.new;	
     my @disks = parse_comma($dirs);
@@ -72,7 +72,7 @@ sub MAIN($dirs, $gpu = "all", $tmp_dir="/sdnv1/t1")
        if ($conf.notmp) {
        	    $path = $path ~ ' --no-temp ';            
        } else {
-       	    $path = $path ~ '-d,t ' ~ $tmp_dir;
+       	    $path = $path ~ '-d,t ' ~ $varg;
        }
        say $path;
        my $sname = 'plot_' ~ $dirs ~ '_' ~ $num;
