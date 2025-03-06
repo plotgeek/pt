@@ -596,10 +596,11 @@ sub get_veth_ip($conf="$*HOME/pt/veth.conf") is export
     return @addrs;
 }
 
+
 sub get_first_gpu_uuid() is export
 {
     my @lines = qx[nvidia-smi --query-gpu=uuid --format=csv].lines;
-    return " -g " ~ @lines[1].split('-').tail;
+    return @lines[1].split('-').tail;
 }
 
 sub get_all_gpu_uuid() is export
@@ -609,9 +610,9 @@ sub get_all_gpu_uuid() is export
 
     for @lines -> $line {
         if $line ~~ /GPU\-*/ {
-	   my $uuid =  " -g " ~ $line.split('-').tail;
+	   my $uuid =  $line.split('-').tail ~ ",";
 	   $uuid_str = $uuid_str ~ $uuid;
         }
     }
-    return $uuid_str;
+    return $$uuid_str.subst(/','$/,"");
 }

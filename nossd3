@@ -6,7 +6,7 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs, $gpu = "all", $varg = "/sdnv1/t1") 
+sub MAIN($dirs, $gpu = "all", $varg = "varg") 
 {
     my $conf  = Conf.new;	
     my @disks = parse_comma($dirs);
@@ -49,16 +49,33 @@ sub MAIN($dirs, $gpu = "all", $varg = "/sdnv1/t1")
     $sname = $sname ~ $dirs;
     my $gpu_str = "";
     if ($gpu ~~ 'all') {
-       $gpu_str = get_all_gpu_uuid();
+       my $g_str = get_all_gpu_uuid();
+       my @gpus = parse_comma($g_str);
+       if ($conf.nossd_mining) {
+	   for @gpus -> $g {
+	        $gpu_str = $gpu_str ~ "  -g " ~ $g;     
+	   }
+       } else {
+           $gpu_str = " -x " ~ @gpus[0];
+       }
     } elsif ($gpu ~~ '0') {
-       $gpu_str = get_first_gpu_uuid();
+       my $g = get_first_gpu_uuid();
+       if ($conf.nossd_mining) {
+           $gpu_str = "  -g " ~ $g;
+       } else {
+           $gpu_str = " -x " ~ $g;
+       }
     } else {
        my @gpus = parse_comma($gpu);
-       for @gpus -> $g {
-          say $g;
-	  $gpu_str =  $gpu_str ~ " -g " ~ $g
+       if ($conf.nossd_mining) {
+          for @gpus -> $g {
+             say $g;
+	     $gpu_str =  $gpu_str ~ " -g " ~ $g
+          }
+          say $gpu_str;
+       } else {
+          $gpu_str = " -x " ~ $gpu;
        }
-       say $gpu_str;
     }
 
     if ($conf.nossd_mining) {
