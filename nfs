@@ -60,7 +60,11 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
             }
 	    if ($op ~~ "stop") {
 		say "stoping nfs-kernel-server";
-		qqx/\/etc\/init.d\/nfs-kernel-server stop/;
+		qqx/service nfs-server stop/;
+            }
+	    if ($op ~~ "restart") {
+		say "stoping nfs-kernel-server";
+		qqx/service nfs-server restart/;
             }
 	    if ($op ~~ "add") {
 		say "adding plots dir: $devs";
