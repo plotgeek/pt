@@ -1,4 +1,4 @@
-# chia & spacemesh plots tool
+# chia plots tool
 
 ## install
 ```
