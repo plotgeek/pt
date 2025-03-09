@@ -30,22 +30,20 @@ pt <dirs/hosts>  [cmds]  [args]
 nossd <dirs> [cmds] [args]  
 mmx   <dirs> [cmds] [args]   
 nfs [cmds]
-bb  [cmds]
 ```
 
 ### pt
 ```
 1)  format -> copy/write  -> umount  
 2)  count-> clean -> test 
-3)  mount->mount nfs  
-4)  add -> add mmx -> add nfs     
-5)  nfs -> mount -> add   
-6)  log -> stat -> scp 
+3)  mount-> mount nfs  
+4)  nfs -> mount
+5)  log -> stat -> scp 
 ```
 ### nossd  
 ```
-1) nossd b-z fpt
-2) nossd b-z spt
+1) nossd3 nv0 gpu_index
+2) nossd3 b-z gpu_index1,gpu_index2...
 ```
 ### mmx 
 
@@ -54,30 +52,10 @@ bb  [cmds]
 2) mmx  nv1 copy  
 3) mmx  b-z  write  
 ```
-### bb
-```
-1) bb nv1
-2) pt nv1 copy
-3) pt nv1 b-z write
-```
 ### nfs
 ```
-1) nfs mount
-2) nfs add
+1) nfs mount/umount/stop/restart
 ```
-### smh
-```
-smh mining mode
-1) veth add/set/del
-2) smh b-l p1-p4
-```
-```
-smh plot mode
-1) smh b 0-7
-2) smh b 0-7 333-2559
-```
-
-
 
 
 
