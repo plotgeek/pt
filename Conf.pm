@@ -8,10 +8,10 @@ has $.mem_fpt          = "4G";
 has $.p_threads        = 32;
 has $.f_threads        = 0;
 has $.m_threads        = 4;
-has $.nossd_level      = 34;
+has $.nossd_level      = 33;
 has $.nossd            = "~/nossd/client";
 
-has $.nossd_mining     = False;
+has $.nossd_mining     = True;
 has $.notmp            = True;
 has $.use_cpu          = False;
 
@@ -27,7 +27,7 @@ has $.pool_key         = "987e0cd0ffc600cc910d69a6a55021e290080da04506f4023bb04d
 has $.file_type        = "*.fpt";
 has $.disk_avail       = "80G";
 has $.type             = "pg"; # pg,og
-has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
+has $.mount_prefix     = "pt100,pt101,pt102,/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
 has $.plots_dir        = "plots"; # eg. "plots";
 
 # bb args
