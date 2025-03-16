@@ -616,3 +616,22 @@ sub get_all_gpu_uuid() is export
     }
     return $$uuid_str.subst(/','$/,"");
 }
+
+
+# 获取硬盘序列号的函数
+sub get_hdd_serial(Str $device --> Str) is export
+{
+    # 调用 smartctl 命令获取硬盘信息
+    my @lines = qqx/sudo smartctl -i $device/;
+
+    # 查找包含序列号的行
+    for @lines -> $line {
+        #say $line;
+        if $line ~~ /'Serial number:' \s+ (\S+)/ {
+            return ~$0;  # 返回匹配到的序列号
+        }
+    }
+
+    # 如果没有找到序列号，抛出异常
+    #die "Error: Serial number not found for device $device";
+}
