@@ -9,7 +9,7 @@ has $.p_threads        = 32;
 has $.f_threads        = 0;
 has $.m_threads        = 4;
 has $.nossd_level      = 33;
-has $.stop             = "--no-stop";
+has $.stop             = "--no-stop"; # "--no-stop" or ""
 has $.nossd            = "~/nossd/client";
 
 has $.nossd_mining     = False;
