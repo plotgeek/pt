@@ -651,5 +651,8 @@ sub get_hdd_temp(Str $device --> Str) is export
 	if $line ~~ /\d+ \s+ Temperature_Celsius \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ '-' \s+ (\d+) \s+ '(' 'Min/Max' \s+ (\d+) '/' (\d+) ')' / {
 	   return ~$0;
 	}
+	if $line ~~ /\d+ \s+ Temperature_Celsius \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ '-' \s+ (\d+) \s+ '(' (<-[\)]>+) ')' / {
+	   return ~$0;
+	}
     }
 }
