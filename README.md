@@ -2,7 +2,7 @@
 
 ## install
 ```
-sudo apt install rakudo jq 
+sudo apt install tmux rakudo emacs-nox jq unzip gcc g++ cmake make lrzsz  smartmontools -y
 ```
 ## requirement
 all disk's mount point format is like below 
@@ -39,6 +39,8 @@ nfs [cmds]
 3)  mount-> mount nfs  
 4)  nfs -> mount
 5)  log -> stat -> scp 
+6)  snum/temp
+7)  auth
 ```
 ### nossd  
 ```
