@@ -18,6 +18,7 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
     my $spath = '~/.nossd/' ~ $num;
     my $sname = "";
     my $nossd = $conf.nossd; 
+    my $stop  = $conf.stop;
     
 
     my @pf  = parse_comma($conf.mount_prefix);
@@ -98,8 +99,8 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
        	  say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/";
        	  qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/;
        } else {
-          say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath $gpu_str --no-gpu-mining/";
-          qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath  $gpu_str --no-gpu-mining/;
+          say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath $gpu_str --no-gpu-mining $stop/";
+          qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath  $gpu_str --no-gpu-mining $stop/;
        }
     }
 }
