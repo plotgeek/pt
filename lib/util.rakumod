@@ -635,3 +635,16 @@ sub get_hdd_serial(Str $device --> Str) is export
     # 如果没有找到序列号，抛出异常
     #die "Error: Serial number not found for device $device";
 }
+
+
+sub get_hdd_temp(Str $device --> Str) is export
+{
+    # 调用 smartctl 命令获取硬盘信息
+    my @lines = qqx/sudo smartctl -A $device/;
+
+    for @lines -> $line {
+	if $line ~~ /'Current Drive Temperature:' \s+ (\S+)/ {
+            return ~$0;
+        }
+    }
+}

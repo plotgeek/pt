@@ -221,4 +221,12 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	   say "$dev : $id";
        }
     }
+    if ($op ~~ "temp") {
+       for @disks -> $d {
+           my $dev    =  "/dev/sd" ~ $d;
+	   my $temp     =  get_hdd_temp($dev);
+	   say "$dev : $temp";
+       }
+
+    }
 }
