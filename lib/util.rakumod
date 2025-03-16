@@ -628,12 +628,14 @@ sub get_hdd_serial(Str $device --> Str) is export
     for @lines -> $line {
         #say $line;
         if $line ~~ /'Serial number:' \s+ (\S+)/ {
-            return ~$0;  # 返回匹配到的序列号
+             return ~$0;  # 返回匹配到的序列号
+        }
+
+        if $line ~~ /'Serial Number:' \s+ (\S+)/ {
+             return ~$0;  # 返回匹配到的序列号
         }
     }
 
-    # 如果没有找到序列号，抛出异常
-    #die "Error: Serial number not found for device $device";
 }
 
 
@@ -644,7 +646,10 @@ sub get_hdd_temp(Str $device --> Str) is export
 
     for @lines -> $line {
 	if $line ~~ /'Current Drive Temperature:' \s+ (\S+)/ {
-            return ~$0;
+           return ~$0;
         }
+	if $line ~~ /\d+ \s+ Temperature_Celsius \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ \S+ \s+ '-' \s+ (\d+) \s+ '(' 'Min/Max' \s+ (\d+) '/' (\d+) ')' / {
+	   return ~$0;
+	}
     }
 }

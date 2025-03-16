@@ -215,10 +215,11 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
        }
     }
     if ($op ~~ 'snum') {
+       my $snum = "";
        for @disks -> $d {
-           my $dev    =  "/dev/sd" ~ $d;
-	   my $id     =  get_hdd_serial($dev);
-	   say "$dev : $id";
+           my $dev =  "/dev/sd" ~ $d;
+	   $snum    =  get_hdd_serial($dev);
+	   say "$dev: $snum";
        }
     }
     if ($op ~~ "temp") {
