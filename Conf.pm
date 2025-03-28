@@ -30,6 +30,7 @@ has $.disk_avail       = "80G";
 has $.type             = "pg"; # pg,og
 has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
 has $.plots_dir        = "plots"; # eg. "plots";
+has $.tmux_log         = True; # log for tmux sessions.
 
 # bb args
 has $.bb               = "bladebit_cuda"; # bladebit,bladebit_cuda

@@ -8,7 +8,7 @@ use Conf;
 
 sub MAIN($dirs, $gpu = "all", $varg = "varg") 
 {
-    my $conf  = Conf.new;	
+    my $conf  = Conf.new;
     my @disks = parse_comma($dirs);
     my $path = "";    
     my $addr  = $conf.addr;
@@ -19,6 +19,7 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
     my $sname = "";
     my $nossd = $conf.nossd; 
     my $stop  = $conf.stop;
+    my $log   = $*HOME ~ "/log";
 
     my @pf  = parse_comma($conf.mount_prefix);
     for @pf -> $prefix {
@@ -85,6 +86,16 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
        $sname = "mining_" ~ $sname;
        say "qqx/tmux new -s $sname -d $nossd $path -a $addr -s $spath $gpu_str -w $hostname/";
        qqx/tmux new -s $sname -d $nossd $path -a $addr -s $spath $gpu_str -w $hostname/;
+       if ($conf.tmux_log) {
+          say "loging for mining sesions $sname";
+	  if ($log.IO.e) {
+	      say "log dir $log";
+	  } else {
+	      say "createing $log";
+	      $log.IO.mkdir;
+	  }
+          qqx/tmux pipe-pane -t $sname "cat >> ~\/log\/mining.log"/;
+       }
     } else {
        say "ploting mode";
        if ($conf.notmp) {
@@ -98,9 +109,29 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
        if ($conf.use_cpu) {
        	  say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/";
        	  qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath --p-threads $pth_num --no-gpu-mining/;
+	  if ($conf.tmux_log) {
+	     say "loging for cpu plot session $sname";
+	     if ($log.IO.e) {
+	         say "log dir $log";
+	     } else {
+	         say "createing $log";
+	        $log.IO.mkdir;
+	     }
+	     qqx/tmux pipe-pane -t $sname "cat >> ~\/log\/plot_cpu.log"/;
+	  }
        } else {
           say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath $gpu_str --no-gpu-mining $stop/";
           qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath  $gpu_str --no-gpu-mining $stop/;
+	  if ($conf.tmux_log) {
+	     say "loging for gpu plot session $sname";
+	     if ($log.IO.e) {
+	        say "log dir $log";
+	     } else {
+	        say "createing $log";
+	        $log.IO.mkdir;
+	     }
+	     qqx/tmux pipe-pane -t $sname "cat >> ~\/log\/plot_gpu.log"/;
+	  }
        }
     }
 }

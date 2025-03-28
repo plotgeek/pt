@@ -17,6 +17,7 @@ sub MAIN($dirs)
     say $plots_dir;
     my @disks  = parse_comma($dirs);
     my $target = ""; 
+    my $log    = $*HOME ~ "/log";
     for @disks -> $d {
 	my $tmp_dir   = $prefix ~ '/sd' ~ $d ~ '/' ~ $plots_dir;
 	if ($tmp_dir.IO ~~ :e) {
@@ -28,4 +29,14 @@ sub MAIN($dirs)
     say $target;
     my $sname = "write_" ~ $dirs; 
     qqx/tmux new -s $sname -d $sink $target/;
+    if ($conf.tmux_log) {
+       say "loging for write session $sname";
+       if ($log.IO.e) {
+           say "log dir $log";
+       } else {
+	   say "createing $log";
+           $log.IO.mkdir;
+       }
+       qqx/tmux pipe-pane -t $sname "cat >> ~\/log\/write.log"/;
+    }
 }
