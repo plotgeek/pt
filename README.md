@@ -5,12 +5,13 @@
 sudo apt install tmux rakudo emacs-nox jq unzip gcc g++ cmake make lrzsz  smartmontools nfs-kernel-server nfs-common -y
 ```
 ## requirement
-all disk's mount point format is like below 
+Mount point format:
 ```
 "/sd" + "device name"
 ```
 ```
-e.g "/dev/sdb" mount point is "/sdb"  
+e.g "/dev/sdb" mount point is "/sdb"
+
 nvme ssd mount dir:  /sdnv1, /sdnv2, /sdnv3 ...     
                   :  /sdnv1/plots, /sdnv2/plots, /sdnv3/plots ...   
 hdd disk mount dir:  /sdb, /sdc, /sdd ...   
