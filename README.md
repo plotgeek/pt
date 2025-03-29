@@ -2,7 +2,7 @@
 
 ## install
 ```
-sudo apt install tmux rakudo emacs-nox jq unzip gcc g++ cmake make lrzsz  smartmontools -y
+sudo apt install tmux rakudo emacs-nox jq unzip gcc g++ cmake make lrzsz  smartmontools nfs-kernel-server nfs-common -y
 ```
 ## requirement
 all disk's mount point format is like below 
