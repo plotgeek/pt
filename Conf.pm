@@ -32,11 +32,6 @@ has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3'
 has $.plots_dir        = "plots"; # eg. "plots";
 has $.tmux_log         = True; # log for tmux sessions.
 
-# bb args
-has $.bb               = "bladebit_cuda"; # bladebit,bladebit_cuda
-has $.media            = "cudaplot"; # diskplot,ramplot,cudaplot
-has $.bb_level         = 7;
-
 # mmx args
 has $.mmx_name         = "cuda_plot_k32";
 has $.mmx_copy         = "~/sink/chia_plot_copy";
@@ -47,15 +42,4 @@ has $.mmx_port         = 8444;
 has $.mmx_single       = False;
 
 
-# spacemesh args
 
-has $.smh_op           ="node"; # "plot" or "mining"
-has $.smh_root_path    ="~/tls-node";
-has $.smh_numunits     = 4;
-#has $.smh_coinbase     ="sm1qqqqqqrlwdvqf9rpvvnvgya0flksx0dmvr4ghusuw76kj";
-has $.smh_coinbase     ="sm1qqqqqqyapfx5jz303qcqnzs0futlsy6l9fauy2quskedg";
-has $.smh_lu           =4294967296;
-has $.smh_maxfilesize  =2147483648;
-has $.smh_postcli      ="~/postcli/postcli";
-has $.smh_postkey      ="~/postcli/postkey";
-has $.smh_commitid     ="f7dde7ca4d2869fd70e78bc39acae1bce95a710d5b7fe5a8a22267546c68aa88";
