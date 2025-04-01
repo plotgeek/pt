@@ -17,7 +17,7 @@ hdd format   :  /sdb, /sdc, /sdd ...
              :  /sdb/plots, /sdc/plots, /sdd/plots ...    
 ```
 
-## [pt commands](https://github.com/plotgeek/pt/blob/memplot/PT.png)   
+## [pt cli]
 ```
 there are two conf files: 
 Conf.pm 
@@ -26,7 +26,6 @@ nfs.conf
 ```
 pt <dirs/hosts>  [cmds]  [args]  
 nossd <dirs> [cmds] [args]  
-mmx   <dirs> [cmds] [args]   
 nfs [cmds]
 backup
 ```
@@ -52,9 +51,9 @@ backup
 ```
 
 ### backup
-
+```
 1) backup
-
+```
 
 
 
