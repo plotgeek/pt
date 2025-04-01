@@ -4,7 +4,6 @@
 ```
 sudo apt install tmux rakudo emacs-nox jq unzip gcc g++ cmake make lrzsz  smartmontools nfs-kernel-server nfs-common -y
 ```
-## requirement
 Mount point format:
 ```
 "/sd" + "device name"
@@ -47,13 +46,6 @@ nfs [cmds]
 ```
 1) nossd3 nv0 gpu_index
 2) nossd3 b-z gpu_index1,gpu_index2...
-```
-### mmx 
-
-```
-1) mmx  nv1   
-2) mmx  nv1 copy  
-3) mmx  b-z  write  
 ```
 ### nfs
 ```
