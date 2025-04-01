@@ -20,14 +20,15 @@ hdd format   :  /sdb, /sdc, /sdd ...
 ## [pt commands](https://github.com/plotgeek/pt/blob/memplot/PT.png)   
 ```
 there are two conf files: 
-[Conf.pm] is for plotting args.  
-[nfs.conf] is for nfs args.  
+Conf.pm 
+nfs.conf 
 ```
 ```
 pt <dirs/hosts>  [cmds]  [args]  
 nossd <dirs> [cmds] [args]  
 mmx   <dirs> [cmds] [args]   
 nfs [cmds]
+backup
 ```
 
 ### pt
