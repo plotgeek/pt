@@ -17,7 +17,7 @@ hdd format   :  /sdb, /sdc, /sdd ...
              :  /sdb/plots, /sdc/plots, /sdd/plots ...    
 ```
 
-## [pt cli]
+## pt cli
 ```
 there are two conf files: 
 Conf.pm 
