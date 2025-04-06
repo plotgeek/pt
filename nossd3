@@ -106,6 +106,10 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
 
     if ($conf.nossd_mining) {
        say "mining mode";
+
+       say "first backup mining.log";
+       qqx/rakudo backup.raku/;
+
        say $gpu_str;
        my $hostname = $*KERNEL.hostname;
        $sname = "mining_" ~ $sname;
