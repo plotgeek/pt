@@ -12,7 +12,7 @@ has $.nossd_level      = 33;
 has $.stop             = "--no-stop"; # "--no-stop" or ""
 has $.nossd            = "~/nossd/client";
 
-has $.nossd_mining     = False;
+has $.nossd_mining     = True;
 has $.notmp            = True;
 has $.use_cpu          = False;
 
@@ -31,6 +31,7 @@ has $.type             = "pg"; # pg,og
 has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
 has $.plots_dir        = "plots"; # eg. "plots";
 has $.tmux_log         = True; # log for tmux sessions.
+has $.nfs_conf         = "$*HOME/pt/nfs.conf";
 
 # mmx args
 has $.mmx_name         = "cuda_plot_k32";
