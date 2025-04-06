@@ -12,16 +12,9 @@ has $.nossd_level      = 33;
 has $.stop             = "--no-stop"; # "--no-stop" or ""
 has $.nossd            = "~/nossd/client";
 
-has $.nossd_mining     = True;
+has $.nossd_mining     = False;
 has $.notmp            = True;
 has $.use_cpu          = False;
-
-# pg args 
-has $.farmer_key       = "9199c10ad809158231f81e00f3c4887119daa6706e683bda95dcc5bd8b19c618c4efcbb1a4ca1a94d7d94295a2718a2b";
-has $.pool_contract    = "xch10shgem5afu0ft2rrsquwrs8qc07j987k6qne9vydcw990n6hldyq7vfyuj";
-# og args
-has $.pool_key         = "987e0cd0ffc600cc910d69a6a55021e290080da04506f4023bb04dc30f12311f7702a5def764c2064f60fae4cc19d7a9";
-
 
 
 # common args
@@ -34,11 +27,9 @@ has $.tmux_log         = True; # log for tmux sessions.
 has $.nfs_conf         = "$*HOME/pt/nfs.conf";
 
 # mmx args
-has $.mmx_name         = "cuda_plot_k32";
-has $.mmx_copy         = "~/sink/chia_plot_copy";
-has $.mmx_sink         = "~/sink/chia_plot_sink";
+has $.mmx_copy         = "$*HOME/sink/chia_plot_copy";
+has $.mmx_sink         = "$*HOME/sink/chia_plot_sink";
 has $.mmx_host         = "localhost";
-has $.mmx_level        = 8;
 has $.mmx_port         = 8444;     
 has $.mmx_single       = False;
 
