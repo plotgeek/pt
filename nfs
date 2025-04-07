@@ -10,7 +10,7 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
 	exit(0);
     }
     say "\nusing conf: $conf\n";
-    my $fh = $conf.IO.open :rw;
+    my $fh = $conf.IO.open :ro;
 
     for $fh.lines -> $l {
 	next if $l.starts-with('#');
@@ -24,14 +24,16 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
            my $path = "/" ~ $host ~ "/*";
            qqx/sudo umount -f $path/;
 	}
-	if ($op ~~ "stop") {
-	   say "stoping nfs-kernel-server";
-	   qqx/service nfs-server stop/;
-        }
-	if ($op ~~ "restart") {
-	   say "stoping nfs-kernel-server";
-	   qqx/service nfs-server restart/;
-        }
     }
+
+    if ($op ~~ "stop") {
+        say "stoping nfs-kernel-server";
+	qqx/service nfs-server stop/;
+    }
+    if ($op ~~ "restart") {
+	say "stoping nfs-kernel-server";
+	qqx/service nfs-server restart/;
+    }
+
     close $fh;
 }
