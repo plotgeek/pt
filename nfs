@@ -14,13 +14,15 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
 
     for $fh.lines -> $l {
 	next if $l.starts-with('#');
+	next if $l.trim eq ('');
+	say $l;
 	my ($host,$ip,$devs) = $l.split(':');
 	if ($op ~~ "mount") {
 	   say "mounting $host@$ip:$devs";
 	   qqx/sudo rakudo pt $devs mount nfs $ip $host/;
 	}
 	if ($op ~~ "umount") {
-	   say "umounting $host/*";
+	   say "umounting /$host/*";
            my $path = "/" ~ $host ~ "/*";
            qqx/sudo umount -f $path/;
 	}
@@ -32,7 +34,7 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
     }
     if ($op ~~ "restart") {
 	say "stoping nfs-kernel-server";
-	qqx/service nfs-server restart/;
+	qqx/\/etc\/init\.d\/nfs-kernel-server restart/;
     }
 
     close $fh;

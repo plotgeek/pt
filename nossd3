@@ -24,6 +24,7 @@ sub get_pf()
 
     for $fh.lines -> $l {
 	next if $l.starts-with('#');
+	next if $l.trim eq ('');
 	my ($host,$ip,$devs) = $l.split(':');
 	@pf.push($host);
     }
