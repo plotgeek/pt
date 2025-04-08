@@ -10,9 +10,9 @@ has $.f_threads        = 0;
 has $.m_threads        = 4;
 has $.nossd_level      = 33;
 has $.stop             = "--no-stop"; # "--no-stop" or ""
-has $.nossd            = "~/nossd/client";
+has $.nossd            = "$*HOME/pt/nossd/client";
 
-has $.nossd_mining     = False;
+has $.nossd_mining     = True;
 has $.notmp            = True;
 has $.use_cpu          = False;
 
@@ -27,8 +27,8 @@ has $.tmux_log         = True; # log for tmux sessions.
 has $.nfs_conf         = "$*HOME/pt/nfs.conf";
 
 # mmx args
-has $.mmx_copy         = "$*HOME/sink/chia_plot_copy";
-has $.mmx_sink         = "$*HOME/sink/chia_plot_sink";
+has $.mmx_copy         = "$*HOME/pt/sink/chia_plot_copy";
+has $.mmx_sink         = "$*HOME/pt/sink/chia_plot_sink";
 has $.mmx_host         = "localhost";
 has $.mmx_port         = 8444;     
 has $.mmx_single       = False;
