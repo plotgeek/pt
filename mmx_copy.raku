@@ -23,7 +23,7 @@ sub MAIN($dirs)
 	    my  $sf        = $tmp_dir ~ $conf.file_type;
 	    say $sf;
             @promises.push: start {               
-	        qqx/chia_plot_copy -d -t $host -- $sf/;
+	        qqx/$copy -d -t $host -- $sf/;
 	    }
 	}
 	await @promises;
