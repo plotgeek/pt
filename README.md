@@ -18,8 +18,9 @@ hdd format   :  /sdb, /sdc, /sdd ...
 ```
 
 ## pt cli
+
+configure file: 
 ```
-configure files: 
 Conf.pm 
 nfs.conf 
 ```
