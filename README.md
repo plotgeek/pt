@@ -7,9 +7,9 @@ sh install.sh
 Mount point format:
 ```
 "/sd" + "alphabet"
-```
-```
-e.g "/dev/sdb" mount point is "/sdb"
+
+for example: 
+the device "/dev/sdb" 's mount point is "/sdb"
 
 ssd format   :  /sdnv1, /sdnv2, /sdnv3 ...     
              :  /sdnv1/plots, /sdnv2/plots, /sdnv3/plots ...   
@@ -19,7 +19,7 @@ hdd format   :  /sdb, /sdc, /sdd ...
 
 ## pt cli
 ```
-there are two conf files: 
+configure files: 
 Conf.pm 
 nfs.conf 
 ```
