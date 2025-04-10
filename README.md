@@ -19,11 +19,13 @@ hdd format   :  /sdb, /sdc, /sdd ...
 
 ## pt cli
 
-configure file: 
+Configure files: 
 ```
 Conf.pm 
 nfs.conf 
 ```
+
+The main cmds:
 ```
 pt <dirs/hosts>  [cmds]  [args]  
 nossd <dirs> [cmds] [args]  
