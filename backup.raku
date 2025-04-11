@@ -1,18 +1,34 @@
 #!/usr/bin/env rakudo
 
-# 配置参数
-my $log_file = "$*HOME/log/mining.log";          # 日志文件路径
-my $backup_dir = "$*HOME/log";        # 备份目录
-my $interval = 3600;                                 # 定时间隔（秒）
-my $max_backups = 5;                                 # 最大保留备份数量
 
-# 确保备份目录存在
-mkdir $backup_dir unless $backup_dir.IO.e;
+sub get_backup_file($log_file, $backup_dir)
+{
+    my $backup_file = "";	
+    my $timestamp = DateTime.now.Str.subst(/T/, '_', :g).subst(/Z/, '', :g);
+    if ($log_file ~~ /copy/) {
+       $backup_file = "$backup_dir/copy_backup_$timestamp.log";	
+    }
+    if ($log_file ~~ /write/) {
+       $backup_file = "$backup_dir/write_backup_$timestamp.log";	
+    }
+    if ($log_file ~~ /plot/) {
+       $backup_file = "$backup_dir/plot_backup_$timestamp.log";	
+    }
+    if ($log_file ~~ /mining/) {
+       $backup_file = "$backup_dir/mining_backup_$timestamp.log";	
+    }
+	
+    return $backup_file;
+}
 
 # 定义备份函数
-sub backup_log() {
-    say "开始备份日志文件...";
+sub backup_log($log_file, $backup_dir) 
+{
+    my $max_backups = 10;                                 # 最大保留备份数量
 
+    mkdir $backup_dir unless $backup_dir.IO.e;
+
+    say "开始备份日志文件...";
     # 检查日志文件是否存在
     unless $log_file.IO.e {
         say "日志文件不存在: $log_file";
@@ -20,8 +36,8 @@ sub backup_log() {
     }
 
     # 创建带时间戳的备份文件名
-    my $timestamp = DateTime.now.Str.subst(/T/, '_', :g).subst(/Z/, '', :g);
-    my $backup_file = "$backup_dir/logfile_backup_$timestamp.log";
+    my $backup_file = get_backup_file($log_file, $backup_dir);
+    say $backup_file;
 
     # 复制日志文件到备份目录
     try {
@@ -45,8 +61,23 @@ sub backup_log() {
     }
 }
 
-# 定时触发备份任务
-#say "启动定时备份任务，每隔 {$interval} 秒执行一次...";
-#Supply.interval($interval).tap: {
-    backup_log();
-#};
+
+sub MAIN($log = "m", $backup_dir = "$*HOME/log")
+{
+    my $log_file = "";
+    if ($log ~~ "m") {
+        $log_file = "$*HOME/log/mining.log";
+    }
+    if ($log ~~ "p") {
+        $log_file = "$*HOME/log/plot_gpu.log";
+    }
+    if ($log ~~ "c") {
+        $log_file = "$*HOME/log/copy.log";
+    }
+    if ($log ~~ "w") {
+        $log_file = "$*HOME/log/write.log";
+    }
+    say $log_file;
+    say $backup_dir;
+    backup_log($log_file, $backup_dir);
+}
