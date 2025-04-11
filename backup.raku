@@ -62,7 +62,7 @@ sub backup_log($log_file, $backup_dir)
 }
 
 
-sub MAIN($log = "m", $backup_dir = "$*HOME/log")
+sub MAIN($log , $backup_dir = "$*HOME/log")
 {
     my $log_file = "";
     if ($log ~~ "m") {

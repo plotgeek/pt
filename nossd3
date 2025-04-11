@@ -109,7 +109,7 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
        say "mining mode";
 
        say "first backup mining.log";
-       qqx/rakudo backup.raku/;
+       qqx/rakudo backup.raku m/;
 
        say $gpu_str;
        my $hostname = $*KERNEL.hostname;
