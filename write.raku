@@ -30,6 +30,8 @@ sub MAIN($dirs)
     my $sname = "write_" ~ $dirs; 
     qqx/tmux new -s $sname -d $sink $target/;
     if ($conf.tmux_log) {
+       say "clear write log";
+       qqx/rakudo backup.raku w/;
        say "loging for write session $sname";
        if ($log.IO.e) {
            say "log dir $log";

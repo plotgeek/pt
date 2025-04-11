@@ -13,6 +13,8 @@ sub MAIN($dirs)
     my $log   = $*HOME ~ "/log";
     qqx/tmux new -s $sname -d .\/mmx_copy.raku $dirs/;
     if ($conf.tmux_log) {
+       say "clear copy log";
+       qqx/rakudo backup.raku c/;
        say "loging for copy session $sname";
        if ($log.IO.e) {
            say "log dir $log";

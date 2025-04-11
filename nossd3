@@ -150,6 +150,8 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
 	     qqx/tmux pipe-pane -t $sname "cat >> ~\/log\/plot_cpu.log"/;
 	  }
        } else {
+          say "clear plot log";
+          qqx/rakudo backup.raku p/;
           say "qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath $gpu_str --no-gpu-mining $stop/";
           qqx/tmux new -s $sname -d $nossd $path -c $level -a $addr -s $spath  $gpu_str --no-gpu-mining $stop/;
 	  if ($conf.tmux_log) {
