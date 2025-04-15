@@ -11,6 +11,7 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
     }
     say "\nusing conf: $conf\n";
     my $fh = $conf.IO.open :ro;
+    my $sum = 0;
 
     for $fh.lines -> $l {
 	next if $l.starts-with('#');
@@ -26,8 +27,16 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
            my $path = "/" ~ $host ~ "/*";
            qqx/sudo umount -f $path/;
 	}
+	if ($op ~~ "count") {
+	   my @disks = parse_comma($devs);
+	   say "counting nfs disks: " ~ @disks.elems;
+	   $sum += @disks.elems;
+	}
     }
 
+    if ($op ~~ "count") {
+       say "total nfs disks is: " ~ $sum;
+    }
     if ($op ~~ "stop") {
         say "stoping nfs-kernel-server";
 	qqx/service nfs-server stop/;
