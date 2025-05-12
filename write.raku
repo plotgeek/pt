@@ -6,7 +6,7 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs) 
+sub MAIN($dirs, $src_dir = "nv0")
 {
     my $conf   = Conf.new;	
     my $prefix = $conf.mount_prefix;
@@ -41,4 +41,7 @@ sub MAIN($dirs)
        }
        qqx/tmux pipe-pane -t $sname "cat >> ~\/log\/write.log"/;
     }
+
+    say "start copy plot file from $src_dir";
+    qqx/rakudo copy.raku $src_dir/;
 }
