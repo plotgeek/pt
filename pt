@@ -125,6 +125,10 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	    await @promises;
 	    say "\nparalle mount done\n";
 	}	   
+	if ($conf.nossd_mining) {
+	   say "resart nfs server";
+   	   qqx/\/etc\/init\.d\/nfs-kernel-server restart/;
+	}
     }
     if ($op ~~ 'umount') {
         my @promises;
