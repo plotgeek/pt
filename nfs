@@ -42,7 +42,7 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
 	qqx/service nfs-server stop/;
     }
     if ($op ~~ "restart") {
-	say "stoping nfs-kernel-server";
+	say "restart nfs-kernel-server";
 	qqx/\/etc\/init\.d\/nfs-kernel-server restart/;
     }
 
