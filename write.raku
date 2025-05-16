@@ -17,7 +17,7 @@ sub MAIN($dirs, $src_dir = "nv0")
     say $plots_dir;
     my @disks  = parse_comma($dirs);
     my $target = ""; 
-    my $log    = $*HOME ~ "/log";
+    my $log    = $conf.log_dir;
     for @disks -> $d {
 	my $tmp_dir   = $prefix ~ '/sd' ~ $d ~ '/' ~ $plots_dir;
 	if ($tmp_dir.IO ~~ :e) {

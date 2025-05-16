@@ -45,7 +45,7 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
     my $sname = "";
     my $nossd = $conf.nossd; 
     my $stop  = $conf.stop;
-    my $log   = $*HOME ~ "/log";
+    my $log   = $conf.log_dir;
 
     my @pf    = get_pf(); 
     for @pf -> $prefix {

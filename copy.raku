@@ -10,7 +10,7 @@ sub MAIN($dirs)
 {
     my $conf  = Conf.new;
     my $sname = "copy_" ~ $dirs; 
-    my $log   = $*HOME ~ "/log";
+    my $log   = $conf.log_dir;
     qqx/tmux new -s $sname -d .\/mmx_copy.raku $dirs/;
     if ($conf.tmux_log) {
        say "clear copy log";

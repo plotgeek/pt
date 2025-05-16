@@ -20,6 +20,7 @@ has $.type             = "pg"; # pg,og
 has $.mount_prefix     = "/"; # eg. '/' or  '/f1' or  'f1,f2,f3' 
 has $.plots_dir        = "plots"; # eg. "plots";
 has $.tmux_log         = True; # log for tmux sessions.
+has $.log_dir          = "$*HOME/log";
 has $.nfs_conf         = "$*HOME/pt/nfs.conf";
 
 # mmx args
