@@ -3,7 +3,7 @@
 use lib 'lib';
 use util;
 
-sub MAIN($op = "mount", $conf = "./nfs.conf")
+sub MAIN($op = "mount", $rwo = "ro", $conf = "./nfs.conf")
 {
     if ($conf.IO !~~ :e) {
 	say "$conf do not exist,please check it";
@@ -18,9 +18,14 @@ sub MAIN($op = "mount", $conf = "./nfs.conf")
 	next if $l.trim eq ('');
 	say $l;
 	my ($host,$ip,$devs) = $l.split(':');
+	my @ds = parse_comma($devs);
+
 	if ($op ~~ "mount") {
-	   say "mounting $host@$ip:$devs";
-	   qqx/sudo rakudo pt $devs mount nfs $ip $host/;
+	   say "mounting $host@$ip:$devs $rwo";
+	   #qqx/sudo rakudo pt $devs mount nfs $ip $host $rwo/;
+	   for @ds -> $d {
+	       mount_nfs($d,"nfs",$ip,$host,$rwo);
+	   }
 	}
 	if ($op ~~ "umount") {
 	   say "umounting /$host/*";

@@ -204,7 +204,7 @@ sub mount($d, $fs) is export
     }
 }
 
-sub mount_nfs($d, $fs, $hostip, $hostname) is export
+sub mount_nfs($d, $fs, $hostip, $hostname, $rwo = "rw") is export
 {
 
     my $tdir = '/' ~ $hostname ~ '/sd' ~ $d;
@@ -212,10 +212,10 @@ sub mount_nfs($d, $fs, $hostip, $hostname) is export
     say "$sdev";
     say "mounting nfs $hostname $hostip " ~ $tdir;
     if ($tdir.IO ~~ :e) {
-	qqx/sudo mount.nfs -o rw,soft,timeo=30,retry=10,nolock $sdev $tdir/;
+	qqx/sudo mount.nfs -o $rwo,soft,timeo=30,retry=10,nolock $sdev $tdir/;
     } else {
 	qqx/sudo mkdir -p $tdir/ ;
-	qqx/sudo mount.nfs -o rw,soft,timeo=30,retry=10,nolock $sdev $tdir/;
+	qqx/sudo mount.nfs -o $rwo,soft,timeo=30,retry=10,nolock $sdev $tdir/;
     }	
 }
 
