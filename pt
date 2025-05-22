@@ -97,6 +97,7 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	}
     }
     if ($op ~~ 'mount') {
+        my $rwo = "ro";
 	if ( @*ARGS.elems >= 3) {
 	    my @promises;
 	    for @disks -> $d {
@@ -108,8 +109,11 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 		    say "$hostip. $hostname, $d";
 		    mount_nfs($d, $fs, $hostip, $hostname);
 		} else {
+		    if ($arg_4 ~~ "rw") {
+		       $rwo = "rw";
+		    }
 		    @promises.push: start {
-                        mount($d, $fs);
+                        mount($d, $fs, $rwo);
 		    }
 		}
 	    }

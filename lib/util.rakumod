@@ -166,7 +166,7 @@ sub get_part_size($dev) is export
     }
 }
 
-sub mount($d, $fs) is export
+sub mount($d, $fs, $rwo = "rw") is export
 {
     #say "mounting " ~ $d;
     my $tdir = '/sd' ~ $d;
@@ -197,10 +197,10 @@ sub mount($d, $fs) is export
        $tdev = $tdev ~ '1';
     }
     if ($tdir.IO ~~ :e) {
-	qqx/sudo mount -t $fs $tdev $tdir/;
+	qqx/sudo mount -o $rwo -t $fs $tdev $tdir/;
     } else {
 	qqx/sudo mkdir $tdir/ ;
-	qqx/sudo mount -t $fs $tdev $tdir/;
+	qqx/sudo mount -o $rwo -t $fs $tdev $tdir/;
     }
 }
 
