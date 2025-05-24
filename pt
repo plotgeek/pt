@@ -177,13 +177,13 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
     }
     if ($op ~~ 'log') {
 	my $cnt = 10;
+        my $xchlog = "~/log/mining.log";
 	if (@*ARGS.elems == 3) {
 	    $cnt = $arg_3;
 	}
 	for @disks -> $h {
-	    my $xchlog = "/home/$h/.chia/mainnet/log/debug.log";
 	    say "========$h start============";
-	    say qqx/ssh $h@$h tail -n $cnt $xchlog/;
+	    say qqx/ssh pt@$h tail -n $cnt $xchlog/;
 	}
     }
     if ($op ~~ 'stat') {
