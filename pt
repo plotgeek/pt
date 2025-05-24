@@ -190,10 +190,10 @@ sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5')
 	for @disks -> $h {
 	    if (@*ARGS.elems == 3) {
 		say "========$h start============";
-		say qqx/ssh $h@$h $arg_3/;
+		say qqx/ssh pt@$h $arg_3/;
 	    } else {
 		say "========$h start============";
-		say qqx/ssh $h@$h df -h/;
+		say qqx/ssh pt@$h df -h/;
 	    }
 	}
     }
