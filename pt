@@ -7,239 +7,198 @@ use plot;
 use util;
 use Conf;
 
-sub MAIN($dirs, $op, $arg_3 = 'arg_3', $arg_4 = 'arg_4', $arg_5 = 'arg_5') 
+proto sub MAIN(|) is export { * }
+
+
+
+multi sub MAIN($dirs, "clean")
 {
     my @disks;
     @disks = parse_comma($dirs);
-    my $conf = Conf.new;
+    clean(@disks);
+}
 
-    if ($op ~~ 'clean') {
-        clean(@disks);
-    } 
-    if ($op ~~ 'count') {
-        my $cnt = 0;
-        if (@*ARGS.elems == 2) {
-	    my $plot = count(@disks, 'plot');
-	    say @disks.elems  ~ " disks, total : $plot plots\n";
-	    my $spt = count(@disks, 'spt');
-	    say @disks.elems  ~ " disks, total : $spt spt\n";
-	    my $fpt = count(@disks, 'fpt');
-	    say @disks.elems  ~ " disks, total : $fpt fpt\n";
-	}
-	if (@*ARGS.elems == 3) {
-	    my $ft = $arg_3;
-	    if ($arg_3 ~~ 'plot') {
-		$cnt = count(@disks, 'plot');
-		say @disks.elems  ~ " disks, total $arg_3: $cnt ";
-	    }
-	    if ($arg_3 ~~ 'spt') {
-		$cnt = count(@disks, 'spt');      
-		say @disks.elems  ~ " disks, total $arg_3: $cnt ";
-	    }
-	    if ($arg_3 ~~ 'fpt') {
-		$cnt = count(@disks, 'fpt');
-		say @disks.elems  ~ " disks, total $arg_3: $cnt ";
-	    }
-	    if ($arg_3 ~~ 'disk') {
-		say "$dirs is total " ~ @disks.elems ~ " disks\n";
-	    }
+multi sub MAIN($dirs, "count", $type = "fpt")
+{
+    my @disks;
+    @disks = parse_comma($dirs);
+    my $cnt = 0;
+    my $ft = $type;
 
-	}
-    } 
-    if ($op ~~ 'rmsys') {
-        rmsys(@disks);
+    if ($ft ~~ 'plot') {
+	$cnt = count(@disks, 'plot');
+	say @disks.elems  ~ " disks, total $ft: $cnt ";
     }
-    if ($op ~~ 'rm') {
-        my $n;
-        if  (@*ARGS.elems != 3) {
-	    $n = 2;
-        } else {
-            $n = $arg_3;
-        }
-        say "args: " ~ @*ARGS.elems;
-        say "n:  " ~ $n;
-	
-        rm(@disks,$n);
+    if ($ft ~~ 'spt') {
+	$cnt = count(@disks, 'spt');      
+	say @disks.elems  ~ " disks, total $ft: $cnt ";
     }
-    if ($op ~~ 'test') {
-	if (@*ARGS.elems == 3) {
-	    test(@disks, $arg_3)
-	} elsif (@*ARGS.elems == 4) {
-	    test(@disks, $arg_3, $arg_4);
-	} else {
-	    test(@disks);
-	}
+    if ($ft ~~ 'fpt') {
+	$cnt = count(@disks, 'fpt');
+	say @disks.elems  ~ " disks, total $ft: $cnt ";
     }
+    if ($ft ~~ 'disk') {
+	say "$dirs is total " ~ @disks.elems ~ " disks\n";
+    }
+}
+
+multi sub MAIN($dirs, "rmsys")
+{
+    my @disks;
+    @disks = parse_comma($dirs);
+    rmsys(@disks);
+}
+
+multi sub MAIN($dirs, "rm", $cnt = 2)
+{
+    my @disks;
+    @disks = parse_comma($dirs);
+    rm(@disks, $cnt);
+}
+
+multi sub MAIN($dirs, "test", $write_or_clean = "write")
+{
+    my @disks;
+    my $op = $write_or_clean;
+    @disks = parse_comma($dirs);
+    test(@disks, $op);
+}
+
+multi sub MAIN($dirs, "mount", $type= "xfs", $rwo = "rw")
+{
+    my @disks = parse_comma($dirs);
+    my $conf  = Conf.new;
     
-    my $fs = 'xfs';
-    if ($op ~~ 'stop') {
-	for @disks -> $d {
-	    qqx/tmux kill-session -t $d /;
+    my @promises;
+    for @disks -> $d {
+	say $d;
+        @promises.push: start {
+           mount($d, $type, $rwo);
 	}
     }
-    if ($op ~~ 'add') {
-	if ($arg_3 ~~ 'mmx') {
-	    for @disks -> $d {
-		my $t = '/sd' ~ $d ~ '/' ~ 'plots';
-		put "plots dir: $t";
-		if (@*ARGS.elems >= 4) {
-		    $t = '/' ~ $arg_4 ~ '/sd' ~ $d ~ '/' ~ 'plots';
-		    say $t;
-		}
-		qqx/chia.bin plots add -d $t/;
-	    }
-	} else {
-	    for @disks -> $d {
-		my $t = '/sd' ~ $d ~ '/' ~ 'plots';
-		put "plots dir: $t";
-		qqx/chia plots add -d $t/;
-	    }
-	}
-    }
-    if ($op ~~ 'mount') {
-        my $rwo = "ro";
-	if ( @*ARGS.elems >= 3) {
-	    my @promises;
-	    for @disks -> $d {
-		say $d;
-		$fs = $arg_3;
-		if ($fs ~~ 'nfs') {
-		    my $hostip   = $arg_4;
-		    my $hostname = $arg_5;
-		    say "$hostip. $hostname, $d";
-		    mount_nfs($d, $fs, $hostip, $hostname);
-		} else {
-		    if ($arg_4 ~~ "rw") {
-		       $rwo = "rw";
-		    }
-		    @promises.push: start {
-                        mount($d, $fs, $rwo);
-		    }
-		}
-	    }
-	    await @promises;
-	    say "\nparalle mount done\n";
-	} else {
-	    my @promises;
-	    for @disks -> $d {
-	        @promises.push: start {
-		   mount($d, $fs);
-		}
-	    }
-	    await @promises;
-	    say "\nparalle mount done\n";
-	}	   
-	if ($conf.nossd_mining) {
-	   say "resart nfs server";
-   	   qqx/\/etc\/init\.d\/nfs-kernel-server restart/;
-	}
-    }
-    if ($op ~~ 'umount') {
-        my @promises;
-	for @disks -> $d {
-            @promises.push: start {
-               umount($d);
-	    }
-	}
-	await @promises;
-	say "\nparalle umount done\n";
-    }
-    if ($op ~~ 'format') {
-	for @disks -> $d {
-	    if (@*ARGS.elems == 3) {
-		$fs = $arg_3;
-	    }
-	    format($d, $fs);
-	}
-    }
-    if ($op ~~ 'nfs') {
-        my $rwo = "ro";
-        if (@*ARGS.elems == 3) {
-	    my $rwo = $arg_3;
-	}
-	my $nfs_conf = "/etc/exports";
-	for @disks -> $d {
-	    my $ed = "/sd" ~ $d ~ " *($rwo,async,no_subtree_check,no_root_squash)\n";
-	    my $nfs_op = $arg_3;
-	    spurt $nfs_conf, $ed, :append;
-	}
-	qqx/service  nfs-server restart/;
-    }
-    if ($op ~~ 'copy') {
-	for @disks -> $d {
-	    my $sname = $op ~ '_' ~ $d;
-	    qqx/tmux new -s $sname -d rakudo mmx_copy.raku $d/;
-	}
-    }
-    if ($op ~~ 'write') {
-	my $sname = $op ~ '_' ~ $dirs;
-	qqx/tmux new -s $sname -d rakudo mmx_write.raku $dirs/;
-    }
-    if ($op ~~ 'log') {
-	my $cnt = 10;
-        my $xchlog = "~/log/mining.log";
-	if (@*ARGS.elems == 3) {
-	    $cnt = $arg_3;
-	}
-	for @disks -> $h {
-	    say "========$h start============";
-	    say qqx/ssh pt@$h tail -n $cnt $xchlog/;
-	}
-    }
-    if ($op ~~ 'stat') {
-	for @disks -> $h {
-	    if (@*ARGS.elems == 3) {
-		say "========$h start============";
-		say qqx/ssh pt@$h $arg_3/;
-	    } else {
-		say "========$h start============";
-		say qqx/ssh pt@$h df -h/;
-	    }
-	}
-    }
-    if ($op ~~ 'scp') {
-	for @disks -> $h {
-	    say "========$h start============";
-	    qqx/scp -r $arg_3 $h@$h:~\//;
-	}
-    }
-    if ($op ~~ 'sid') {
-        my @plots=("plots");
-        if (@*ARGS.elems == 3) {
-            @plots = parse_comma($arg_3);
-        }
-        for @disks -> $d {
-            for @plots -> $p {
-                my $smh_data_dir          = $conf.mount_prefix ~ "/sd" ~ $d ~ "/" ~ $p;
-                my $postdata_metadata  = $smh_data_dir ~ '/postdata_metadata.json';
-                my $keybin  = $smh_data_dir ~ '/key.bin';
-                my $k = qqx/cat $keybin/;
-                say $keybin;
-                say $k;
-            }
-        }
-    }
-    if ($op ~~ 'auth') {
-       for @disks -> $d {
-       	   my $hdir   =   "/sd" ~ $d ~ "/"; 
-           say "chmoding: $hdir";
-       	   qqx/sudo chmod a+rwx -R $hdir/;
-       }
-    }
-    if ($op ~~ 'snum') {
-       my $snum = "";
-       for @disks -> $d {
-           my $dev =  "/dev/sd" ~ $d;
-	   $snum    =  get_hdd_serial($dev);
-	   say "$dev: $snum";
-       }
-    }
-    if ($op ~~ "temp") {
-       for @disks -> $d {
-           my $dev    =  "/dev/sd" ~ $d;
-	   my $temp     =  get_hdd_temp($dev);
-	   say "$dev : $temp";
-       }
+    await @promises;
+    say "\nparalle mount done\n";
 
+    if ($conf.nossd_mining) {
+       say "resart nfs server";
+       qqx/\/etc\/init\.d\/nfs-kernel-server restart/;
+    }
+}
+
+multi sub MAIN($dirs, "mount_nfs", $host_ip, $host_name)
+{
+    my @disks = parse_comma($dirs);
+    ## todo 
+    ## call mount_nfs...
+}
+
+multi sub MAIN($dirs, "umount")
+{
+    my @disks = parse_comma($dirs);
+
+    my @promises;
+    for @disks -> $d {
+        @promises.push: start {
+            umount($d);
+	}
+    }
+    await @promises;
+    say "\nparalle umount done\n";
+}
+
+multi sub MAIN($dirs, "format", $type = "xfs")
+{
+    my @disks = parse_comma($dirs);
+    for @disks -> $d {
+	format($d, $type);
+    }
+}
+
+multi sub MAIN($dirs, "nfs", $rwo = "ro")
+{
+    my @disks = parse_comma($dirs);
+    my $nfs_conf = "/etc/exports";
+    for @disks -> $d {
+       my $ed = "/sd" ~ $d ~ " *($rwo,async,no_subtree_check,no_root_squash)\n";
+       spurt $nfs_conf, $ed, :append;
+    }
+    say "restarting nfs-server";
+    qqx/service  nfs-server restart/;
+}
+
+multi sub MAIN($dirs, "copy")
+{
+    my @disks = parse_comma($dirs);
+    for @disks -> $d {
+        my $sname =  'copy_' ~ $d;
+        qqx/rakudo copy.raku $d/;
+    }
+}
+
+multi sub MAIN($dirs, "write", $src_dir = "nv0")
+{
+    my @disks = parse_comma($dirs);
+    qqx/rakudo write.raku $dirs $src_dir/;
+}
+
+multi sub MAIN($dirs, "log", $cnt = 10)
+{
+    my @disks = parse_comma($dirs);
+    my $xchlog = "~/log/mining.log";
+    for @disks -> $h {
+        say "========$h start============";
+        say qqx/ssh pt@$h tail -n $cnt $xchlog/;
+    }
+}
+
+multi sub MAIN($dirs, "stat", $cmd = "df -h")
+{
+    my @disks = parse_comma($dirs);
+    for @disks -> $h {
+	say "========$h start============";
+	say qqx/ssh pt@$h $cmd/;
+    }
+}
+
+multi sub MAIN($dirs, "scp", $src = "./pt")
+{
+    my @disks = parse_comma($dirs);
+    for @disks -> $h {
+        say "========$h start============";
+        qqx/scp -r $src $h@$h:~\//;
+    }
+}
+
+
+multi sub MAIN($dirs, "auth") 
+{
+    my @disks;
+    @disks = parse_comma($dirs);
+    for @disks -> $d {
+        my $hdir   =   "/sd" ~ $d ~ "/"; 
+        say "chmoding: $hdir";
+        qqx/sudo chmod a+rwx -R $hdir/;
+    }
+}
+
+multi sub MAIN($dirs, "snum") 
+{
+    my @disks;
+    @disks = parse_comma($dirs);
+    my $snum = "";
+    for @disks -> $d {
+        my $dev =  "/dev/sd" ~ $d;
+	$snum    =  get_hdd_serial($dev);
+	say "$dev: $snum";
+    }
+}
+
+multi sub MAIN($dirs, "temp") 
+{
+    my @disks = parse_comma($dirs);
+    for @disks -> $d {
+        my $dev    =  "/dev/sd" ~ $d;
+        my $temp     =  get_hdd_temp($dev);
+	say "$dev : $temp";
     }
 }
