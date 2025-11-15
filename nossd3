@@ -68,7 +68,11 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
                if ($conf.nossd_mining) {
 	          $path = $path ~ '-d,r ' ~ $f_dir ~ " ";
 	       } else {
-	          $path = $path ~ '-d,~t ' ~ $f_dir ~ " ";
+	          if ($conf.notmp) {
+	             $path = $path ~ '-d,~t ' ~ $f_dir ~ " ";
+		  } else {
+		     $path = $path ~ '-d,tp ' ~$f_dir ~ " ";
+		  }  
 	       }
 	     }
          }
@@ -131,7 +135,7 @@ sub MAIN($dirs, $gpu = "all", $varg = "varg")
        if ($conf.notmp) {
        	    $path = $path ~ ' --no-temp ';            
        } else {
-       	    $path = $path ~ '-d,t ' ~ $varg;
+       	    #$path = $path ~ '-d,t ' ~ $varg;
        }
        say $path;
        my $sname = 'plot_' ~ $dirs ~ '_' ~ $num;
